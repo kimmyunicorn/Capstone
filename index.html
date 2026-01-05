@@ -1,521 +1,616 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeaStar Algae Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Press Start 2P', cursive, 'Comic Sans MS', sans-serif;
-            image-rendering: pixelated;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SeaStar ROV — Capstone Project</title>
+  <meta name="description" content="SeaStar is a student-built ROV that collects algae samples and measures dissolved oxygen." />
 
-        body {
-            background: linear-gradient(to bottom, #1a5fb4, #26a269, #1a5fb4);
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding: 20px;
-        }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            border: 8px solid #f9f06b;
-            border-radius: 20px;
-            background-color: #241f31;
-            box-shadow: 0 0 0 4px #c64600, 0 0 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f1a2e;
+      --text:#e6edf7;
+      --muted:#b6c2d7;
+      --line:rgba(230,237,247,.12);
+      --accent:#4fd1c5;
+      --accent2:#7aa6ff;
+      --shadow:0 18px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1100px 700px at 15% -10%, rgba(79,209,197,.25), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(122,166,255,.18), transparent 55%),
+        radial-gradient(700px 500px at 40% 100%, rgba(79,209,197,.12), transparent 55%),
+        var(--bg);
+      line-height:1.5;
+    }
 
-        .scanlines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.1) 0px,
-                rgba(0, 0, 0, 0.1) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            z-index: 100;
-        }
+    a{color:inherit; text-decoration:none}
+    a:hover{text-decoration:underline}
 
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(to right, #c64600, #ff7800, #c64600);
-            border-bottom: 8px solid #f9f06b;
-            position: relative;
-        }
+    /* Top nav */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,18,32,.7);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 210px;
+    }
+    .logo{
+      width:34px;height:34px;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(79,209,197,.95), rgba(122,166,255,.9));
+      box-shadow: 0 10px 25px rgba(79,209,197,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-30% 0 0 -30%;
+      background: rgba(255,255,255,.25);
+      transform: rotate(25deg);
+      filter: blur(1px);
+    }
+    .brand-title{font-weight:700; letter-spacing:.2px}
+    .brand-sub{font-size:12px; color:var(--muted); margin-top:2px}
 
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            color: #f9f06b;
-            text-shadow: 4px 4px 0 #c64600;
-            letter-spacing: 2px;
-        }
+    .nav{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
+      width:100%;
+    }
+    .nav a{
+      font-size:13px;
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid transparent;
+      transition: .15s ease;
+      white-space:nowrap;
+    }
+    .nav a:hover{border-color:var(--line); color:var(--text); text-decoration:none}
+    .nav a.active{
+      color:var(--text);
+      border-color: rgba(79,209,197,.35);
+      background: rgba(79,209,197,.08);
+    }
 
-        .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: #ffffff;
-            text-shadow: 2px 2px 0 #c64600;
-        }
+    /* Page layout */
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
 
-        .seastar-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
+    .hero{
+      padding:26px 22px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15,26,46,.72), rgba(15,26,46,.55));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .hero h1{margin:0; font-size:34px; letter-spacing:-.3px}
+    .hero p{margin:10px 0 0; color:var(--muted); max-width:62ch}
 
-        .seastar {
-            font-size: 4rem;
-            animation: bounce 2s infinite ease-in-out;
-            filter: drop-shadow(4px 4px 0 #c64600);
-        }
+    .hero .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(230,237,247,.03);
+      color:var(--muted);
+    }
 
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0) rotate(0);
-            }
-            50% {
-                transform: translateY(-10px) rotate(10deg);
-            }
-        }
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:14px;
+      background: rgba(11,18,32,.35);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .hero-card .stat{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(230,237,247,.02);
+    }
+    .stat b{font-size:13px}
+    .stat span{font-size:12px; color:var(--muted)}
 
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 20px;
-            background: #1c1b22;
-        }
+    .cta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(230,237,247,.03);
+      color:var(--text);
+      font-size:13px;
+      transition:.15s ease;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(122,166,255,.35); text-decoration:none}
+    .btn.primary{
+      border-color: rgba(79,209,197,.55);
+      background: rgba(79,209,197,.10);
+    }
 
-        .data-section, .info-section {
-            flex: 1;
-            min-width: 300px;
-            background: #2d2b36;
-            border: 4px solid #f9f06b;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: inset 0 0 0 4px #c64600, 0 4px 0 #c64600;
-        }
+    /* Sections */
+    section{
+      margin-top:22px;
+      border:1px solid var(--line);
+      background: rgba(15,26,46,.45);
+      border-radius: var(--radius);
+      padding:18px;
+    }
+    section h2{margin:0 0 10px; font-size:18px}
+    section p{margin:0; color:var(--muted)}
 
-        h2 {
-            color: #f9f06b;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            text-shadow: 2px 2px 0 #c64600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 2px solid #c64600;
-            padding-bottom: 10px;
-        }
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+    }
+    .card{
+      grid-column: span 6;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:14px;
+      background: rgba(11,18,32,.35);
+      min-height: 120px;
+    }
+    .card h3{margin:0 0 6px; font-size:14px}
+    .card ul{margin:8px 0 0 18px; color:var(--muted)}
+    .card li{margin:4px 0}
+    .card a{color: var(--text)}
 
-        h2 i {
-            font-size: 1.2rem;
-        }
+    .media-grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+    }
+    .thumb{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(11,18,32,.35);
+    }
+    .thumb img{width:100%; height:160px; object-fit:cover; display:block; background: rgba(230,237,247,.05)}
+    .thumb .cap{padding:10px; font-size:12px; color:var(--muted)}
 
-        .data-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .footer{
+      margin-top:18px;
+      padding:14px 2px 0;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+    /* Tabbed content (simple) */
+    .tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:10px 0 14px;
+    }
+    .tabbtn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: rgba(230,237,247,.03);
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius: 12px;
+      font-size:13px;
+      transition:.15s ease;
+    }
+    .tabbtn:hover{color:var(--text)}
+    .tabbtn[aria-selected="true"]{
+      color:var(--text);
+      border-color: rgba(79,209,197,.35);
+      background: rgba(79,209,197,.08);
+    }
+    .tabpanel{display:none}
+    .tabpanel.active{display:block}
 
-        label {
-            font-weight: 500;
-            color: #ffffff;
-            font-size: 0.8rem;
-        }
-
-        input, select, textarea {
-            padding: 12px;
-            border-radius: 8px;
-            border: 3px solid #c64600;
-            background: #1c1b22;
-            font-size: 0.9rem;
-            color: #ffffff;
-            box-shadow: inset 2px 2px 0 #3d3d3d;
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            background: #26a269;
-            color: #ffffff;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 10px;
-            border: 3px solid #f9f06b;
-            box-shadow: 0 4px 0 #c64600;
-            text-shadow: 1px 1px 0 #000;
-        }
-
-        .submit-btn:hover {
-            background: #2ec27e;
-            transform: translateY(-2px);
-        }
-
-        .submit-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #c64600;
-        }
-
-        .algae-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .algae-card {
-            background: #1c1b22;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.2s ease;
-            border: 2px solid #c64600;
-            box-shadow: 0 4px 0 #c64600;
-        }
-
-        .algae-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .algae-card img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            margin-bottom: 10px;
-            image-rendering: pixelated;
-        }
-
-        .algae-card h3 {
-            color: #f9f06b;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        .algae-card p {
-            font-size: 0.7rem;
-            color: #ffffff;
-        }
-
-        .links-section {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 30px 0;
-            padding: 0 20px;
-        }
-
-        .link-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #2d2b36;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 3px solid #f9f06b;
-            box-shadow: 0 4px 0 #c64600;
-            font-size: 0.9rem;
-        }
-
-        .link-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 0 #c64600;
-        }
-
-        .link-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #c64600;
-        }
-
-        .link-btn i {
-            font-size: 1.5rem;
-        }
-
-        .github-btn {
-            background: #1c71d8;
-        }
-
-        .vlog-btn {
-            background: #c64600;
-        }
-
-        .data-btn {
-            background: #26a269;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            border-top: 4px solid #f9f06b;
-            background: #2d2b36;
-            color: #f9f06b;
-            font-size: 0.8rem;
-        }
-
-        .pixel-coral {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><path d="M0,20 Q25,10 50,20 T100,20 L100,30 L0,30 Z" fill="%23c64600"/></svg>') repeat-x;
-            background-size: 100px 60px;
-        }
-
-        .ocean-floor {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30px;
-            background: #5e5c64;
-            border-top: 4px solid #c64600;
-        }
-
-        .bubbles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            animation: float 10s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-800px) translateX(100px);
-                opacity: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .seastar {
-                font-size: 3rem;
-            }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    /* Responsive */
+    @media (max-width: 920px){
+      .hero{grid-template-columns: 1fr;}
+      .card{grid-column: span 12;}
+      .media-grid{grid-template-columns: repeat(2, 1fr)}
+      .brand{min-width:unset}
+    }
+    @media (max-width: 520px){
+      .hero h1{font-size:28px}
+      .media-grid{grid-template-columns: 1fr}
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="scanlines"></div>
-        <div class="bubbles" id="bubbles"></div>
-        
-        <header>
-            <h1>SeaStar Algae Tracker</h1>
-            <p class="subtitle">Collecting data for healthier oceans!</p>
-            
-            <div class="seastar-container">
-                <div class="seastar">⭐</div>
-                <div class="seastar">🦀</div>
-                <div class="seastar">🐠</div>
-                <div class="seastar">🐙</div>
-                <div class="seastar">⭐</div>
-            </div>
-        </header>
-        
-        <div class="main-content">
-            <section class="data-section">
-                <h2><i class="fas fa-water"></i> Algae Data Collection</h2>
-                <form class="data-form">
-                    <div class="form-group">
-                        <label for="location">LOCATION</label>
-                        <input type="text" id="location" placeholder="Where did you find algae?">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="algae-type">ALGAE TYPE</label>
-                        <select id="algae-type">
-                            <option value="">Select algae type</option>
-                            <option value="green">Green Algae</option>
-                            <option value="red">Red Algae</option>
-                            <option value="brown">Brown Algae</option>
-                            <option value="blue-green">Blue-Green Algae</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="density">ALGAE DENSITY</label>
-                        <select id="density">
-                            <option value="">Select density level</option>
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                            <option value="very-high">Very High</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="water-temp">WATER TEMP (°C)</label>
-                        <input type="number" id="water-temp" placeholder="Enter temperature">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="observations">OBSERVATIONS</label>
-                        <textarea id="observations" placeholder="Any additional observations..."></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-paper-plane"></i> SUBMIT DATA
-                    </button>
-                </form>
-            </section>
-            
-            <section class="info-section">
-                <h2><i class="fas fa-info-circle"></i> About Algae Blooms</h2>
-                <p style="font-size: 0.8rem; margin-bottom: 15px; line-height: 1.5;">Algae blooms occur when algae grow out of control. While some blooms are harmless, others can produce toxins that harm the environment, animals, and humans.</p>
-                
-                <div class="algae-info">
-                    <div class="algae-card">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzJlY2M3MSIvPjxjaXJjbGUgY3g9IjM1IiBjeT0iNDAiIHI9IjgiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI2NSIgY3k9IjQwIiByPSI4IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1IDcwIEEyMCAxNSAwIDAgMSA2NSA3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" alt="Algae">
-                        <h3>GREEN ALGAE</h3>
-                        <p>Common in freshwater, important for oxygen production.</p>
-                    </div>
-                    
-                    <div class="algae-card">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iI2U3NGZjZiIvPjxjaXJjbGUgY3g9IjM1IiBjeT0iNDAiIHI9IjgiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI2NSIgY3k9IjQwIiByPSI4IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1IDcwIEEyMCAxNSAwIDAgMSA2NSA3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" alt="Algae">
-                        <h3>RED ALGAE</h3>
-                        <p>Mostly marine, used in food products.</p>
-                    </div>
-                    
-                    <div class="algae-card">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzhBNThGMCIvPjxjaXJjbGUgY3g9IjM1IiBjeT0iNDAiIHI9IjgiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI2NSIgY3k9IjQwIiByPSI4IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTM1IDcwIEEyMCAxNSAwIDAgMSA2NSA3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=" alt="Algae">
-                        <h3>BROWN ALGAE</h3>
-                        <p>Includes kelp, forms underwater forests.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-        
-        <div class="links-section">
-            <a href="#" class="link-btn github-btn">
-                <i class="fab fa-github"></i>
-                <span>GITHUB</span>
-            </a>
-            
-            <a href="#" class="link-btn vlog-btn">
-                <i class="fab fa-youtube"></i>
-                <span>VLOGS</span>
-            </a>
-            
-            <a href="#" class="link-btn data-btn">
-                <i class="fas fa-chart-bar"></i>
-                <span>VIEW DATA</span>
-            </a>
-        </div>
-        
-        <div class="pixel-coral"></div>
-        <div class="ocean-floor"></div>
-        
-        <footer>
-            <p>Made with 💙 for our oceans | SeaStar Project © 2023</p>
-        </footer>
-    </div>
 
-    <script>
-        // Create bubbles
-        function createBubbles() {
-            const bubblesContainer = document.getElementById('bubbles');
-            const bubbleCount = 15;
-            
-            for (let i = 0; i < bubbleCount; i++) {
-                const bubble = document.createElement('div');
-                bubble.classList.add('bubble');
-                
-                // Random size between 5 and 20px
-                const size = Math.random() * 15 + 5;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                
-                // Random position
-                bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.bottom = `-${size}px`;
-                
-                // Random animation delay and duration
-                bubble.style.animationDelay = `${Math.random() * 10}s`;
-                bubble.style.animationDuration = `${Math.random() * 5 + 8}s`;
-                
-                bubblesContainer.appendChild(bubble);
-            }
-        }
-        
-        // Form submission
-        document.querySelector('.data-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('THANK YOU FOR SUBMITTING ALGAE DATA!\nYOUR CONTRIBUTION HELPS PROTECT OUR OCEANS.');
-            this.reset();
-        });
-        
-        // Initialize bubbles when page loads
-        window.addEventListener('load', createBubbles);
-    </script>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#overview" aria-label="SeaStar home">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="brand-title">SeaStar</div>
+          <div class="brand-sub">Capstone ROV · Algae Sampling + Dissolved Oxygen</div>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#overview" class="navlink">Overview</a>
+        <a href="#system" class="navlink">System</a>
+        <a href="#mission" class="navlink">Mission</a>
+        <a href="#media" class="navlink">Photos</a>
+        <a href="#vlogs" class="navlink">Vlogs</a>
+        <a href="#github" class="navlink">GitHub</a>
+        <a href="#team" class="navlink">Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO / OVERVIEW -->
+    <section id="overview" class="hero" aria-label="Overview">
+      <div>
+        <h1>SeaStar ROV</h1>
+        <p>
+          A student-built remotely operated vehicle designed to collect algae samples and measure dissolved oxygen (DO)
+          to support water-quality monitoring.
+        </p>
+
+        <div class="tags" aria-label="Project tags">
+          <span class="tag">ROV</span>
+          <span class="tag">Algae Sampling</span>
+          <span class="tag">Dissolved Oxygen</span>
+          <span class="tag">Underwater Sensing</span>
+          <span class="tag">Capstone</span>
+        </div>
+
+        <div class="cta">
+          <a class="btn primary" href="#mission">Read the mission</a>
+          <a class="btn" href="#github">View GitHub</a>
+          <a class="btn" href="#media">See photos</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Quick facts">
+        <div class="stat"><b>Status</b><span>Prototype / In progress</span></div>
+        <div class="stat"><b>Target depth</b><span>— m (add)</span></div>
+        <div class="stat"><b>DO sensor</b><span>— (add model)</span></div>
+        <div class="stat"><b>Sampling</b><span>— (add method)</span></div>
+      </aside>
+    </section>
+
+    <!-- SYSTEM -->
+    <section id="system" aria-label="System">
+      <h2>System</h2>
+      <p>Skeleton layout of the vehicle’s major subsystems. Replace placeholders with your real design details.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Mechanical</h3>
+          <ul>
+            <li>Frame: <em>material / size / sealing plan</em></li>
+            <li>Buoyancy: <em>foam / ballast / trim approach</em></li>
+            <li>Sample tool: <em>gripper / suction / scoop</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Electrical</h3>
+          <ul>
+            <li>Power: <em>battery / tether / regulator</em></li>
+            <li>Thrusters: <em>count + voltage + ESC</em></li>
+            <li>Wiring: <em>penetrators / connectors / fusing</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Sensing</h3>
+          <ul>
+            <li>Dissolved oxygen sensor: <em>model + range + calibration</em></li>
+            <li>Temperature / salinity (optional): <em>add</em></li>
+            <li>Camera + lighting: <em>add</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Software</h3>
+          <ul>
+            <li>Control stack: <em>Arduino / Raspberry Pi / companion computer</em></li>
+            <li>Logging: <em>CSV / ROS bag / SD</em></li>
+            <li>Visualization: <em>dashboard / plots / map</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" aria-label="Mission">
+      <h2>Mission</h2>
+      <p>
+        SeaStar focuses on two core tasks: (1) collecting algae samples safely and repeatably, and (2) measuring dissolved oxygen
+        levels to help evaluate water quality.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Problem</h3>
+          <p>
+            Manual sampling can be slow, inconsistent, and difficult in shallow, murky, or hard-to-reach areas.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Approach</h3>
+          <p>
+            A small ROV with a simple sampling end-effector, real-time DO sensing, and onboard logging for repeatable runs.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Operational ROV platform</li>
+            <li>Algae sample collection method</li>
+            <li>DO readings + timestamped log</li>
+            <li>Photo/video documentation</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Validation</h3>
+          <ul>
+            <li>Sensor calibration + repeatability check</li>
+            <li>Sampling success rate over N trials</li>
+            <li>Test plan + results (table/plots)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDIA (PHOTOS) -->
+    <section id="media" aria-label="Photos">
+      <h2>Photos</h2>
+      <p>Drop your best build photos here. Replace placeholder images with your own.</p>
+
+      <div class="media-grid" role="list">
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-1.jpg" alt="SeaStar build photo 1 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Frame / hull progress (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-2.jpg" alt="SeaStar build photo 2 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Sampling tool prototype (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-3.jpg" alt="SeaStar build photo 3 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Sensor integration (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-4.jpg" alt="SeaStar build photo 4 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Pool test / field test (replace)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VLOGS -->
+    <section id="vlogs" aria-label="Vlogs">
+      <h2>Vlogs</h2>
+      <p>Links to build logs, test-day videos, and progress updates.</p>
+
+      <div class="tabs" role="tablist" aria-label="Vlog tabs">
+        <button class="tabbtn" role="tab" aria-selected="true" aria-controls="tab-build" id="tabbtn-build">Build Logs</button>
+        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-tests" id="tabbtn-tests">Tests</button>
+        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-talks" id="tabbtn-talks">Presentations</button>
+      </div>
+
+      <div id="tab-build" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-build">
+        <div class="grid">
+          <div class="card">
+            <h3>Build Log #1</h3>
+            <p><a href="#">Add YouTube/Drive link</a></p>
+            <ul>
+              <li>Topic: frame + thrusters</li>
+              <li>Date: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Build Log #2</h3>
+            <p><a href="#">Add YouTube/Drive link</a></p>
+            <ul>
+              <li>Topic: sampling tool</li>
+              <li>Date: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-tests" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-tests">
+        <div class="grid">
+          <div class="card">
+            <h3>Pool Test</h3>
+            <p><a href="#">Add video link</a></p>
+            <ul>
+              <li>Checklist: buoyancy, controls, camera</li>
+              <li>Notes: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Sensor Calibration</h3>
+            <p><a href="#">Add video/doc link</a></p>
+            <ul>
+              <li>Method: —</li>
+              <li>Result summary: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-talks" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-talks">
+        <div class="grid">
+          <div class="card">
+            <h3>Midterm Review</h3>
+            <p><a href="#">Add slides/video link</a></p>
+            <ul>
+              <li>Key updates: —</li>
+              <li>Next steps: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Final Demo</h3>
+            <p><a href="#">Add link</a></p>
+            <ul>
+              <li>Demo plan: —</li>
+              <li>Results: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GITHUB -->
+    <section id="github" aria-label="GitHub">
+      <h2>GitHub</h2>
+      <p>Central repo for code, CAD exports, documentation, and test logs.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Repository</h3>
+          <ul>
+            <li><a href="https://github.com/your-org-or-user/seastar" target="_blank" rel="noreferrer">github.com/your-org-or-user/seastar</a></li>
+            <li>Docs: <em>README + /docs</em></li>
+            <li>Issues: <em>use for tasks + bugs</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Recommended structure</h3>
+          <ul>
+            <li><code>/cad</code> — CAD exports, drawings</li>
+            <li><code>/electrical</code> — schematics, wiring, BOM</li>
+            <li><code>/software</code> — firmware + tools</li>
+            <li><code>/data</code> — logs + plots</li>
+            <li><code>/media</code> — photos/videos links</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" aria-label="Team">
+      <h2>Team</h2>
+      <p>Add names, roles, and contact links. Keep it minimal and professional.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Members</h3>
+          <ul>
+            <li><b>Name</b> — Mechanical / CAD</li>
+            <li><b>Name</b> — Electrical / Power</li>
+            <li><b>Name</b> — Software / Controls</li>
+            <li><b>Name</b> — Sensing / Data</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Advisors / Sponsors</h3>
+          <ul>
+            <li>Advisor: —</li>
+            <li>Lab / Program: —</li>
+            <li>Sponsor: —</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>© <span id="year"></span> SeaStar Capstone Team</span>
+        <span>Contact: <a href="mailto:seastar@example.edu">seastar@example.edu</a></span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Active nav highlight
+    const navlinks = Array.from(document.querySelectorAll('.navlink'));
+    const sections = navlinks
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navlinks.forEach(a => a.classList.remove('active'));
+        const match = navlinks.find(a => a.getAttribute('href') === `#${entry.target.id}`);
+        if (match) match.classList.add('active');
+      });
+    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0.01 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Simple tabs for Vlogs
+    const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
+    const tabPanels = Array.from(document.querySelectorAll('.tabpanel'));
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+
+        tabPanels.forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        if (panel) panel.classList.add('active');
+      });
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
 </body>
 </html>
