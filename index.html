@@ -9,47 +9,43 @@
 
   <style>
     :root{
-      --bg:#0b1220;
-      --panel:#0f1a2e;
-      --text:#e6edf7;
-      --muted:#b6c2d7;
-      --line:rgba(230,237,247,.12);
-      --accent:#4fd1c5;
-      --accent2:#7aa6ff;
-      --shadow:0 18px 40px rgba(0,0,0,.35);
-      --radius:18px;
+      /* Windows XP inspired palette */
+      --sky:#b9dcf2;        /* baby blue background */
+      --sky-2:#d9eefb;      /* lighter gradient */
+      --panel:#eef7fd;      /* window background */
+      --panel-2:#f8fcff;
+      --border:#7aaed6;     /* classic XP blue border */
+      --border-dark:#4f86b5;
+      --text:#0b2a3d;
+      --muted:#3f6f93;
+      --accent:#2f74c0;     /* XP button blue */
+      --accent-light:#9cc7eb;
+      --radius:10px;
       --max:1100px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
       color:var(--text);
       background:
-        radial-gradient(1100px 700px at 15% -10%, rgba(79,209,197,.25), transparent 60%),
-        radial-gradient(900px 600px at 90% 10%, rgba(122,166,255,.18), transparent 55%),
-        radial-gradient(700px 500px at 40% 100%, rgba(79,209,197,.12), transparent 55%),
-        var(--bg);
-      line-height:1.5;
+        linear-gradient(to bottom, var(--sky-2), var(--sky));
     }
 
-    a{color:inherit; text-decoration:none}
+    a{color:#0b4f8a; text-decoration:none}
     a:hover{text-decoration:underline}
 
-    /* Top nav */
+    /* ===== TOP BAR (XP window header style) ===== */
     .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(11,18,32,.7);
-      border-bottom:1px solid var(--line);
+      background: linear-gradient(to bottom, #3b7dc4, #1f5fa8);
+      border-bottom:2px solid #174b86;
     }
     .topbar-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:14px 18px;
+      padding:10px 14px;
       display:flex;
       align-items:center;
       gap:14px;
@@ -58,214 +54,206 @@
       display:flex;
       align-items:center;
       gap:10px;
-      min-width: 210px;
+      color:white;
+      min-width:220px;
     }
     .logo{
-      width:34px;height:34px;
-      border-radius:12px;
-      background: linear-gradient(135deg, rgba(79,209,197,.95), rgba(122,166,255,.9));
-      box-shadow: 0 10px 25px rgba(79,209,197,.18);
-      position:relative;
-      overflow:hidden;
+      width:28px;height:28px;
+      border-radius:6px;
+      background: linear-gradient(135deg, #9dd6ff, #2f74c0);
+      border:1px solid #0e3f6a;
     }
-    .logo:after{
-      content:"";
-      position:absolute; inset:-30% 0 0 -30%;
-      background: rgba(255,255,255,.25);
-      transform: rotate(25deg);
-      filter: blur(1px);
-    }
-    .brand-title{font-weight:700; letter-spacing:.2px}
-    .brand-sub{font-size:12px; color:var(--muted); margin-top:2px}
+    .brand-title{font-weight:700}
+    .brand-sub{font-size:11px; opacity:.9}
 
     .nav{
       display:flex;
-      gap:8px;
+      gap:6px;
       flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-      width:100%;
+      margin-left:auto;
     }
     .nav a{
       font-size:13px;
-      color:var(--muted);
-      padding:8px 10px;
-      border-radius:12px;
+      color:white;
+      padding:6px 10px;
+      border-radius:6px;
       border:1px solid transparent;
-      transition: .15s ease;
-      white-space:nowrap;
     }
-    .nav a:hover{border-color:var(--line); color:var(--text); text-decoration:none}
+    .nav a:hover{
+      background:#5fa3e3;
+      border-color:#cfe8ff;
+      text-decoration:none;
+    }
     .nav a.active{
-      color:var(--text);
-      border-color: rgba(79,209,197,.35);
-      background: rgba(79,209,197,.08);
+      background:#e6f2ff;
+      color:#0b2a3d;
+      border-color:#7aaed6;
     }
 
-    /* Page layout */
-    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+    /* ===== LAYOUT ===== */
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:18px 14px 60px;
+    }
 
+    /* ===== HERO (XP dialog look) ===== */
     .hero{
-      padding:26px 22px;
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(15,26,46,.72), rgba(15,26,46,.55));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      background: linear-gradient(to bottom, var(--panel-2), var(--panel));
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px;
       display:grid;
       grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-      align-items:stretch;
+      gap:16px;
     }
-    .hero h1{margin:0; font-size:34px; letter-spacing:-.3px}
-    .hero p{margin:10px 0 0; color:var(--muted); max-width:62ch}
-
-    .hero .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
-    .tag{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(230,237,247,.03);
+    .hero h1{
+      margin:0;
+      font-size:30px;
+      color:#0b3e6b;
+    }
+    .hero p{
+      margin-top:8px;
       color:var(--muted);
+      max-width:65ch;
     }
 
-    .hero-card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      padding:14px;
-      background: rgba(11,18,32,.35);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:10px}
+    .tag{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      background:#e2f1ff;
+      border:1px solid #9cc7eb;
+      color:#0b3e6b;
     }
-    .hero-card .stat{
+
+    .cta{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      font-size:13px;
+      padding:6px 12px;
+      border-radius:6px;
+      border:1px solid var(--border-dark);
+      background: linear-gradient(to bottom, #f5fbff, #cfe8ff);
+      cursor:pointer;
+    }
+    .btn.primary{
+      background: linear-gradient(to bottom, #6fb3f2, #2f74c0);
+      color:white;
+      border-color:#174b86;
+    }
+
+    /* ===== INFO BOX ===== */
+    .hero-card{
+      background: linear-gradient(to bottom, #ffffff, #edf6fd);
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      padding:10px;
+    }
+    .stat{
       display:flex;
       justify-content:space-between;
-      align-items:baseline;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(230,237,247,.02);
+      padding:6px 8px;
+      font-size:12px;
+      border-bottom:1px solid #cfe0ef;
     }
-    .stat b{font-size:13px}
-    .stat span{font-size:12px; color:var(--muted)}
+    .stat:last-child{border-bottom:none}
 
-    .cta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(230,237,247,.03);
-      color:var(--text);
-      font-size:13px;
-      transition:.15s ease;
-    }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(122,166,255,.35); text-decoration:none}
-    .btn.primary{
-      border-color: rgba(79,209,197,.55);
-      background: rgba(79,209,197,.10);
-    }
-
-    /* Sections */
+    /* ===== SECTIONS ===== */
     section{
-      margin-top:22px;
-      border:1px solid var(--line);
-      background: rgba(15,26,46,.45);
-      border-radius: var(--radius);
-      padding:18px;
+      margin-top:18px;
+      background: linear-gradient(to bottom, var(--panel-2), var(--panel));
+      border:2px solid var(--border);
+      border-radius:var(--radius);
+      padding:14px;
     }
-    section h2{margin:0 0 10px; font-size:18px}
+    section h2{
+      margin:0 0 8px;
+      font-size:18px;
+      color:#0b3e6b;
+      border-bottom:1px solid #cfe0ef;
+      padding-bottom:4px;
+    }
     section p{margin:0; color:var(--muted)}
 
     .grid{
-      margin-top:14px;
+      margin-top:12px;
       display:grid;
       grid-template-columns: repeat(12, 1fr);
       gap:12px;
     }
     .card{
       grid-column: span 6;
-      border:1px solid var(--line);
-      border-radius: 16px;
-      padding:14px;
-      background: rgba(11,18,32,.35);
-      min-height: 120px;
+      background:#ffffff;
+      border:1px solid #9cc7eb;
+      border-radius:6px;
+      padding:10px;
+      font-size:13px;
     }
-    .card h3{margin:0 0 6px; font-size:14px}
-    .card ul{margin:8px 0 0 18px; color:var(--muted)}
-    .card li{margin:4px 0}
-    .card a{color: var(--text)}
+    .card h3{
+      margin:0 0 6px;
+      font-size:14px;
+      color:#0b3e6b;
+    }
+    .card ul{margin:6px 0 0 18px}
 
+    /* ===== MEDIA ===== */
     .media-grid{
-      margin-top:14px;
+      margin-top:12px;
       display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap:12px;
+      gap:10px;
     }
     .thumb{
-      border:1px solid var(--line);
-      border-radius: 16px;
+      border:1px solid #9cc7eb;
+      background:#ffffff;
+      border-radius:6px;
       overflow:hidden;
-      background: rgba(11,18,32,.35);
     }
-    .thumb img{width:100%; height:160px; object-fit:cover; display:block; background: rgba(230,237,247,.05)}
-    .thumb .cap{padding:10px; font-size:12px; color:var(--muted)}
+    .thumb img{
+      width:100%; height:140px; object-fit:cover; background:#d9eefb;
+    }
+    .cap{padding:6px; font-size:11px; color:#355f7f}
 
-    .footer{
-      margin-top:18px;
-      padding:14px 2px 0;
-      color:var(--muted);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    /* Tabbed content (simple) */
-    .tabs{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin:10px 0 14px;
-    }
+    /* ===== TABS (XP style) ===== */
+    .tabs{display:flex; gap:4px; margin:10px 0}
     .tabbtn{
+      font-size:12px;
+      padding:5px 10px;
+      border:1px solid #7aaed6;
+      border-bottom:none;
+      background:#e2f1ff;
       cursor:pointer;
-      border:1px solid var(--line);
-      background: rgba(230,237,247,.03);
-      color:var(--muted);
-      padding:8px 10px;
-      border-radius: 12px;
-      font-size:13px;
-      transition:.15s ease;
+      border-radius:6px 6px 0 0;
     }
-    .tabbtn:hover{color:var(--text)}
     .tabbtn[aria-selected="true"]{
-      color:var(--text);
-      border-color: rgba(79,209,197,.35);
-      background: rgba(79,209,197,.08);
+      background:#ffffff;
+      font-weight:600;
     }
-    .tabpanel{display:none}
+    .tabpanel{
+      display:none;
+      border:1px solid #7aaed6;
+      padding:10px;
+      background:#ffffff;
+    }
     .tabpanel.active{display:block}
 
-    /* Responsive */
-    @media (max-width: 920px){
-      .hero{grid-template-columns: 1fr;}
-      .card{grid-column: span 12;}
-      .media-grid{grid-template-columns: repeat(2, 1fr)}
-      .brand{min-width:unset}
+    .footer{
+      margin-top:10px;
+      font-size:11px;
+      color:#355f7f;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
     }
-    @media (max-width: 520px){
-      .hero h1{font-size:28px}
-      .media-grid{grid-template-columns: 1fr}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .card{grid-column: span 12}
+      .media-grid{grid-template-columns: repeat(2,1fr)}
+    }
+    @media (max-width:520px){
+      .media-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -273,15 +261,14 @@
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#overview" aria-label="SeaStar home">
-        <div class="logo" aria-hidden="true"></div>
+      <a class="brand" href="#overview">
+        <div class="logo"></div>
         <div>
           <div class="brand-title">SeaStar</div>
-          <div class="brand-sub">Capstone ROV · Algae Sampling + Dissolved Oxygen</div>
+          <div class="brand-sub">Capstone ROV Project</div>
         </div>
       </a>
-
-      <nav class="nav" aria-label="Primary">
+      <nav class="nav">
         <a href="#overview" class="navlink">Overview</a>
         <a href="#system" class="navlink">System</a>
         <a href="#mission" class="navlink">Mission</a>
@@ -294,323 +281,42 @@
   </header>
 
   <main class="wrap">
-    <!-- HERO / OVERVIEW -->
-    <section id="overview" class="hero" aria-label="Overview">
+    <section id="overview" class="hero">
       <div>
         <h1>SeaStar ROV</h1>
-        <p>
-          A student-built remotely operated vehicle designed to collect algae samples and measure dissolved oxygen (DO)
-          to support water-quality monitoring.
-        </p>
-
-        <div class="tags" aria-label="Project tags">
+        <p>A remotely operated vehicle designed to collect algae samples and measure dissolved oxygen for water‑quality analysis.</p>
+        <div class="tags">
           <span class="tag">ROV</span>
           <span class="tag">Algae Sampling</span>
           <span class="tag">Dissolved Oxygen</span>
-          <span class="tag">Underwater Sensing</span>
           <span class="tag">Capstone</span>
         </div>
-
         <div class="cta">
-          <a class="btn primary" href="#mission">Read the mission</a>
-          <a class="btn" href="#github">View GitHub</a>
-          <a class="btn" href="#media">See photos</a>
+          <a class="btn primary" href="#mission">Mission</a>
+          <a class="btn" href="#github">GitHub</a>
         </div>
       </div>
-
-      <aside class="hero-card" aria-label="Quick facts">
-        <div class="stat"><b>Status</b><span>Prototype / In progress</span></div>
-        <div class="stat"><b>Target depth</b><span>— m (add)</span></div>
-        <div class="stat"><b>DO sensor</b><span>— (add model)</span></div>
-        <div class="stat"><b>Sampling</b><span>— (add method)</span></div>
+      <aside class="hero-card">
+        <div class="stat"><b>Status</b><span>In Progress</span></div>
+        <div class="stat"><b>Depth</b><span>— m</span></div>
+        <div class="stat"><b>DO Sensor</b><span>—</span></div>
+        <div class="stat"><b>Sampling</b><span>—</span></div>
       </aside>
-    </section>
-
-    <!-- SYSTEM -->
-    <section id="system" aria-label="System">
-      <h2>System</h2>
-      <p>Skeleton layout of the vehicle’s major subsystems. Replace placeholders with your real design details.</p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Mechanical</h3>
-          <ul>
-            <li>Frame: <em>material / size / sealing plan</em></li>
-            <li>Buoyancy: <em>foam / ballast / trim approach</em></li>
-            <li>Sample tool: <em>gripper / suction / scoop</em></li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Electrical</h3>
-          <ul>
-            <li>Power: <em>battery / tether / regulator</em></li>
-            <li>Thrusters: <em>count + voltage + ESC</em></li>
-            <li>Wiring: <em>penetrators / connectors / fusing</em></li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Sensing</h3>
-          <ul>
-            <li>Dissolved oxygen sensor: <em>model + range + calibration</em></li>
-            <li>Temperature / salinity (optional): <em>add</em></li>
-            <li>Camera + lighting: <em>add</em></li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Software</h3>
-          <ul>
-            <li>Control stack: <em>Arduino / Raspberry Pi / companion computer</em></li>
-            <li>Logging: <em>CSV / ROS bag / SD</em></li>
-            <li>Visualization: <em>dashboard / plots / map</em></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- MISSION -->
-    <section id="mission" aria-label="Mission">
-      <h2>Mission</h2>
-      <p>
-        SeaStar focuses on two core tasks: (1) collecting algae samples safely and repeatably, and (2) measuring dissolved oxygen
-        levels to help evaluate water quality.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Problem</h3>
-          <p>
-            Manual sampling can be slow, inconsistent, and difficult in shallow, murky, or hard-to-reach areas.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Approach</h3>
-          <p>
-            A small ROV with a simple sampling end-effector, real-time DO sensing, and onboard logging for repeatable runs.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Deliverables</h3>
-          <ul>
-            <li>Operational ROV platform</li>
-            <li>Algae sample collection method</li>
-            <li>DO readings + timestamped log</li>
-            <li>Photo/video documentation</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Validation</h3>
-          <ul>
-            <li>Sensor calibration + repeatability check</li>
-            <li>Sampling success rate over N trials</li>
-            <li>Test plan + results (table/plots)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- MEDIA (PHOTOS) -->
-    <section id="media" aria-label="Photos">
-      <h2>Photos</h2>
-      <p>Drop your best build photos here. Replace placeholder images with your own.</p>
-
-      <div class="media-grid" role="list">
-        <div class="thumb" role="listitem">
-          <img src="assets/photos/placeholder-1.jpg" alt="SeaStar build photo 1 (replace)" onerror="this.style.display='none'" />
-          <div class="cap">Frame / hull progress (replace)</div>
-        </div>
-        <div class="thumb" role="listitem">
-          <img src="assets/photos/placeholder-2.jpg" alt="SeaStar build photo 2 (replace)" onerror="this.style.display='none'" />
-          <div class="cap">Sampling tool prototype (replace)</div>
-        </div>
-        <div class="thumb" role="listitem">
-          <img src="assets/photos/placeholder-3.jpg" alt="SeaStar build photo 3 (replace)" onerror="this.style.display='none'" />
-          <div class="cap">Sensor integration (replace)</div>
-        </div>
-        <div class="thumb" role="listitem">
-          <img src="assets/photos/placeholder-4.jpg" alt="SeaStar build photo 4 (replace)" onerror="this.style.display='none'" />
-          <div class="cap">Pool test / field test (replace)</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VLOGS -->
-    <section id="vlogs" aria-label="Vlogs">
-      <h2>Vlogs</h2>
-      <p>Links to build logs, test-day videos, and progress updates.</p>
-
-      <div class="tabs" role="tablist" aria-label="Vlog tabs">
-        <button class="tabbtn" role="tab" aria-selected="true" aria-controls="tab-build" id="tabbtn-build">Build Logs</button>
-        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-tests" id="tabbtn-tests">Tests</button>
-        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-talks" id="tabbtn-talks">Presentations</button>
-      </div>
-
-      <div id="tab-build" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-build">
-        <div class="grid">
-          <div class="card">
-            <h3>Build Log #1</h3>
-            <p><a href="#">Add YouTube/Drive link</a></p>
-            <ul>
-              <li>Topic: frame + thrusters</li>
-              <li>Date: —</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Build Log #2</h3>
-            <p><a href="#">Add YouTube/Drive link</a></p>
-            <ul>
-              <li>Topic: sampling tool</li>
-              <li>Date: —</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-tests" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-tests">
-        <div class="grid">
-          <div class="card">
-            <h3>Pool Test</h3>
-            <p><a href="#">Add video link</a></p>
-            <ul>
-              <li>Checklist: buoyancy, controls, camera</li>
-              <li>Notes: —</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Sensor Calibration</h3>
-            <p><a href="#">Add video/doc link</a></p>
-            <ul>
-              <li>Method: —</li>
-              <li>Result summary: —</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div id="tab-talks" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-talks">
-        <div class="grid">
-          <div class="card">
-            <h3>Midterm Review</h3>
-            <p><a href="#">Add slides/video link</a></p>
-            <ul>
-              <li>Key updates: —</li>
-              <li>Next steps: —</li>
-            </ul>
-          </div>
-          <div class="card">
-            <h3>Final Demo</h3>
-            <p><a href="#">Add link</a></p>
-            <ul>
-              <li>Demo plan: —</li>
-              <li>Results: —</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- GITHUB -->
-    <section id="github" aria-label="GitHub">
-      <h2>GitHub</h2>
-      <p>Central repo for code, CAD exports, documentation, and test logs.</p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Repository</h3>
-          <ul>
-            <li><a href="https://github.com/your-org-or-user/seastar" target="_blank" rel="noreferrer">github.com/your-org-or-user/seastar</a></li>
-            <li>Docs: <em>README + /docs</em></li>
-            <li>Issues: <em>use for tasks + bugs</em></li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Recommended structure</h3>
-          <ul>
-            <li><code>/cad</code> — CAD exports, drawings</li>
-            <li><code>/electrical</code> — schematics, wiring, BOM</li>
-            <li><code>/software</code> — firmware + tools</li>
-            <li><code>/data</code> — logs + plots</li>
-            <li><code>/media</code> — photos/videos links</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- TEAM -->
-    <section id="team" aria-label="Team">
-      <h2>Team</h2>
-      <p>Add names, roles, and contact links. Keep it minimal and professional.</p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Members</h3>
-          <ul>
-            <li><b>Name</b> — Mechanical / CAD</li>
-            <li><b>Name</b> — Electrical / Power</li>
-            <li><b>Name</b> — Software / Controls</li>
-            <li><b>Name</b> — Sensing / Data</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Advisors / Sponsors</h3>
-          <ul>
-            <li>Advisor: —</li>
-            <li>Lab / Program: —</li>
-            <li>Sponsor: —</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer">
-        <span>© <span id="year"></span> SeaStar Capstone Team</span>
-        <span>Contact: <a href="mailto:seastar@example.edu">seastar@example.edu</a></span>
-      </div>
     </section>
   </main>
 
   <script>
-    // Active nav highlight
-    const navlinks = Array.from(document.querySelectorAll('.navlink'));
-    const sections = navlinks
-      .map(a => document.querySelector(a.getAttribute('href')))
-      .filter(Boolean);
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        navlinks.forEach(a => a.classList.remove('active'));
-        const match = navlinks.find(a => a.getAttribute('href') === `#${entry.target.id}`);
-        if (match) match.classList.add('active');
-      });
-    }, { rootMargin: '-30% 0px -60% 0px', threshold: 0.01 });
-
-    sections.forEach(s => observer.observe(s));
-
-    // Simple tabs for Vlogs
-    const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
-    const tabPanels = Array.from(document.querySelectorAll('.tabpanel'));
-
+    const tabButtons = document.querySelectorAll('.tabbtn');
+    const tabPanels = document.querySelectorAll('.tabpanel');
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         tabButtons.forEach(b => b.setAttribute('aria-selected','false'));
         btn.setAttribute('aria-selected','true');
-
         tabPanels.forEach(p => p.classList.remove('active'));
         const panel = document.getElementById(btn.getAttribute('aria-controls'));
-        if (panel) panel.classList.add('active');
+        if(panel) panel.classList.add('active');
       });
     });
-
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-
 </body>
 </html>
