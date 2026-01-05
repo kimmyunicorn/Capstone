@@ -11,27 +11,36 @@
     :root{
       /* Windows XP inspired palette */
       --sky:#b9dcf2;        /* baby blue background */
-      --sky-2:#d9eefb;      /* lighter gradient */
+      --sky-2:#d9eefb;
+      --sky-3:#eaf7ff;
+
       --panel:#eef7fd;      /* window background */
       --panel-2:#f8fcff;
+      --panel-3:#ffffff;
+
       --border:#7aaed6;     /* classic XP blue border */
       --border-dark:#4f86b5;
+      --shadow: 0 10px 22px rgba(24, 68, 104, .18);
+
       --text:#0b2a3d;
       --muted:#3f6f93;
+
       --accent:#2f74c0;     /* XP button blue */
+      --accent2:#1f5fa8;
       --accent-light:#9cc7eb;
+
       --radius:10px;
       --max:1100px;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
+
     body{
       margin:0;
       font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
       color:var(--text);
-      background:
-        linear-gradient(to bottom, var(--sky-2), var(--sky));
+      background: linear-gradient(to bottom, var(--sky-3), var(--sky));
     }
 
     a{color:#0b4f8a; text-decoration:none}
@@ -39,8 +48,12 @@
 
     /* ===== TOP BAR (XP window header style) ===== */
     .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
       background: linear-gradient(to bottom, #3b7dc4, #1f5fa8);
       border-bottom:2px solid #174b86;
+      box-shadow: 0 6px 16px rgba(0,0,0,.10);
     }
     .topbar-inner{
       max-width:var(--max);
@@ -62,6 +75,7 @@
       border-radius:6px;
       background: linear-gradient(135deg, #9dd6ff, #2f74c0);
       border:1px solid #0e3f6a;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
     }
     .brand-title{font-weight:700}
     .brand-sub{font-size:11px; opacity:.9}
@@ -78,6 +92,7 @@
       padding:6px 10px;
       border-radius:6px;
       border:1px solid transparent;
+      user-select:none;
     }
     .nav a:hover{
       background:#5fa3e3;
@@ -106,11 +121,16 @@
       display:grid;
       grid-template-columns: 1.2fr .8fr;
       gap:16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
+
     .hero h1{
       margin:0;
       font-size:30px;
       color:#0b3e6b;
+      letter-spacing:-.2px;
     }
     .hero p{
       margin-top:8px;
@@ -128,36 +148,61 @@
       color:#0b3e6b;
     }
 
+    /* XP button style */
     .cta{margin-top:12px; display:flex; gap:8px; flex-wrap:wrap}
     .btn{
+      display:inline-block;
       font-size:13px;
-      padding:6px 12px;
+      padding:7px 12px;
       border-radius:6px;
       border:1px solid var(--border-dark);
       background: linear-gradient(to bottom, #f5fbff, #cfe8ff);
-      cursor:pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+      user-select:none;
     }
+    .btn:hover{filter: brightness(1.02); text-decoration:none}
+    .btn:active{transform: translateY(1px)}
     .btn.primary{
-      background: linear-gradient(to bottom, #6fb3f2, #2f74c0);
+      background: linear-gradient(to bottom, #7bc0ff, #2f74c0);
       color:white;
       border-color:#174b86;
+      text-shadow: 0 1px 0 rgba(0,0,0,.25);
     }
 
-    /* ===== INFO BOX ===== */
+    /* ===== HERO RIGHT PANEL ===== */
     .hero-card{
       background: linear-gradient(to bottom, #ffffff, #edf6fd);
       border:2px solid var(--border);
       border-radius:var(--radius);
       padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .stats{
+      border:1px solid #cfe0ef;
+      border-radius:6px;
+      overflow:hidden;
+      background: #ffffff;
     }
     .stat{
       display:flex;
       justify-content:space-between;
-      padding:6px 8px;
+      padding:7px 8px;
       font-size:12px;
-      border-bottom:1px solid #cfe0ef;
+      border-bottom:1px solid #e6eef6;
     }
     .stat:last-child{border-bottom:none}
+
+    .hero-art{
+      border:1px solid #9cc7eb;
+      background: linear-gradient(to bottom, #ffffff, #eaf7ff);
+      border-radius:6px;
+      overflow:hidden;
+      padding:10px;
+    }
+    .hero-art small{display:block; margin-top:6px; color:#355f7f; font-size:11px}
 
     /* ===== SECTIONS ===== */
     section{
@@ -166,6 +211,7 @@
       border:2px solid var(--border);
       border-radius:var(--radius);
       padding:14px;
+      box-shadow: var(--shadow);
     }
     section h2{
       margin:0 0 8px;
@@ -196,6 +242,7 @@
       color:#0b3e6b;
     }
     .card ul{margin:6px 0 0 18px}
+    code{font-family: "Courier New", Courier, monospace; font-size: 12px}
 
     /* ===== MEDIA ===== */
     .media-grid{
@@ -212,6 +259,7 @@
     }
     .thumb img{
       width:100%; height:140px; object-fit:cover; background:#d9eefb;
+      display:block;
     }
     .cap{padding:6px; font-size:11px; color:#355f7f}
 
@@ -219,13 +267,15 @@
     .tabs{display:flex; gap:4px; margin:10px 0}
     .tabbtn{
       font-size:12px;
-      padding:5px 10px;
+      padding:6px 10px;
       border:1px solid #7aaed6;
       border-bottom:none;
       background:#e2f1ff;
       cursor:pointer;
       border-radius:6px 6px 0 0;
+      user-select:none;
     }
+    .tabbtn:hover{filter: brightness(1.02)}
     .tabbtn[aria-selected="true"]{
       background:#ffffff;
       font-weight:600;
@@ -235,6 +285,7 @@
       border:1px solid #7aaed6;
       padding:10px;
       background:#ffffff;
+      border-radius: 0 6px 6px 6px;
     }
     .tabpanel.active{display:block}
 
@@ -245,8 +296,10 @@
       display:flex;
       justify-content:space-between;
       flex-wrap:wrap;
+      gap:8px;
     }
 
+    /* responsive */
     @media (max-width:900px){
       .hero{grid-template-columns:1fr}
       .card{grid-column: span 12}
@@ -255,20 +308,25 @@
     @media (max-width:520px){
       .media-grid{grid-template-columns:1fr}
     }
+
+    /* Reduce motion preference */
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+    }
   </style>
 </head>
 
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#overview">
-        <div class="logo"></div>
+      <a class="brand" href="#overview" aria-label="SeaStar home">
+        <div class="logo" aria-hidden="true"></div>
         <div>
           <div class="brand-title">SeaStar</div>
-          <div class="brand-sub">Capstone ROV Project</div>
+          <div class="brand-sub">Capstone ROV · Algae Sampling + Dissolved Oxygen</div>
         </div>
       </a>
-      <nav class="nav">
+      <nav class="nav" aria-label="Primary">
         <a href="#overview" class="navlink">Overview</a>
         <a href="#system" class="navlink">System</a>
         <a href="#mission" class="navlink">Mission</a>
@@ -281,42 +339,426 @@
   </header>
 
   <main class="wrap">
-    <section id="overview" class="hero">
+    <!-- OVERVIEW / HOME -->
+    <section id="overview" class="hero" aria-label="Overview">
       <div>
         <h1>SeaStar ROV</h1>
-        <p>A remotely operated vehicle designed to collect algae samples and measure dissolved oxygen for water‑quality analysis.</p>
-        <div class="tags">
+        <p>
+          A student-built remotely operated vehicle designed to collect algae samples and measure dissolved oxygen (DO)
+          to support water-quality monitoring.
+        </p>
+
+        <div class="tags" aria-label="Project tags">
           <span class="tag">ROV</span>
           <span class="tag">Algae Sampling</span>
           <span class="tag">Dissolved Oxygen</span>
+          <span class="tag">Underwater Sensing</span>
           <span class="tag">Capstone</span>
         </div>
-        <div class="cta">
-          <a class="btn primary" href="#mission">Mission</a>
-          <a class="btn" href="#github">GitHub</a>
+
+        <div class="cta" aria-label="Quick actions">
+          <a class="btn primary" href="#mission">Read the mission</a>
+          <a class="btn" href="#github">Open GitHub</a>
+          <a class="btn" href="#media">View photos</a>
+          <a class="btn" href="#vlogs">Watch vlogs</a>
         </div>
       </div>
-      <aside class="hero-card">
-        <div class="stat"><b>Status</b><span>In Progress</span></div>
-        <div class="stat"><b>Depth</b><span>— m</span></div>
-        <div class="stat"><b>DO Sensor</b><span>—</span></div>
-        <div class="stat"><b>Sampling</b><span>—</span></div>
+
+      <aside class="hero-card" aria-label="Quick facts">
+        <div class="stats" aria-label="Project stats">
+          <div class="stat"><b>Status</b><span>Prototype / In progress</span></div>
+          <div class="stat"><b>Target depth</b><span>— m (add)</span></div>
+          <div class="stat"><b>DO sensor</b><span>— (add model)</span></div>
+          <div class="stat"><b>Sampling</b><span>— (add method)</span></div>
+        </div>
+
+        <!-- Cute algae + sea lion art (inline SVG, no external assets needed) -->
+        <div class="hero-art" aria-label="SeaStar art">
+          <svg viewBox="0 0 480 220" width="100%" height="auto" role="img" aria-label="Sea lion with algae and bubbles">
+            <!-- water gradient -->
+            <defs>
+              <linearGradient id="w" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#d9eefb"/>
+              </linearGradient>
+              <linearGradient id="sea" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#78c2e8"/>
+                <stop offset="1" stop-color="#2f74c0"/>
+              </linearGradient>
+              <linearGradient id="kelp" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#48b874"/>
+                <stop offset="1" stop-color="#1f7a4f"/>
+              </linearGradient>
+            </defs>
+
+            <rect x="0" y="0" width="480" height="220" fill="url(#w)"/>
+
+            <!-- bubbles -->
+            <g fill="none" stroke="#7aaed6" stroke-width="2" opacity="0.7">
+              <circle cx="65" cy="55" r="9"/>
+              <circle cx="92" cy="40" r="5"/>
+              <circle cx="420" cy="50" r="8"/>
+              <circle cx="445" cy="35" r="4"/>
+            </g>
+
+            <!-- algae/kelp left -->
+            <g>
+              <path d="M55 210 C40 170, 60 150, 46 110 C36 80, 55 55, 48 20" fill="none" stroke="url(#kelp)" stroke-width="10" stroke-linecap="round"/>
+              <path d="M85 210 C70 175, 96 152, 80 120 C68 92, 82 70, 74 38" fill="none" stroke="url(#kelp)" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+              <circle cx="48" cy="95" r="7" fill="#48b874" opacity="0.9"/>
+              <circle cx="78" cy="120" r="6" fill="#48b874" opacity="0.9"/>
+            </g>
+
+            <!-- algae/kelp right -->
+            <g opacity="0.95">
+              <path d="M430 210 C418 178, 438 160, 424 128 C410 96, 428 70, 420 40" fill="none" stroke="url(#kelp)" stroke-width="9" stroke-linecap="round"/>
+              <circle cx="424" cy="130" r="6" fill="#48b874"/>
+            </g>
+
+            <!-- sea lion body (simple mascot) -->
+            <g>
+              <!-- shadow -->
+              <ellipse cx="260" cy="185" rx="120" ry="18" fill="#b7d6ea" opacity="0.55"/>
+
+              <!-- body -->
+              <path d="M160 165
+                       C165 120, 215 85, 275 88
+                       C330 90, 370 120, 372 155
+                       C374 188, 340 198, 308 200
+                       C260 203, 230 205, 195 198
+                       C170 193, 155 185, 160 165 Z"
+                    fill="url(#sea)" stroke="#174b86" stroke-width="3"/>
+
+              <!-- head -->
+              <path d="M300 98
+                       C320 74, 362 74, 374 102
+                       C388 136, 356 152, 330 143
+                       C305 135, 288 118, 300 98 Z"
+                    fill="url(#sea)" stroke="#174b86" stroke-width="3"/>
+
+              <!-- snout -->
+              <path d="M342 118 C356 110, 372 116, 372 130
+                       C371 145, 352 148, 342 140 Z"
+                    fill="#cfe8ff" stroke="#174b86" stroke-width="2"/>
+
+              <!-- eye -->
+              <circle cx="338" cy="110" r="5" fill="#0b2a3d"/>
+              <circle cx="336" cy="108" r="2" fill="#ffffff" opacity="0.9"/>
+
+              <!-- whiskers -->
+              <g stroke="#0b2a3d" stroke-width="2" opacity="0.7">
+                <path d="M355 128 L390 120"/>
+                <path d="M355 133 L392 133"/>
+                <path d="M355 138 L389 148"/>
+              </g>
+
+              <!-- flipper -->
+              <path d="M240 168 C235 190, 250 205, 270 202
+                       C285 200, 292 185, 284 170
+                       C275 150, 246 148, 240 168 Z"
+                    fill="#2b6eb5" stroke="#174b86" stroke-width="2"/>
+            </g>
+
+            <!-- tiny ROV icon -->
+            <g transform="translate(120,78)">
+              <rect x="0" y="0" width="68" height="32" rx="6" fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
+              <circle cx="16" cy="16" r="7" fill="#d9eefb" stroke="#7aaed6" stroke-width="2"/>
+              <circle cx="52" cy="16" r="7" fill="#d9eefb" stroke="#7aaed6" stroke-width="2"/>
+              <rect x="26" y="10" width="16" height="12" rx="3" fill="#2f74c0" opacity="0.9"/>
+              <path d="M68 16 C86 10, 92 6, 108 6" fill="none" stroke="#7aaed6" stroke-width="3" stroke-linecap="round"/>
+              <text x="4" y="-6" font-size="12" fill="#355f7f">ROV</text>
+            </g>
+          </svg>
+          <small>SeaStar mascot art (placeholder) — swap with real photos anytime.</small>
+        </div>
       </aside>
+    </section>
+
+    <!-- SYSTEM -->
+    <section id="system" aria-label="System">
+      <h2>System</h2>
+      <p>Skeleton layout of the vehicle’s major subsystems. Replace placeholders with your real design details.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Mechanical</h3>
+          <ul>
+            <li>Frame: <em>material / size / sealing plan</em></li>
+            <li>Buoyancy: <em>foam / ballast / trim approach</em></li>
+            <li>Sample tool: <em>gripper / suction / scoop</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Electrical</h3>
+          <ul>
+            <li>Power: <em>battery / tether / regulator</em></li>
+            <li>Thrusters: <em>count + voltage + ESC</em></li>
+            <li>Wiring: <em>penetrators / connectors / fusing</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Sensing</h3>
+          <ul>
+            <li>Dissolved oxygen sensor: <em>model + range + calibration</em></li>
+            <li>Temperature / salinity (optional): <em>add</em></li>
+            <li>Camera + lighting: <em>add</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Software</h3>
+          <ul>
+            <li>Control stack: <em>Arduino / Raspberry Pi / companion computer</em></li>
+            <li>Logging: <em>CSV / ROS bag / SD</em></li>
+            <li>Visualization: <em>dashboard / plots / map</em></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" aria-label="Mission">
+      <h2>Mission</h2>
+      <p>
+        SeaStar focuses on two core tasks: (1) collecting algae samples safely and repeatably, and (2) measuring dissolved oxygen
+        levels to help evaluate water quality.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Problem</h3>
+          <p>Manual sampling can be slow, inconsistent, and difficult in shallow, murky, or hard-to-reach areas.</p>
+        </div>
+
+        <div class="card">
+          <h3>Approach</h3>
+          <p>A small ROV with a simple sampling end-effector, real-time DO sensing, and onboard logging for repeatable runs.</p>
+        </div>
+
+        <div class="card">
+          <h3>Deliverables</h3>
+          <ul>
+            <li>Operational ROV platform</li>
+            <li>Algae sample collection method</li>
+            <li>DO readings + timestamped log</li>
+            <li>Photo/video documentation</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Validation</h3>
+          <ul>
+            <li>Sensor calibration + repeatability check</li>
+            <li>Sampling success rate over N trials</li>
+            <li>Test plan + results (table/plots)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTOS -->
+    <section id="media" aria-label="Photos">
+      <h2>Photos</h2>
+      <p>Drop your best build photos here. Replace placeholder images with your own.</p>
+
+      <div class="media-grid" role="list">
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-1.jpg" alt="SeaStar build photo 1 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Frame / hull progress (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-2.jpg" alt="SeaStar build photo 2 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Sampling tool prototype (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-3.jpg" alt="SeaStar build photo 3 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Sensor integration (replace)</div>
+        </div>
+        <div class="thumb" role="listitem">
+          <img src="assets/photos/placeholder-4.jpg" alt="SeaStar build photo 4 (replace)" onerror="this.style.display='none'" />
+          <div class="cap">Pool test / field test (replace)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VLOGS -->
+    <section id="vlogs" aria-label="Vlogs">
+      <h2>Vlogs</h2>
+      <p>Links to build logs, test-day videos, and progress updates.</p>
+
+      <div class="tabs" role="tablist" aria-label="Vlog tabs">
+        <button class="tabbtn" role="tab" aria-selected="true" aria-controls="tab-build" id="tabbtn-build" type="button">Build Logs</button>
+        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-tests" id="tabbtn-tests" type="button">Tests</button>
+        <button class="tabbtn" role="tab" aria-selected="false" aria-controls="tab-talks" id="tabbtn-talks" type="button">Presentations</button>
+      </div>
+
+      <div id="tab-build" class="tabpanel active" role="tabpanel" aria-labelledby="tabbtn-build">
+        <div class="grid">
+          <div class="card">
+            <h3>Build Log #1</h3>
+            <p><a href="#">Add YouTube/Drive link</a></p>
+            <ul>
+              <li>Topic: frame + thrusters</li>
+              <li>Date: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Build Log #2</h3>
+            <p><a href="#">Add YouTube/Drive link</a></p>
+            <ul>
+              <li>Topic: sampling tool</li>
+              <li>Date: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-tests" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-tests">
+        <div class="grid">
+          <div class="card">
+            <h3>Pool Test</h3>
+            <p><a href="#">Add video link</a></p>
+            <ul>
+              <li>Checklist: buoyancy, controls, camera</li>
+              <li>Notes: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Sensor Calibration</h3>
+            <p><a href="#">Add video/doc link</a></p>
+            <ul>
+              <li>Method: —</li>
+              <li>Result summary: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-talks" class="tabpanel" role="tabpanel" aria-labelledby="tabbtn-talks">
+        <div class="grid">
+          <div class="card">
+            <h3>Midterm Review</h3>
+            <p><a href="#">Add slides/video link</a></p>
+            <ul>
+              <li>Key updates: —</li>
+              <li>Next steps: —</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Final Demo</h3>
+            <p><a href="#">Add link</a></p>
+            <ul>
+              <li>Demo plan: —</li>
+              <li>Results: —</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GITHUB -->
+    <section id="github" aria-label="GitHub">
+      <h2>GitHub</h2>
+      <p>Central repo for code, CAD exports, documentation, and test logs.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Repository</h3>
+          <ul>
+            <li><a href="https://github.com/your-org-or-user/seastar" target="_blank" rel="noreferrer">github.com/your-org-or-user/seastar</a></li>
+            <li>Docs: <em>README + /docs</em></li>
+            <li>Issues: <em>use for tasks + bugs</em></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Recommended repo structure</h3>
+          <ul>
+            <li><code>/cad</code> — CAD exports, drawings</li>
+            <li><code>/electrical</code> — schematics, wiring, BOM</li>
+            <li><code>/software</code> — firmware + tools</li>
+            <li><code>/data</code> — logs + plots</li>
+            <li><code>/media</code> — photos/videos links</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" aria-label="Team">
+      <h2>Team</h2>
+      <p>Add names, roles, and contact links. Keep it minimal and professional.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Members</h3>
+          <ul>
+            <li><b>Name</b> — Mechanical / CAD</li>
+            <li><b>Name</b> — Electrical / Power</li>
+            <li><b>Name</b> — Software / Controls</li>
+            <li><b>Name</b> — Sensing / Data</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Advisors / Sponsors</h3>
+          <ul>
+            <li>Advisor: —</li>
+            <li>Lab / Program: —</li>
+            <li>Sponsor: —</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>© <span id="year"></span> SeaStar Capstone Team</span>
+        <span>Contact: <a href="mailto:seastar@example.edu">seastar@example.edu</a></span>
+      </div>
     </section>
   </main>
 
   <script>
-    const tabButtons = document.querySelectorAll('.tabbtn');
-    const tabPanels = document.querySelectorAll('.tabpanel');
+    // Smooth scrolling for in-page links
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    // Active nav highlight as you scroll
+    const navlinks = Array.from(document.querySelectorAll('.navlink'));
+    const sections = navlinks
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navlinks.forEach(a => a.classList.remove('active'));
+        const match = navlinks.find(a => a.getAttribute('href') === `#${entry.target.id}`);
+        if (match) match.classList.add('active');
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0.01 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Vlog tabs
+    const tabButtons = Array.from(document.querySelectorAll('.tabbtn'));
+    const tabPanels = Array.from(document.querySelectorAll('.tabpanel'));
+
     tabButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         tabButtons.forEach(b => b.setAttribute('aria-selected','false'));
         btn.setAttribute('aria-selected','true');
+
         tabPanels.forEach(p => p.classList.remove('active'));
         const panel = document.getElementById(btn.getAttribute('aria-controls'));
-        if(panel) panel.classList.add('active');
+        if (panel) panel.classList.add('active');
       });
     });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
+
