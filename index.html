@@ -6,16 +6,16 @@
 <title>SeaStar ROV</title>
 
 <style>
-  /* ====== COLORS (baby blue + XP-ish) ====== */
+  /* Colors */
   :root{
-    --bg:#b9dcf2;          /* baby blue background */
-    --top:#2f74c0;         /* solid blue top bar */
+    --bg:#b9dcf2; /* baby blue background */
+    --top:#2f74c0; /* solid blue top bar */
     --top2:#1f5fa8;
-    --panel:#ffffff;       /* white boxes */
-    --border:#7aaed6;      /* blue border */
+    --panel:#ffffff; /* white boxes */
+    --border:#7aaed6; /* blue border */
     --text:#0b2a3d;
     --muted:#3f6f93;
-    --algae:#2fbf6b;       /* green algae */
+    --algae:#2fbf6b; /* green algae */
   }
 
   *{box-sizing:border-box}
@@ -26,7 +26,7 @@
     background:var(--bg);
   }
 
-  /* ====== TOP BAR (like your sketch) ====== */
+  /* Top Bar */
   header{
     position:sticky; top:0; z-index:10;
     background:linear-gradient(to bottom,var(--top),var(--top2));
@@ -47,7 +47,7 @@
   }
   nav a:hover{background:#5fa3e3; border-color:#cfe8ff}
 
-  /* ====== LAYOUT ====== */
+  /*Layout */
   .wrap{max-width:1100px; margin:auto; padding:16px 12px 60px; position:relative}
   .grid{
     display:grid;
@@ -87,7 +87,7 @@
   }
   .controller svg{max-width:150px; width:70%}
 
-  /* ====== ALGAE DECOR (left/right like sketch) ====== */
+  /* Algae */
   .algae{
     position:absolute; top:72px; bottom:20px;
     width:90px; pointer-events:none;
@@ -145,7 +145,7 @@
     <circle cx="58" cy="250" r="7" fill="var(--algae)" opacity=".9"/>
   </svg>
 
-  <!-- bubbles (top-middle like your sketch) -->
+  <!-- bubbles -->
   <svg class="bubbles" width="110" height="180" viewBox="0 0 110 180" aria-hidden="true">
     <g fill="none" stroke="#7aaed6" stroke-width="2">
       <circle cx="22" cy="150" r="7"/>
