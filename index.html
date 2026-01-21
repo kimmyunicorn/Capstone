@@ -6,109 +6,96 @@
 <title>SeaStar ROV</title>
 
 <style>
-  /* Colors */
-  :root{
-    --bg:#b9dcf2; /* baby blue background */
-    --top:#2f74c0; /* solid blue top bar */
-    --top2:#1f5fa8;
-    --panel:#ffffff; /* white boxes */
-    --border:#7aaed6; /* blue border */
-    --text:#0b2a3d;
-    --muted:#3f6f93;
-    --algae:#2fbf6b; /* green algae */
-  }
+:root{
+  --bg:#b9dcf2;          /* baby blue */
+  --top:#2f74c0; --top2:#1f5fa8;
+  --panel:#fff; --border:#7aaed6;
+  --text:#0b2a3d; --muted:#3f6f93;
+  --algae1:#2fbf6b;      /* algae greens */
+  --algae2:#1f7a4f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Verdana,Segoe UI,sans-serif;color:var(--text);background:var(--bg)}
 
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Tahoma,Verdana,Segoe UI,sans-serif;
-    color:var(--text);
-    background:var(--bg);
-  }
+/* TOP BAR */
+header{position:sticky;top:0;z-index:20;background:linear-gradient(to bottom,var(--top),var(--top2));border-bottom:2px solid #174b86}
+.top{max-width:1100px;margin:auto;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.brand{color:#fff;font-weight:700}
+nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid transparent;font-size:13px}
+nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
 
-  /* Top Bar */
-  header{
-    position:sticky; top:0; z-index:10;
-    background:linear-gradient(to bottom,var(--top),var(--top2));
-    border-bottom:2px solid #174b86;
-  }
-  .top{
-    max-width:1100px; margin:auto;
-    padding:10px 12px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .brand{color:#fff; font-weight:700; letter-spacing:.2px}
-  nav{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap}
-  nav a{
-    color:#fff; text-decoration:none;
-    padding:6px 10px; border-radius:6px;
-    border:1px solid transparent;
-    font-size:13px;
-  }
-  nav a:hover{background:#5fa3e3; border-color:#cfe8ff}
+/* LAYOUT */
+.wrap{max-width:1100px;margin:auto;padding:16px 12px 60px;position:relative}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+.box{
+  background:var(--panel);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:10px;
+  min-height:170px;
+  position:relative;
+  z-index:5; /* keep content above decorations */
+}
+.box h2{margin:0 0 8px;font-size:16px;color:#0b3e6b;border-bottom:1px solid #d6e7f6;padding-bottom:4px}
+.muted{color:var(--muted);font-size:13px;margin:0}
+.span4{grid-column:span 4}
+.span6{grid-column:span 6}
+.span12{grid-column:span 12}
 
-  /*Layout */
-  .wrap{max-width:1100px; margin:auto; padding:16px 12px 60px; position:relative}
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(12,1fr);
-    gap:12px;
-  }
-  .box{
-    background:var(--panel);
-    border:2px solid var(--border);
-    border-radius:10px;
-    padding:10px;
-    min-height:170px;
-  }
-  .box h2{
-    margin:0 0 8px;
-    font-size:16px;
-    color:#0b3e6b;
-    border-bottom:1px solid #d6e7f6;
-    padding-bottom:4px;
-  }
-  .muted{color:var(--muted); font-size:13px; margin:0}
-  .span4{grid-column:span 4}
-  .span6{grid-column:span 6}
+.placeholder{
+  height:110px;border:1px dashed #9cc7eb;border-radius:8px;
+  background:rgba(217,238,251,.6);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:#355f7f;
+}
+.controller{display:flex;align-items:center;justify-content:center;height:110px}
+.controller svg{max-width:150px;width:70%}
 
-  /* placeholders */
-  .placeholder{
-    height:110px;
-    border:1px dashed #9cc7eb;
-    border-radius:8px;
-    background:rgba(217,238,251,.6);
-    display:flex; align-items:center; justify-content:center;
-    font-size:12px; color:#355f7f;
-  }
-  .controller{
-    display:flex; align-items:center; justify-content:center;
-    height:110px;
-  }
-  .controller svg{max-width:150px; width:70%}
+/* MAKE THE BOXES FEEL LIKE CLICKABLE "BUTTON PANELS" */
+.box-btn{cursor:pointer;user-select:none}
+.box-btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(24,68,104,.18)}
+.box-btn:active{transform:translateY(0px);filter:brightness(.99)}
+.box-btn{transition:.12s}
 
-  /* Algae */
-  .algae{
-    position:absolute; top:72px; bottom:20px;
-    width:90px; pointer-events:none;
-    opacity:.95;
-  }
-  .algae.left{left:-6px}
-  .algae.right{right:-6px; transform:scaleX(-1)}
-  .bubbles{
-    position:absolute; left:90px; top:95px;
-    pointer-events:none; opacity:.55;
-  }
-  .fish{
-    position:absolute; right:120px; top:430px;
-    pointer-events:none; opacity:.7;
-  }
+/* ===== DECORATIONS (ALGAE FARTHER OUT + REALER) =====
+   - pushed OUTSIDE the content area so it won't cover buttons/boxes
+   - pointer-events:none so you can always click
+*/
+.decor{position:absolute;inset:0;pointer-events:none;z-index:1}
 
-  /* responsive */
-  @media (max-width:900px){
-    .span4,.span6{grid-column:span 12}
-    .algae,.bubbles,.fish{display:none} /* hide decor on small screens */
-  }
+/* algae hugs the edges even more */
+.algae{
+  position:absolute;
+  top:70px; bottom:10px;
+  width:140px;
+  opacity:.95;
+  filter: drop-shadow(0 6px 6px rgba(0,0,0,.08));
+}
+.algae.left{left:-150px}      /* pushes it more to the side */
+.algae.right{right:-150px;transform:scaleX(-1)}
+
+/* bubbles + fish positioned so they don't overlap top bar or boxes */
+.bubbles{
+  position:absolute;
+  left:120px; top:95px;       /* safely under the top bar */
+  opacity:.55;
+}
+.fish{
+  position:absolute;
+  right:140px; top:520px;     /* lower so it's not on cards */
+  opacity:.75;
+}
+
+@media (max-width:1100px){
+  /* still keep algae out of the way on smaller screens */
+  .algae.left{left:-120px}
+  .algae.right{right:-120px}
+}
+@media (max-width:900px){
+  .span4,.span6,.span12{grid-column:span 12}
+  .decor{display:none} /* hide decor on small screens so nothing overlaps */
+}
 </style>
 </head>
 
@@ -126,65 +113,128 @@
 
 <main class="wrap">
 
-  <!-- green algae on sides -->
-  <svg class="algae left" viewBox="0 0 100 600" aria-hidden="true">
-    <path d="M30 590 C10 520, 40 470, 25 400 C10 320, 35 270, 22 190 C10 120, 35 70, 20 10"
-          fill="none" stroke="var(--algae)" stroke-width="12" stroke-linecap="round"/>
-    <path d="M65 590 C50 520, 80 480, 60 410 C45 350, 70 290, 55 220 C40 150, 65 95, 55 25"
-          fill="none" stroke="var(--algae)" stroke-width="9" stroke-linecap="round" opacity=".9"/>
-    <circle cx="26" cy="380" r="8" fill="var(--algae)" opacity=".9"/>
-    <circle cx="58" cy="250" r="7" fill="var(--algae)" opacity=".9"/>
-  </svg>
+  <!-- DECORATIONS BEHIND CONTENT (never blocks clicks) -->
+  <div class="decor" aria-hidden="true">
 
-  <svg class="algae right" viewBox="0 0 100 600" aria-hidden="true">
-    <path d="M30 590 C10 520, 40 470, 25 400 C10 320, 35 270, 22 190 C10 120, 35 70, 20 10"
-          fill="none" stroke="var(--algae)" stroke-width="12" stroke-linecap="round"/>
-    <path d="M65 590 C50 520, 80 480, 60 410 C45 350, 70 290, 55 220 C40 150, 65 95, 55 25"
-          fill="none" stroke="var(--algae)" stroke-width="9" stroke-linecap="round" opacity=".9"/>
-    <circle cx="26" cy="380" r="8" fill="var(--algae)" opacity=".9"/>
-    <circle cx="58" cy="250" r="7" fill="var(--algae)" opacity=".9"/>
-  </svg>
+    <!-- "more real" algae: thicker leaves + inner vein lines (still simple SVG) -->
+    <svg class="algae left" viewBox="0 0 180 700">
+      <defs>
+        <linearGradient id="kelpFill" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="var(--algae1)"/>
+          <stop offset="1" stop-color="var(--algae2)"/>
+        </linearGradient>
+      </defs>
 
-  <!-- bubbles -->
-  <svg class="bubbles" width="110" height="180" viewBox="0 0 110 180" aria-hidden="true">
-    <g fill="none" stroke="#7aaed6" stroke-width="2">
-      <circle cx="22" cy="150" r="7"/>
-      <circle cx="44" cy="130" r="5"/>
-      <circle cx="30" cy="105" r="9"/>
-      <circle cx="55" cy="80"  r="6"/>
-      <circle cx="40" cy="50"  r="4"/>
-      <circle cx="65" cy="30"  r="7"/>
-    </g>
-  </svg>
+      <!-- leaf 1 -->
+      <path d="M70 690
+               C35 610, 95 520, 55 440
+               C20 370, 85 300, 55 210
+               C28 130, 90 70, 60 10"
+            fill="none" stroke="url(#kelpFill)" stroke-width="18" stroke-linecap="round"/>
+      <!-- inner vein -->
+      <path d="M72 680
+               C45 600, 102 520, 65 445
+               C35 385, 95 305, 68 215
+               C45 145, 95 80, 72 20"
+            fill="none" stroke="rgba(255,255,255,.22)" stroke-width="4" stroke-linecap="round"/>
 
-  <!-- tiny fish (bottom-right vibe) -->
-  <svg class="fish" width="120" height="60" viewBox="0 0 120 60" aria-hidden="true">
-    <path d="M20 30 C35 15, 60 15, 75 30 C60 45, 35 45, 20 30 Z" fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-    <path d="M75 30 L95 18 L95 42 Z" fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-    <circle cx="35" cy="27" r="3" fill="#0b2a3d"/>
-  </svg>
+      <!-- leaf 2 -->
+      <path d="M115 690
+               C85 620, 150 560, 120 490
+               C95 435, 145 375, 120 310
+               C92 235, 140 170, 118 90
+               C105 45, 140 30, 130 10"
+            fill="none" stroke="url(#kelpFill)" stroke-width="14" stroke-linecap="round" opacity=".95"/>
+      <path d="M116 680
+               C95 620, 158 560, 130 495
+               C105 440, 150 380, 128 315
+               C105 245, 150 180, 128 95
+               C118 55, 146 35, 136 20"
+            fill="none" stroke="rgba(255,255,255,.18)" stroke-width="3" stroke-linecap="round"/>
 
-  <!-- ====== MAIN BOXES (match your sketch) ====== -->
+      <!-- small leaf -->
+      <path d="M35 680
+               C20 625, 55 590, 40 530
+               C25 470, 55 430, 40 380
+               C25 330, 55 300, 42 250"
+            fill="none" stroke="url(#kelpFill)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+    </svg>
+
+    <svg class="algae right" viewBox="0 0 180 700">
+      <defs>
+        <linearGradient id="kelpFillR" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="var(--algae1)"/>
+          <stop offset="1" stop-color="var(--algae2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M70 690
+               C35 610, 95 520, 55 440
+               C20 370, 85 300, 55 210
+               C28 130, 90 70, 60 10"
+            fill="none" stroke="url(#kelpFillR)" stroke-width="18" stroke-linecap="round"/>
+      <path d="M72 680
+               C45 600, 102 520, 65 445
+               C35 385, 95 305, 68 215
+               C45 145, 95 80, 72 20"
+            fill="none" stroke="rgba(255,255,255,.22)" stroke-width="4" stroke-linecap="round"/>
+      <path d="M115 690
+               C85 620, 150 560, 120 490
+               C95 435, 145 375, 120 310
+               C92 235, 140 170, 118 90
+               C105 45, 140 30, 130 10"
+            fill="none" stroke="url(#kelpFillR)" stroke-width="14" stroke-linecap="round" opacity=".95"/>
+      <path d="M116 680
+               C95 620, 158 560, 130 495
+               C105 440, 150 380, 128 315
+               C105 245, 150 180, 128 95
+               C118 55, 146 35, 136 20"
+            fill="none" stroke="rgba(255,255,255,.18)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M35 680
+               C20 625, 55 590, 40 530
+               C25 470, 55 430, 40 380
+               C25 330, 55 300, 42 250"
+            fill="none" stroke="url(#kelpFillR)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+    </svg>
+
+    <!-- bubbles (kept away from top buttons) -->
+    <svg class="bubbles" width="120" height="200" viewBox="0 0 120 200">
+      <g fill="none" stroke="#7aaed6" stroke-width="2">
+        <circle cx="28" cy="170" r="7"/>
+        <circle cx="52" cy="145" r="5"/>
+        <circle cx="35" cy="118" r="9"/>
+        <circle cx="62" cy="92"  r="6"/>
+        <circle cx="44" cy="62"  r="4"/>
+        <circle cx="70" cy="40"  r="7"/>
+      </g>
+    </svg>
+
+    <!-- fish (moved lower so it doesn't sit on the Vlogs/GitHub boxes) -->
+    <svg class="fish" width="140" height="70" viewBox="0 0 140 70">
+      <path d="M22 35 C42 15, 74 15, 94 35 C74 55, 42 55, 22 35 Z" fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
+      <path d="M94 35 L118 20 L118 50 Z" fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
+      <circle cx="45" cy="30" r="3" fill="#0b2a3d"/>
+    </svg>
+
+  </div>
+
+  <!-- MAIN "BUTTON" BOXES (your middle panels) -->
   <div class="grid">
-
-    <!-- Top row: Camera / Design / Controller -->
-    <section class="box span4" aria-label="Camera feed">
+    <section class="box box-btn span4" aria-label="Camera feed" onclick="alert('Camera Feed clicked (placeholder)')">
       <h2>Camera Feed</h2>
       <div class="placeholder">Underwater video (embed here)</div>
       <p class="muted" style="margin-top:8px">Tip: replace with an iframe / stream later.</p>
     </section>
 
-    <section class="box span4" aria-label="Design implementation">
+    <section class="box box-btn span4" aria-label="Design implementation" onclick="alert('Design Implementation clicked (placeholder)')">
       <h2>Design Implementation</h2>
       <div class="placeholder">CAD / wiring / progress notes</div>
       <p class="muted" style="margin-top:8px">Keep this as simple bullets or images.</p>
     </section>
 
-    <section class="box span4" aria-label="Controller">
+    <section class="box box-btn span4" aria-label="Controller" onclick="alert('Controller clicked (placeholder)')">
       <h2>Controller</h2>
-      <div class="controller" title="Controller placeholder">
-        <!-- simple gamepad icon -->
-        <svg viewBox="0 0 200 120" role="img" aria-label="Controller icon">
+      <div class="controller">
+        <svg viewBox="0 0 200 120" aria-label="Controller icon" role="img">
           <path d="M50 90 C30 90, 20 75, 25 55 C30 35, 55 30, 75 45
                    L125 45 C145 30, 170 35, 175 55 C180 75, 170 90, 150 90
                    C135 90, 125 80, 120 70 L80 70 C75 80, 65 90, 50 90 Z"
@@ -198,24 +248,25 @@
       <p class="muted" style="margin-top:6px">Later: joystick / web controls.</p>
     </section>
 
-    <!-- Bottom row: Results / What professionals said -->
-    <section class="box span6" aria-label="Results">
+    <section class="box box-btn span6" aria-label="Results" onclick="alert('Results clicked (placeholder)')">
       <h2>Results</h2>
       <div class="placeholder">DO readings, plots, success rate, tables</div>
       <p class="muted" style="margin-top:8px">Add 3–5 key numbers only.</p>
     </section>
 
-    <section class="box span6" aria-label="Feedback">
+    <section class="box box-btn span6" aria-label="Feedback" onclick="alert('Feedback clicked (placeholder)')">
       <h2>Results (What professionals said)</h2>
       <div class="placeholder">Quotes / feedback / review notes</div>
       <p class="muted" style="margin-top:8px">Short quotes + who/when.</p>
     </section>
 
-    <!-- Simple sections for your top tabs -->
+    <!-- keep these sections (so the TOP BAR links still work),
+         but they are NOT buttons in the middle of the home page -->
     <section id="github" class="box span6" aria-label="GitHub">
       <h2>GitHub</h2>
       <p class="muted">
-        Repo: <a href="https://github.com/your-org-or-user/seastar" target="_blank" rel="noreferrer">
+        Repo:
+        <a href="https://github.com/your-org-or-user/seastar" target="_blank" rel="noreferrer">
           github.com/your-org-or-user/seastar
         </a>
       </p>
@@ -225,7 +276,7 @@
     <section id="vlogs" class="box span6" aria-label="Vlogs">
       <h2>Vlogs</h2>
       <p class="muted">Build logs + test days (links):</p>
-      <ul style="margin:8px 0 0 18px; color:var(--muted); font-size:13px">
+      <ul style="margin:8px 0 0 18px;color:var(--muted);font-size:13px">
         <li><a href="#">Build Log #1</a></li>
         <li><a href="#">Pool Test</a></li>
         <li><a href="#">Final Demo</a></li>
@@ -234,13 +285,10 @@
 
     <section id="about" class="box span12" aria-label="About us">
       <h2>About us</h2>
-      <p class="muted">
-        SeaStar is a student-built ROV for algae sampling + dissolved oxygen measurement.
-        (Add team names + roles here.)
-      </p>
+      <p class="muted">SeaStar is a student-built ROV for algae sampling + dissolved oxygen measurement. Add team names + roles here.</p>
     </section>
-
   </div>
+
 </main>
 </body>
 </html>
