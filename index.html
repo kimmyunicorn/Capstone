@@ -1,241 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SeaStar ROV</title>
-
-<style>
-:root{
-  --bg:#b9dcf2; /* baby blue */
-  --top:#2f74c0; --top2:#1f5fa8;
-  --panel:#ffffff;
-  --border:#7aaed6;
-  --text:#0b2a3d; --muted:#3f6f93;
-  --kelp1:#2fbf6b; --kelp2:#1f8e4d; --kelp3:#146c3a; 
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Verdana,Segoe UI,sans-serif;color:var(--text);background:var(--bg)}
-a{color:#0b4f8a;text-decoration:none} a:hover{text-decoration:underline}
-
-/* top bar */
-header{position:sticky;top:0;z-index:50;background:linear-gradient(to bottom,var(--top),var(--top2));border-bottom:2px solid #174b86}
-.top{max-width:1100px;margin:auto;padding:10px 12px;display:flex;align-items:center;gap:10px}
-.brand{color:#fff;font-weight:700}
-nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-nav a{color:#fff;padding:6px 10px;border-radius:6px;border:1px solid transparent;font-size:13px}
-nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
-
-/* layout */
-.wrap{max-width:1100px;margin:auto;padding:16px 12px 60px;position:relative}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-.box{
-  background:var(--panel);
-  border:2px solid var(--border);
-  border-radius:10px;
-  padding:10px;
-  min-height:170px;
-}
-.box h2{margin:0 0 8px;font-size:16px;color:#0b3e6b;border-bottom:1px solid #d6e7f6;padding-bottom:4px}
-.muted{color:var(--muted);font-size:13px;margin:0}
-.span4{grid-column:span 4}
-.span6{grid-column:span 6}
-.span12{grid-column:span 12}
-
-/* make the middle placeholders actual “buttons” */
-.bigbtn{
-  width:100%;
-  min-height:110px;
-  border:2px dashed #9cc7eb;
-  border-radius:10px;
-  background:rgba(217,238,251,.6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:#355f7f;
-  cursor:pointer;
-}
-.bigbtn:hover{filter:brightness(1.02)}
-.bigbtn:active{transform:translateY(1px)}
-.controller{display:flex;align-items:center;justify-content:center;min-height:110px}
-.controller svg{max-width:160px;width:70%}
-
-/* ===== Decor layer (kept OUTSIDE content + behind it) ===== */
-.decor{
-  position:absolute; inset:0;
-  pointer-events:none; /* never block clicks */
-  z-index:0;           /* behind the content */
-}
-.content{position:relative; z-index:1}
-
-/* bubbles + fish: keep near sides so they never sit on top of boxes */
-.bubbles{position:absolute; left:-30px; top:120px; opacity:.55}
-.fish{position:absolute; right:-25px; top:470px; opacity:.55}
-
-@media (max-width:900px){
-  .span4,.span6,.span12{grid-column:span 12}
-  .decor{display:none} /* keep it clean on phones */
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SeasBar - Dashboard</title>
+  <style>
+    :root{
+      --bg: #e9f2fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #5b6b8a;
+      --blue: #1e88e5;
+      --green: #43a047;
+      --radius: 12px;
+      --shadow: 0 6px 16px rgba(0,0,0,.08);
+    }
+    *{box-sizing: border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter, system-ui, -apple-system, Arial, sans-serif; height:100%}
+    header{background: #0b4d8a; color:white; padding:14px 20px; display:flex; align-items:center; justify-content:space-between}
+    header .brand{font-weight:700; letter-spacing:.5px}
+    nav a{color:white; text-decoration:none; margin:0 8px; font-size:14px}
+    main{padding:24px; max-width:1200px; margin:0 auto}
+    .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px}
+    @media (max-width: 900px){
+      .grid{grid-template-columns:repeat(2, 1fr)}
+    }
+    @media (max-width: 600px){
+      .grid{grid-template-columns: 1fr}
+      header{flex-wrap:wrap; gap:8px}
+    }
+    .card{background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,.05)}
+    .card h3{margin:0 0 8px; font-size:14px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px}
+    .card .content{font-size:14px; color:#374151; min-height:48px}
+    .cta{ display:inline-block; margin-top:8px; padding:8px 12px; border-radius:8px; background:var(--blue); color:white; text-decoration:none; font-weight:600; font-size:13px}
+    .footer{ text-align:center; padding:20px; color:var(--muted); font-size:12px; }
+  </style>
 </head>
-
 <body>
-<header>
-  <div class="top">
-    <div class="brand">SeaStar</div>
-    <nav>
-      <a href="#github">GitHub</a>
-      <a href="#vlogs">Vlogs</a>
-      <a href="#about">About us</a>
+  <header>
+    <div class="brand">SeasBar</div>
+    <nav aria-label="Main">
+      <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+      <a href="#" class="nav-link" data-page="vlogs">Vlogs</a>
+      <a href="#" class="nav-link" data-page="compare">Compare</a>
+      <a href="#" class="nav-link" data-page="settings">Settings</a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main class="wrap">
+  <main id="app">
+    <!-- Dashboard grid -->
+    <section id="dashboard" class="grid" aria-label="Dashboard tiles">
+      <article class="card" data-page="vlogs">
+        <h3>Vlogs</h3>
+        <div class="content">Overview of latest uploads and stats.</div>
+        <a href="#" class="cta" data-page="vlogs">Open</a>
+      </article>
 
-  <!-- DECOR (behind everything, pushed to the sides) -->
-  <div class="decor" aria-hidden="true">
+      <article class="card" data-page="uploads">
+        <h3>Uploads</h3>
+        <div class="content">Recent uploads, status, and timelines.</div>
+        <a href="#" class="cta" data-page="uploads">Open</a>
+      </article>
 
-    <!-- More “real” kelp: layered strokes + little leaves -->
-    <svg class="kelp left" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="k" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="k2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
+      <article class="card" data-page="analytics">
+        <h3>Analytics</h3>
+        <div class="content">Viewer stats, engagement metrics, trends.</div>
+        <a href="#" class="cta" data-page="analytics">Open</a>
+      </article>
 
-      <!-- main fronds -->
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#k)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#k2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+      <article class="card" data-page="settings">
+        <h3>Settings</h3>
+        <div class="content">Configure preferences and integrations.</div>
+        <a href="#" class="cta" data-page="settings">Open</a>
+      </article>
 
-      <!-- leaf blobs -->
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
+      <article class="card" data-page="receipts">
+        <h3>Receipts</h3>
+        <div class="content">Billing, invoices, and payments.</div>
+        <a href="#" class="cta" data-page="receipts">Open</a>
+      </article>
 
-    <svg class="kelp right" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="kr" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="kr2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
+      <article class="card" data-page="about">
+        <h3>About</h3>
+        <div class="content">Project overview and team notes.</div>
+        <a href="#" class="cta" data-page="about">Open</a>
+      </article>
+    </section>
 
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#kr)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#kr2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+    <!-- Placeholder for other pages -->
+    <section id="page-content" style="display:none;">
+      <!-- content will be swapped by script -->
+    </section>
+  </main>
 
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
+  <footer class="footer">© 2026 SeasBar. All rights reserved.</footer>
 
-    <!-- bubbles: parked near far-left so they don't overlap boxes -->
-    <svg class="bubbles" width="120" height="200" viewBox="0 0 120 200">
-      <g fill="none" stroke="#7aaed6" stroke-width="2">
-        <circle cx="30" cy="170" r="8"/>
-        <circle cx="55" cy="145" r="5"/>
-        <circle cx="35" cy="120" r="10"/>
-        <circle cx="62" cy="92"  r="6"/>
-        <circle cx="44" cy="60"  r="4"/>
-        <circle cx="70" cy="35"  r="7"/>
-      </g>
-    </svg>
+  <script>
+    // Simple client-side navigation: swap content for demonstration
+    const app = document.getElementById('app');
+    const pageContent = document.getElementById('page-content');
 
-    <!-- fish: parked near far-right -->
-    <svg class="fish" width="130" height="70" viewBox="0 0 130 70">
-      <path d="M20 35 C38 15, 70 15, 88 35 C70 55, 38 55, 20 35 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <path d="M88 35 L110 20 L110 50 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <circle cx="40" cy="31" r="3" fill="#0b2a3d"/>
-    </svg>
+    function loadPage(name){
+      // Very basic stub content; replace with real content as you build pages
+      pageContent.style.display = 'block';
+      pageContent.innerHTML = '<div class="card" style="margin:16px"><h3>'+name.charAt(0).toUpperCase()+name.slice(1)+'</h3><div class="content" style="min-height:120px">Content for '+name+' goes here. Replace with real components.</div></div>';
+      // hide dashboard for this demo
+      document.getElementById('dashboard').style.display = 'none';
+    }
 
-  </div>
+    // attach event to nav and tiles
+    document.querySelectorAll('[data-page]').forEach(el=>{
+      el.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const page = el.getAttribute('data-page');
+        loadPage(page);
+      });
+    });
 
-  <!-- CONTENT -->
-  <div class="content">
-    <div class="grid">
-
-      <!-- Row 1 -->
-      <section class="box span4">
-        <h2>Camera Feed</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: paste your video embed code here')">
-          Underwater video (embed here)
-        </button>
-        <p class="muted" style="margin-top:8px">camera feed</p>
-      </section>
-
-      <section class="box span4">
-        <h2>Design Implementation</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: link your CAD + wiring + notes here')">
-          CAD / wiring / progress notes
-        </button>
-        <p class="muted" style="margin-top:8px">yas</p>
-      </section>
-
-      <section class="box span4">
-        <h2>Controller</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: joystick / web controls here')">
-          <div class="controller" aria-hidden="true">
-            <svg viewBox="0 0 200 120">
-              <path d="M50 90 C30 90, 20 75, 25 55 C30 35, 55 30, 75 45
-                       L125 45 C145 30, 170 35, 175 55 C180 75, 170 90, 150 90
-                       C135 90, 125 80, 120 70 L80 70 C75 80, 65 90, 50 90 Z"
-                    fill="#e6f2ff" stroke="#174b86" stroke-width="4" />
-              <rect x="55" y="58" width="28" height="8" rx="3" fill="#174b86"/>
-              <rect x="65" y="48" width="8" height="28" rx="3" fill="#174b86"/>
-              <circle cx="145" cy="58" r="7" fill="#2f74c0"/>
-              <circle cx="160" cy="70" r="7" fill="#2f74c0"/>
-            </svg>
-          </div>
-        </button>
-        <p class="muted" style="margin-top:8px">ui</p>
-      </section>
-
-      <!-- Row 2 -->
-      <section class="box span6">
-        <h2>Results</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: show plots / tables here')">
-          DO readings, plots, success rate, tables
-        </button>
-        <p class="muted" style="margin-top:8px">hi</p>
-      </section>
-
-      <section class="box span6">
-        <h2>Results (What professionals said)</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: add quotes + who/when here')">
-          Quotes / feedback / review notes
-        </button>
-        <p class="muted" style="margin-top:8px">Short quotes + who/when.</p>
-      </section>
-
-    </div>
-  </div>
-</main>
-
+    // simple "back to dashboard" utility when page-content is visible
+    pageContent.addEventListener('click', (e)=>{
+      if(e.target.matches('.back')){
+        pageContent.style.display = 'none';
+        document.getElementById('dashboard').style.display = 'grid';
+      }
+    });
+  </script>
 </body>
 </html>
