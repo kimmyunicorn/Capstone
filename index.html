@@ -101,14 +101,13 @@
     const pageContent = document.getElementById('page-content');
 
     function loadPage(name){
-      // Very basic stub content; replace with real content as you build pages
+    
       pageContent.style.display = 'block';
       pageContent.innerHTML = '<div class="card" style="margin:16px"><h3>'+name.charAt(0).toUpperCase()+name.slice(1)+'</h3><div class="content" style="min-height:120px">Content for '+name+' goes here. Replace with real components.</div></div>';
-      // hide dashboard for this demo
+
       document.getElementById('dashboard').style.display = 'none';
     }
 
-    // attach event to nav and tiles
     document.querySelectorAll('[data-page]').forEach(el=>{
       el.addEventListener('click', (e)=>{
         e.preventDefault();
@@ -117,7 +116,7 @@
       });
     });
 
-    // simple "back to dashboard" utility when page-content is visible
+
     pageContent.addEventListener('click', (e)=>{
       if(e.target.matches('.back')){
         pageContent.style.display = 'none';
