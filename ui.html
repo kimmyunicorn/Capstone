@@ -1,1 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — Control Interface</title>
 
+  <style>
+    :root{
+      --bg0:#05070b;
+      --bg1:#070b12;
+      --panel:#0c111a;
+      --stroke:rgba(255,255,255,.08);
+      --stroke2:rgba(255,255,255,.12);
+      --text:#e8eef7;
+      --muted:rgba(232,238,247,.62);
+
+      --teal:#19d3e6;
+      --green:#1ee38a;
+      --blue:#2aa7ff;
+      --amber:#ffcc39;
+      --purple:#b077ff;
+      --red:#ff4d5f;
+
+      --r:16px;
+      --shadow: 0 12px 40px rgba(0,0,0,.55);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(25,211,230,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(42,167,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    .wrap{max-width:1320px; margin:0 auto; padding:18px 18px 28px;}
+    .topbar{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+      padding:6px 2px 16px;
+      border-bottom:1px solid var(--stroke);
+    }
+    .brand{display:flex; align-items:flex-start; gap:12px;}
+    .logo{
+      width:28px; height:28px; margin-top:2px;
+      filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
+    }
+    .titleblock h1{margin:0; font-size:22px; letter-spacing:.2px; font-weight:750;}
+    .titleblock p{margin:4px 0 0; color:var(--muted); font-size:13px;}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.22) inset;
+      user-select:none;
+      white-space:nowrap;
+      cursor:default;
+    }
+    .wifi{
+      width:18px; height:18px;
+      color:rgba(232,238,247,.65);
+    }
+    .pill span{font-weight:650; color:rgba(232,238,247,.75)}
+
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:18px;
+      align-items:start;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+
+    /* VIDEO PANEL */
+    .video{
+      position:relative;
+      overflow:hidden;
+      min-height:560px;
+      border-radius:18px;
+    }
+    .video::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 500px at 20% 0%, rgba(42,167,255,.12), transparent 60%),
+        radial-gradient(800px 520px at 80% 0%, rgba(25,211,230,.10), transparent 55%),
+        linear-gradient(180deg, rgba(8,12,20,.92), rgba(7,10,16,.96));
+    }
+    .video-inner{position:relative; padding:16px; height:100%;}
+    .video-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+    .live{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,.25);
+      font-size:13px;
+      color:rgba(232,238,247,.88);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 14px rgba(255,77,95,.35);
+    }
+    .cam-pill{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,.32);
+      font-weight:650;
+      font-size:12px;
+      color:rgba(232,238,247,.85);
+    }
+
+    .video-frame{
+      margin-top:10px;
+      height:440px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(800px 520px at 40% 30%, rgba(255,255,255,.06), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.30));
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .video-frame::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(700px 380px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
+      pointer-events:none;
+    }
+    .cam-icon{width:64px; height:64px; opacity:.25;}
+
+    .telemetry-strip{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:10px 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:rgba(232,238,247,.70);
+      font-size:13px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
+    }
+
+    /* RIGHT STATS */
+    .stack{display:flex; flex-direction:column; gap:14px;}
+    .card{
+      padding:16px 16px 14px;
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+    }
+    .card .label{
+      display:flex; align-items:center; gap:10px;
+      color:rgba(232,238,247,.55);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+    .metric{display:flex; align-items:baseline; gap:8px;}
+    .metric .value{font-size:40px; font-weight:800; letter-spacing:.2px; line-height:1;}
+    .metric .unit{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-bottom:6px;}
+
+    .ico{width:18px;height:18px; opacity:.9}
+    .blue{color:var(--blue)}
+    .amber{color:var(--amber)}
+    .purple{color:var(--purple)}
+    .green{color:var(--green)}
+
+    /* BOTTOM POWER */
+    .bottom{margin-top:18px; padding:18px; border-radius:18px;}
+    .bottom h2{
+      margin:0 0 14px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(232,238,247,.55);
+      font-weight:750;
+    }
+    .power-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px;}
+    .mini{
+      padding:14px 14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
+    }
+    .mini .k{
+      color:rgba(232,238,247,.55);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      margin-bottom:8px;
+    }
+    .mini .v{font-size:40px; font-weight:850; line-height:1;}
+    .mini .u{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-left:6px;}
+
+    .tealText{color:var(--teal)}
+    .amberText{color:var(--amber)}
+
+    /* responsive */
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M6 34h10l6-18 10 34 10-28 6 12h10"
+                stroke="var(--teal)" stroke-width="5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="titleblock">
+          <h1>ROV Control Interface</h1>
+          <p>Deep Sea Explorer Unit 01</p>
+        </div>
+      </div>
+
+      <div class="pill" id="connPill">
+        <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
+        </svg>
+        <span id="connText">Connecting…</span>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid">
+      <!-- VIDEO -->
+      <section class="panel video">
+        <div class="video-inner">
+          <div class="video-top">
+            <div class="live"><span class="dot"></span>LIVE</div>
+            <div class="cam-pill">CAM–1</div>
+          </div>
+
+          <div class="video-frame" id="videoFrame">
+            <svg class="cam-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h8A2.5 2.5 0 0 1 16 7.5v9A2.5 2.5 0 0 1 13.5 19h-8A2.5 2.5 0 0 1 3 16.5v-9Z" stroke="rgba(232,238,247,.55)" stroke-width="2"/>
+              <path d="M16 10l5-3v10l-5-3v-4Z" fill="rgba(232,238,247,.28)"/>
+            </svg>
+
+            <div class="telemetry-strip">
+              <div>Depth: <span id="depthSmall">—</span>m</div>
+              <div>Heading: <span id="headingSmall">—</span>°</div>
+              <div>Temp: <span id="tempSmall">—</span>°C</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT STATS -->
+      <aside class="stack">
+        <div class="card">
+          <div class="label">
+            <svg class="ico blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z" stroke="currentColor" stroke-width="2" />
+            </svg>
+            DEPTH
+          </div>
+          <div class="metric">
+            <div class="value" id="depthBig">—</div>
+            <div class="unit">m</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico amber" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10 14a4 4 0 1 0 8 0V6a2 2 0 1 0-4 0v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 14V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            TEMPERATURE
+          </div>
+          <div class="metric">
+            <div class="value" id="tempBig">—</div>
+            <div class="unit">°C</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico purple" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 14a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 14l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="14" r="1.2" fill="currentColor"/>
+            </svg>
+            PRESSURE
+          </div>
+          <div class="metric">
+            <div class="value" id="pressBig">—</div>
+            <div class="unit">bar</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a10 10 0 1 0 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12l5-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+            </svg>
+            HEADING
+          </div>
+          <div class="metric">
+            <div class="value" id="headingBig">—</div>
+            <div class="unit">°</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- BOTTOM POWER -->
+    <section class="panel bottom">
+      <h2>Power Monitoring</h2>
+      <div class="power-grid">
+        <div class="mini">
+          <div class="k">Voltage</div>
+          <div><span class="v tealText" id="voltBig">—</span><span class="u">V</span></div>
+        </div>
+        <div class="mini">
+          <div class="k">Current</div>
+          <div><span class="v amberText" id="currBig">—</span><span class="u">A</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ROS via Web Browser (rosbridge + roslibjs). Requires: ws://localhost:9090 -->
+  <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+  <script>
+    // 1) Connect to rosbridge websocket
+    const ros = new ROSLIB.Ros({
+      url: "ws://localhost:9090"
+    });
+
+    const connText = document.getElementById("connText");
+    const connPill = document.getElementById("connPill");
+
+    function setConnectedUI(ok){
+      if (ok){
+        connPill.style.borderColor = "rgba(30,227,138,.22)";
+        connPill.style.background  = "rgba(30,227,138,.08)";
+        connText.textContent = "Connected";
+        connText.style.color = "rgba(30,227,138,.92)";
+      } else {
+        connPill.style.borderColor = "rgba(255,77,95,.22)";
+        connPill.style.background  = "rgba(255,77,95,.08)";
+        connText.textContent = "Disconnected";
+        connText.style.color = "rgba(255,77,95,.92)";
+      }
+    }
+
+    ros.on("connection", () => setConnectedUI(true));
+    ros.on("close", () => setConnectedUI(false));
+    ros.on("error", () => setConnectedUI(false));
+
+    // helper: safely update text
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    // 2) Subscribe to ROS topics (edit names/types to match your ROS nodes)
+    // Depth (meters)
+    const depthSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/depth",
+      messageType: "std_msgs/Float32"
+    });
+    depthSub.subscribe(msg => {
+      const d = msg.data;
+      setText("depthBig", d.toFixed(1));
+      setText("depthSmall", d.toFixed(1));
+    });
+
+    // Temperature (°C)
+    const tempSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/temp",
+      messageType: "std_msgs/Float32"
+    });
+    tempSub.subscribe(msg => {
+      const t = msg.data;
+      setText("tempBig", t.toFixed(1));
+      setText("tempSmall", t.toFixed(1));
+    });
+
+    // Pressure (bar)
+    const pressSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/pressure",
+      messageType: "std_msgs/Float32"
+    });
+    pressSub.subscribe(msg => {
+      setText("pressBig", msg.data.toFixed(2));
+    });
+
+    // Heading (degrees)
+    const headSub = new ROSLIB.Topic({
+      ros,
+      name: "/nav/heading",
+      messageType: "std_msgs/Float32"
+    });
+    headSub.subscribe(msg => {
+      const h = msg.data;
+      setText("headingBig", Math.round(h).toString());
+      setText("headingSmall", Math.round(h).toString());
+    });
+
+    // Voltage (V)
+    const voltSub = new ROSLIB.Topic({
+      ros,
+      name: "/power/voltage",
+      messageType: "std_msgs/Float32"
+    });
+    voltSub.subscribe(msg => {
+      setText("voltBig", msg.data.toFixed(1));
+    });
+
+    // Current (A)
+    const currSub = new ROSLIB.Topic({
+      ros,
+      name: "/power/current",
+      messageType: "std_msgs/Float32"
+    });
+    currSub.subscribe(msg => {
+      setText("currBig", msg.data.toFixed(1));
+    });
+
+    // Optional: status text from your controller node
+    // (You can add a <div id="statusText"> somewhere in HTML if you want)
+    /*
+    const statusSub = new ROSLIB.Topic({
+      ros,
+      name: "/ui/status",
+      messageType: "std_msgs/String"
+    });
+    statusSub.subscribe(msg => setText("statusText", msg.data));
+    */
+  </script>
+</body>
+</html>
