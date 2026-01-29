@@ -1,241 +1,468 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SeaStar ROV</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — Control Interface</title>
 
-<style>
-:root{
-  --bg:#b9dcf2; /* baby blue */
-  --top:#2f74c0; --top2:#1f5fa8;
-  --panel:#ffffff;
-  --border:#7aaed6;
-  --text:#0b2a3d; --muted:#3f6f93;
-  --kelp1:#2fbf6b; --kelp2:#1f8e4d; --kelp3:#146c3a; 
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Verdana,Segoe UI,sans-serif;color:var(--text);background:var(--bg)}
-a{color:#0b4f8a;text-decoration:none} a:hover{text-decoration:underline}
+  <style>
+    :root{
+      --bg0:#05070b;
+      --bg1:#070b12;
+      --panel:#0c111a;
+      --stroke:rgba(255,255,255,.08);
+      --stroke2:rgba(255,255,255,.12);
+      --text:#e8eef7;
+      --muted:rgba(232,238,247,.62);
 
-/* top bar */
-header{position:sticky;top:0;z-index:50;background:linear-gradient(to bottom,var(--top),var(--top2));border-bottom:2px solid #174b86}
-.top{max-width:1100px;margin:auto;padding:10px 12px;display:flex;align-items:center;gap:10px}
-.brand{color:#fff;font-weight:700}
-nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-nav a{color:#fff;padding:6px 10px;border-radius:6px;border:1px solid transparent;font-size:13px}
-nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
+      --teal:#19d3e6;
+      --green:#1ee38a;
+      --blue:#2aa7ff;
+      --amber:#ffcc39;
+      --purple:#b077ff;
+      --red:#ff4d5f;
 
-/* layout */
-.wrap{max-width:1100px;margin:auto;padding:16px 12px 60px;position:relative}
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-.box{
-  background:var(--panel);
-  border:2px solid var(--border);
-  border-radius:10px;
-  padding:10px;
-  min-height:170px;
-}
-.box h2{margin:0 0 8px;font-size:16px;color:#0b3e6b;border-bottom:1px solid #d6e7f6;padding-bottom:4px}
-.muted{color:var(--muted);font-size:13px;margin:0}
-.span4{grid-column:span 4}
-.span6{grid-column:span 6}
-.span12{grid-column:span 12}
+      --r:16px;
+      --shadow: 0 12px 40px rgba(0,0,0,.55);
+    }
 
-/* make the middle placeholders actual “buttons” */
-.bigbtn{
-  width:100%;
-  min-height:110px;
-  border:2px dashed #9cc7eb;
-  border-radius:10px;
-  background:rgba(217,238,251,.6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:#355f7f;
-  cursor:pointer;
-}
-.bigbtn:hover{filter:brightness(1.02)}
-.bigbtn:active{transform:translateY(1px)}
-.controller{display:flex;align-items:center;justify-content:center;min-height:110px}
-.controller svg{max-width:160px;width:70%}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(25,211,230,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(42,167,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
 
-/* ===== Decor layer (kept OUTSIDE content + behind it) ===== */
-.decor{
-  position:absolute; inset:0;
-  pointer-events:none; /* never block clicks */
-  z-index:0;           /* behind the content */
-}
-.content{position:relative; z-index:1}
+    .wrap{max-width:1320px; margin:0 auto; padding:18px 18px 28px;}
+    .topbar{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+      padding:6px 2px 16px;
+      border-bottom:1px solid var(--stroke);
+    }
+    .brand{display:flex; align-items:flex-start; gap:12px;}
+    .logo{
+      width:28px; height:28px; margin-top:2px;
+      filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
+    }
+    .titleblock h1{margin:0; font-size:22px; letter-spacing:.2px; font-weight:750;}
+    .titleblock p{margin:4px 0 0; color:var(--muted); font-size:13px;}
 
-/* bubbles & fish */
-.bubbles{position:absolute; left:-30px; top:120px; opacity:.55}
-.fish{position:absolute; right:-25px; top:470px; opacity:.55}
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.22) inset;
+      user-select:none;
+      white-space:nowrap;
+      cursor:default;
+    }
+    .wifi{
+      width:18px; height:18px;
+      color:rgba(232,238,247,.65);
+    }
+    .pill span{font-weight:650; color:rgba(232,238,247,.75)}
 
-@media (max-width:900px){
-  .span4,.span6,.span12{grid-column:span 12}
-  .decor{display:none} /* keep it clean on phones */
-}
-</style>
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:18px;
+      align-items:start;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+    }
+
+    /* VIDEO PANEL */
+    .video{
+      position:relative;
+      overflow:hidden;
+      min-height:560px;
+      border-radius:18px;
+    }
+    .video::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 500px at 20% 0%, rgba(42,167,255,.12), transparent 60%),
+        radial-gradient(800px 520px at 80% 0%, rgba(25,211,230,.10), transparent 55%),
+        linear-gradient(180deg, rgba(8,12,20,.92), rgba(7,10,16,.96));
+    }
+    .video-inner{position:relative; padding:16px; height:100%;}
+    .video-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+    .live{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,.25);
+      font-size:13px;
+      color:rgba(232,238,247,.88);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 14px rgba(255,77,95,.35);
+    }
+    .cam-pill{
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid var(--stroke2);
+      background:rgba(0,0,0,.32);
+      font-weight:650;
+      font-size:12px;
+      color:rgba(232,238,247,.85);
+    }
+
+    .video-frame{
+      margin-top:10px;
+      height:440px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(800px 520px at 40% 30%, rgba(255,255,255,.06), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.30));
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .video-frame::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(700px 380px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
+      pointer-events:none;
+    }
+    .cam-icon{width:64px; height:64px; opacity:.25;}
+
+    .telemetry-strip{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      padding:10px 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:rgba(232,238,247,.70);
+      font-size:13px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
+    }
+
+    /* RIGHT STATS */
+    .stack{display:flex; flex-direction:column; gap:14px;}
+    .card{
+      padding:16px 16px 14px;
+      border-radius:18px;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+    }
+    .card .label{
+      display:flex; align-items:center; gap:10px;
+      color:rgba(232,238,247,.55);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+    .metric{display:flex; align-items:baseline; gap:8px;}
+    .metric .value{font-size:40px; font-weight:800; letter-spacing:.2px; line-height:1;}
+    .metric .unit{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-bottom:6px;}
+
+    .ico{width:18px;height:18px; opacity:.9}
+    .blue{color:var(--blue)}
+    .amber{color:var(--amber)}
+    .purple{color:var(--purple)}
+    .green{color:var(--green)}
+
+    /* BOTTOM POWER */
+    .bottom{margin-top:18px; padding:18px; border-radius:18px;}
+    .bottom h2{
+      margin:0 0 14px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(232,238,247,.55);
+      font-weight:750;
+    }
+    .power-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px;}
+    .mini{
+      padding:14px 14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
+    }
+    .mini .k{
+      color:rgba(232,238,247,.55);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      margin-bottom:8px;
+    }
+    .mini .v{font-size:40px; font-weight:850; line-height:1;}
+    .mini .u{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-left:6px;}
+
+    .tealText{color:var(--teal)}
+    .amberText{color:var(--amber)}
+
+    /* responsive */
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
-<header>
-  <div class="top">
-    <div class="brand">SeaStar</div>
-    <nav>
-      <a href="#github">GitHub</a>
-      <a href="#vlogs">Vlogs</a>
-      <a href="#about">About us</a>
-    </nav>
-  </div>
-</header>
+  <div class="wrap">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M6 34h10l6-18 10 34 10-28 6 12h10"
+                stroke="var(--teal)" stroke-width="5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="titleblock">
+          <h1>ROV Control Interface</h1>
+          <p>Deep Sea Explorer Unit 01</p>
+        </div>
+      </div>
 
-<main class="wrap">
-
-  <!-- DECOR (behind everything, pushed to the sides) -->
-  <div class="decor" aria-hidden="true">
-
-    <!--Kelp but in reality its just a green wavy stick ughhhh -->
-    <svg class="kelp left" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="k" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="k2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
-
-      <!-- main fronds -->
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#k)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#k2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
-
-      <!-- leaf blobs -->
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
-
-    <svg class="kelp right" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="kr" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="kr2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
-
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#kr)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#kr2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
-
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
-
-    <!-- bubbles: parked near far-left so they don't overlap boxes -->
-    <svg class="bubbles" width="120" height="200" viewBox="0 0 120 200">
-      <g fill="none" stroke="#7aaed6" stroke-width="2">
-        <circle cx="30" cy="170" r="8"/>
-        <circle cx="55" cy="145" r="5"/>
-        <circle cx="35" cy="120" r="10"/>
-        <circle cx="62" cy="92"  r="6"/>
-        <circle cx="44" cy="60"  r="4"/>
-        <circle cx="70" cy="35"  r="7"/>
-      </g>
-    </svg>
-
-    <!-- fishy -->
-    <svg class="fish" width="130" height="70" viewBox="0 0 130 70">
-      <path d="M20 35 C38 15, 70 15, 88 35 C70 55, 38 55, 20 35 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <path d="M88 35 L110 20 L110 50 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <circle cx="40" cy="31" r="3" fill="#0b2a3d"/>
-    </svg>
-
-  </div>
-
-  <!-- CONTENT -->
-  <div class="content">
-    <div class="grid">
-
-      <!-- Row 1 -->
-      <section class="box span4">
-        <h2>Camera Feed</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: paste your video embed code here')">
-          Underwater video (embed here)
-        </button>
-        <p class="muted" style="margin-top:8px">camera feed</p>
-      </section>
-
-      <section class="box span4">
-        <h2>Design Implementation</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: link your CAD + wiring + notes here')">
-          CAD / wiring / progress notes
-        </button>
-        <p class="muted" style="margin-top:8px">yas</p>
-      </section>
-
-      <section class="box span4">
-        <h2>Controller</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: joystick / web controls here')">
-          <div class="controller" aria-hidden="true">
-            <svg viewBox="0 0 200 120">
-              <path d="M50 90 C30 90, 20 75, 25 55 C30 35, 55 30, 75 45
-                       L125 45 C145 30, 170 35, 175 55 C180 75, 170 90, 150 90
-                       C135 90, 125 80, 120 70 L80 70 C75 80, 65 90, 50 90 Z"
-                    fill="#e6f2ff" stroke="#174b86" stroke-width="4" />
-              <rect x="55" y="58" width="28" height="8" rx="3" fill="#174b86"/>
-              <rect x="65" y="48" width="8" height="28" rx="3" fill="#174b86"/>
-              <circle cx="145" cy="58" r="7" fill="#2f74c0"/>
-              <circle cx="160" cy="70" r="7" fill="#2f74c0"/>
-            </svg>
-          </div>
-        </button>
-        <p class="muted" style="margin-top:8px">ui</p>
-      </section>
-
-      <!-- Row 2 -->
-      <section class="box span6">
-        <h2>Results</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: show plots / tables here')">
-          DO readings, plots, success rate, tables
-        </button>
-        <p class="muted" style="margin-top:8px">hi</p>
-      </section>
-
-      <section class="box span6">
-        <h2>Results (What professionals said)</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: add quotes + who/when here')">
-          Quotes / feedback / review notes
-        </button>
-        <p class="muted" style="margin-top:8px">Short quotes + who/when.</p>
-      </section>
-
+      <div class="pill" id="connPill">
+        <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
+        </svg>
+        <span id="connText">Connecting…</span>
+      </div>
     </div>
-  </div>
-</main>
 
+    <!-- MAIN GRID -->
+    <div class="grid">
+      <!-- VIDEO -->
+      <section class="panel video">
+        <div class="video-inner">
+          <div class="video-top">
+            <div class="live"><span class="dot"></span>LIVE</div>
+            <div class="cam-pill">CAM–1</div>
+          </div>
+
+          <div class="video-frame" id="videoFrame">
+            <svg class="cam-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h8A2.5 2.5 0 0 1 16 7.5v9A2.5 2.5 0 0 1 13.5 19h-8A2.5 2.5 0 0 1 3 16.5v-9Z" stroke="rgba(232,238,247,.55)" stroke-width="2"/>
+              <path d="M16 10l5-3v10l-5-3v-4Z" fill="rgba(232,238,247,.28)"/>
+            </svg>
+
+            <div class="telemetry-strip">
+              <div>Depth: <span id="depthSmall">—</span>m</div>
+              <div>Heading: <span id="headingSmall">—</span>°</div>
+              <div>Temp: <span id="tempSmall">—</span>°C</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT STATS -->
+      <aside class="stack">
+        <div class="card">
+          <div class="label">
+            <svg class="ico blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z" stroke="currentColor" stroke-width="2" />
+            </svg>
+            DEPTH
+          </div>
+          <div class="metric">
+            <div class="value" id="depthBig">—</div>
+            <div class="unit">m</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico amber" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M10 14a4 4 0 1 0 8 0V6a2 2 0 1 0-4 0v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 14V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            TEMPERATURE
+          </div>
+          <div class="metric">
+            <div class="value" id="tempBig">—</div>
+            <div class="unit">°C</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico purple" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 14a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 14l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="14" r="1.2" fill="currentColor"/>
+            </svg>
+            PRESSURE
+          </div>
+          <div class="metric">
+            <div class="value" id="pressBig">—</div>
+            <div class="unit">bar</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="label">
+            <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 2a10 10 0 1 0 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12l5-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+            </svg>
+            HEADING
+          </div>
+          <div class="metric">
+            <div class="value" id="headingBig">—</div>
+            <div class="unit">°</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- BOTTOM POWER -->
+    <section class="panel bottom">
+      <h2>Power Monitoring</h2>
+      <div class="power-grid">
+        <div class="mini">
+          <div class="k">Voltage</div>
+          <div><span class="v tealText" id="voltBig">—</span><span class="u">V</span></div>
+        </div>
+        <div class="mini">
+          <div class="k">Current</div>
+          <div><span class="v amberText" id="currBig">—</span><span class="u">A</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ROS via Web Browser (rosbridge + roslibjs). Requires: ws://localhost:9090 -->
+  <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+  <script>
+    // 1) Connect to rosbridge websocket
+    const ros = new ROSLIB.Ros({
+      url: "ws://localhost:9090"
+    });
+
+    const connText = document.getElementById("connText");
+    const connPill = document.getElementById("connPill");
+
+    function setConnectedUI(ok){
+      if (ok){
+        connPill.style.borderColor = "rgba(30,227,138,.22)";
+        connPill.style.background  = "rgba(30,227,138,.08)";
+        connText.textContent = "Connected";
+        connText.style.color = "rgba(30,227,138,.92)";
+      } else {
+        connPill.style.borderColor = "rgba(255,77,95,.22)";
+        connPill.style.background  = "rgba(255,77,95,.08)";
+        connText.textContent = "Disconnected";
+        connText.style.color = "rgba(255,77,95,.92)";
+      }
+    }
+
+    ros.on("connection", () => setConnectedUI(true));
+    ros.on("close", () => setConnectedUI(false));
+    ros.on("error", () => setConnectedUI(false));
+
+    // helper: safely update text
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    // 2) Subscribe to ROS topics (edit names/types to match your ROS nodes)
+    // Depth (meters)
+    const depthSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/depth",
+      messageType: "std_msgs/Float32"
+    });
+    depthSub.subscribe(msg => {
+      const d = msg.data;
+      setText("depthBig", d.toFixed(1));
+      setText("depthSmall", d.toFixed(1));
+    });
+
+    // Temperature (°C)
+    const tempSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/temp",
+      messageType: "std_msgs/Float32"
+    });
+    tempSub.subscribe(msg => {
+      const t = msg.data;
+      setText("tempBig", t.toFixed(1));
+      setText("tempSmall", t.toFixed(1));
+    });
+
+    // Pressure (bar)
+    const pressSub = new ROSLIB.Topic({
+      ros,
+      name: "/sensors/pressure",
+      messageType: "std_msgs/Float32"
+    });
+    pressSub.subscribe(msg => {
+      setText("pressBig", msg.data.toFixed(2));
+    });
+
+    // Heading (degrees)
+    const headSub = new ROSLIB.Topic({
+      ros,
+      name: "/nav/heading",
+      messageType: "std_msgs/Float32"
+    });
+    headSub.subscribe(msg => {
+      const h = msg.data;
+      setText("headingBig", Math.round(h).toString());
+      setText("headingSmall", Math.round(h).toString());
+    });
+
+    // Voltage (V)
+    const voltSub = new ROSLIB.Topic({
+      ros,
+      name: "/power/voltage",
+      messageType: "std_msgs/Float32"
+    });
+    voltSub.subscribe(msg => {
+      setText("voltBig", msg.data.toFixed(1));
+    });
+
+    // Current (A)
+    const currSub = new ROSLIB.Topic({
+      ros,
+      name: "/power/current",
+      messageType: "std_msgs/Float32"
+    });
+    currSub.subscribe(msg => {
+      setText("currBig", msg.data.toFixed(1));
+    });
+
+    // Optional: status text from your controller node
+    // (You can add a <div id="statusText"> somewhere in HTML if you want)
+    /*
+    const statusSub = new ROSLIB.Topic({
+      ros,
+      name: "/ui/status",
+      messageType: "std_msgs/String"
+    });
+    statusSub.subscribe(msg => setText("statusText", msg.data));
+    */
+  </script>
 </body>
 </html>
