@@ -7,72 +7,173 @@
 
 <style>
 :root{
-  --bg:#b9dcf2; /* baby blue */
-  --top:#2f74c0; --top2:#1f5fa8;
+  /* base (engineering) */
+  --bg:#b9dcf2;                 /* baby blue */
+  --top:#2f74c0; --top2:#1f5fa8; /* xp-ish header */
   --panel:#ffffff;
   --border:#7aaed6;
   --text:#0b2a3d; --muted:#3f6f93;
-  --kelp1:#2fbf6b; --kelp2:#1f8e4d; --kelp3:#146c3a; 
+
+  /* accents (small pink, not overwhelming) */
+  --accent:#f0a6ca;             /* pink accent */
+  --accent2:#9C89B8;            /* soft purple (optional) */
+  --btn:#d9eefb;                /* button fill */
+  --btnBorder:#9cc7eb;
 }
+
 *{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Verdana,Segoe UI,sans-serif;color:var(--text);background:var(--bg)}
+body{
+  margin:0;
+  font-family:Tahoma,Verdana,Segoe UI,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 10% 15%, rgba(240,166,202,.25), transparent 55%), /* pink glow */
+    radial-gradient(900px 500px at 85% 30%, rgba(156,137,184,.18), transparent 55%), /* purple glow */
+    linear-gradient(180deg, var(--bg), #d6efff);
+}
 a{color:#0b4f8a;text-decoration:none} a:hover{text-decoration:underline}
 
 /* top bar */
-header{position:sticky;top:0;z-index:50;background:linear-gradient(to bottom,var(--top),var(--top2));border-bottom:2px solid #174b86}
-.top{max-width:1100px;margin:auto;padding:10px 12px;display:flex;align-items:center;gap:10px}
-.brand{color:#fff;font-weight:700}
+header{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(to bottom,var(--top),var(--top2));
+  border-bottom:2px solid #174b86;
+}
+.top{
+  max-width:1100px; margin:auto; padding:10px 12px;
+  display:flex; align-items:center; gap:10px;
+}
+.brand{
+  color:#fff; font-weight:800;
+  display:flex; align-items:center; gap:10px;
+}
+.brand-badge{
+  width:22px; height:22px; border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2));
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow: 0 0 0 2px rgba(240,166,202,.25);
+}
 nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-nav a{color:#fff;padding:6px 10px;border-radius:6px;border:1px solid transparent;font-size:13px}
+nav a{
+  color:#fff; padding:6px 10px; border-radius:6px;
+  border:1px solid transparent; font-size:13px;
+}
 nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
 
 /* layout */
 .wrap{max-width:1100px;margin:auto;padding:16px 12px 60px;position:relative}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+
 .box{
   background:var(--panel);
   border:2px solid var(--border);
   border-radius:10px;
   padding:10px;
   min-height:170px;
+  position:relative;
+  overflow:hidden;
 }
-.box h2{margin:0 0 8px;font-size:16px;color:#0b3e6b;border-bottom:1px solid #d6e7f6;padding-bottom:4px}
+
+/* subtle corner decoration (super easy instead of big SVG art) */
+.box::before{
+  content:"";
+  position:absolute; inset:-40px -40px auto auto;
+  width:140px; height:140px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, rgba(240,166,202,.35), transparent 65%);
+  pointer-events:none;
+}
+.box::after{
+  content:"";
+  position:absolute; left:-30px; bottom:-30px;
+  width:110px; height:110px;
+  border-radius:50%;
+  background: radial-gradient(circle at 40% 40%, rgba(25,120,200,.18), transparent 70%);
+  pointer-events:none;
+}
+
+.box h2{
+  margin:0 0 8px;
+  font-size:16px;
+  color:#0b3e6b;
+  border-bottom:1px solid #d6e7f6;
+  padding-bottom:4px;
+}
 .muted{color:var(--muted);font-size:13px;margin:0}
 .span4{grid-column:span 4}
 .span6{grid-column:span 6}
 .span12{grid-column:span 12}
 
-/* make the middle placeholders actual “buttons” */
+/* simple “big buttons” */
 .bigbtn{
   width:100%;
-  min-height:110px;
-  border:2px dashed #9cc7eb;
+  min-height:54px;            /* smaller so you can stack them */
+  border:2px solid var(--btnBorder);
   border-radius:10px;
-  background:rgba(217,238,251,.6);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;color:#355f7f;
+  background: var(--btn);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  font-size:13px;
+  color:#1c4f72;
   cursor:pointer;
 }
 .bigbtn:hover{filter:brightness(1.02)}
 .bigbtn:active{transform:translateY(1px)}
-.controller{display:flex;align-items:center;justify-content:center;min-height:110px}
-.controller svg{max-width:160px;width:70%}
-
-/* ===== Decor layer (kept OUTSIDE content + behind it) ===== */
-.decor{
-  position:absolute; inset:0;
-  pointer-events:none; /* never block clicks */
-  z-index:0;           /* behind the content */
+.btn-left{display:flex; align-items:center; gap:10px}
+.icon{
+  width:28px; height:28px; border-radius:8px;
+  background: linear-gradient(180deg, rgba(240,166,202,.35), rgba(255,255,255,.6));
+  border:1px solid rgba(240,166,202,.55);
+  display:grid; place-items:center;
+  font-weight:900; color:#7a2b4d;
 }
-.content{position:relative; z-index:1}
+.chev{
+  font-weight:900;
+  color:#1f5fa8;
+  opacity:.75;
+}
 
-/* bubbles & fish */
-.bubbles{position:absolute; left:-30px; top:120px; opacity:.55}
-.fish{position:absolute; right:-25px; top:470px; opacity:.55}
+/* controller placeholder (simple) */
+.controller{
+  display:flex; align-items:center; justify-content:center;
+  min-height:110px;
+}
+.pad{
+  width:min(260px, 90%);
+  height:110px;
+  border-radius:18px;
+  border:2px solid #174b86;
+  background: linear-gradient(180deg, #eaf6ff, #d7ecff);
+  position:relative;
+}
+.pad:before,.pad:after{
+  content:"";
+  position:absolute;
+  top:44px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(240,166,202,.55);        /* pink but subtle */
+  border:2px solid rgba(23,75,134,.35);
+}
+.pad:before{left:22px}
+.pad:after{right:22px}
+.dpad{
+  position:absolute; left:58px; top:28px;
+  width:38px;height:38px;border-radius:10px;
+  background:#174b86;
+  opacity:.85;
+}
+.ab{
+  position:absolute; right:64px; top:34px;
+  width:46px;height:20px;border-radius:10px;
+  background:#2f74c0;
+  opacity:.8;
+}
 
 @media (max-width:900px){
   .span4,.span6,.span12{grid-column:span 12}
-  .decor{display:none} /* keep it clean on phones */
 }
 </style>
 </head>
@@ -80,7 +181,10 @@ nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
 <body>
 <header>
   <div class="top">
-    <div class="brand">SeaStar</div>
+    <div class="brand">
+      <span class="brand-badge" aria-hidden="true"></span>
+      SeaStar
+    </div>
     <nav>
       <a href="#github">GitHub</a>
       <a href="#vlogs">Vlogs</a>
@@ -90,159 +194,110 @@ nav a:hover{background:#5fa3e3;border-color:#cfe8ff}
 </header>
 
 <main class="wrap">
+  <div class="grid">
 
-  <!-- DECOR (behind everything, pushed to the sides) -->
-  <div class="decor" aria-hidden="true">
+    <!-- Camera Interface -->
+    <section class="box span4">
+      <h2>Camera Interface</h2>
 
-    <!--Kelp but in reality its just a green wavy stick ughhhh -->
-    <svg class="kelp left" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="k" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="k2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
+      <button class="bigbtn" type="button"
+              onclick="alert('Later: embed underwater camera stream here')">
+        <span class="btn-left">
+          <span class="icon">📷</span>
+          Underwater Camera Feed
+        </span>
+        <span class="chev">›</span>
+      </button>
 
-      <!-- main fronds -->
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#k)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#k2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+      <p class="muted" style="margin-top:8px">
+        Live video stream from the ROV (add embed later)
+      </p>
+    </section>
 
-      <!-- leaf blobs -->
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
+    <!-- More About the Project -->
+    <section class="box span4">
+      <h2>More About the Project</h2>
 
-    <svg class="kelp right" viewBox="0 0 160 650">
-      <defs>
-        <linearGradient id="kr" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="var(--kelp1)"/>
-          <stop offset="1" stop-color="var(--kelp3)"/>
-        </linearGradient>
-        <linearGradient id="kr2" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#4fe08c"/>
-          <stop offset="1" stop-color="var(--kelp2)"/>
-        </linearGradient>
-      </defs>
+      <button class="bigbtn" type="button"
+              onclick="alert('Later: CAD, wiring diagrams, design decisions')">
+        <span class="btn-left">
+          <span class="icon">🛠</span>
+          Design Implementation
+        </span>
+        <span class="chev">›</span>
+      </button>
 
-      <path d="M55 640 C30 560, 70 520, 45 430 C20 340, 70 300, 40 200 C15 120, 70 70, 45 10"
-            fill="none" stroke="url(#kr)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M95 640 C75 570, 120 530, 95 445 C70 360, 115 315, 90 225 C70 155, 115 105, 92 35"
-            fill="none" stroke="url(#kr2)" stroke-width="12" stroke-linecap="round" opacity=".95"/>
-      <path d="M25 640 C10 585, 40 545, 20 490 C5 450, 35 410, 20 360 C8 320, 30 270, 18 230
-               C5 190, 25 150, 15 110 C6 70, 20 40, 12 10"
-            fill="none" stroke="var(--kelp2)" stroke-width="10" stroke-linecap="round" opacity=".9"/>
+      <button class="bigbtn" type="button" style="margin-top:8px"
+              onclick="alert('Later: professor / industry feedback')">
+        <span class="btn-left">
+          <span class="icon">💬</span>
+          Reviews & Feedback
+        </span>
+        <span class="chev">›</span>
+      </button>
 
-      <g fill="var(--kelp1)" opacity=".9">
-        <ellipse cx="52" cy="410" rx="12" ry="7" transform="rotate(-18 52 410)"/>
-        <ellipse cx="92" cy="300" rx="12" ry="7" transform="rotate(22 92 300)"/>
-        <ellipse cx="30" cy="250" rx="10" ry="6" transform="rotate(-12 30 250)"/>
-        <ellipse cx="98" cy="165" rx="10" ry="6" transform="rotate(18 98 165)"/>
-      </g>
-    </svg>
+      <button class="bigbtn" type="button" style="margin-top:8px"
+              onclick="alert('Later: plots, tables, DO readings')">
+        <span class="btn-left">
+          <span class="icon">📊</span>
+          Results
+        </span>
+        <span class="chev">›</span>
+      </button>
 
-    <!-- bubbles: parked near far-left so they don't overlap boxes -->
-    <svg class="bubbles" width="120" height="200" viewBox="0 0 120 200">
-      <g fill="none" stroke="#7aaed6" stroke-width="2">
-        <circle cx="30" cy="170" r="8"/>
-        <circle cx="55" cy="145" r="5"/>
-        <circle cx="35" cy="120" r="10"/>
-        <circle cx="62" cy="92"  r="6"/>
-        <circle cx="44" cy="60"  r="4"/>
-        <circle cx="70" cy="35"  r="7"/>
-      </g>
-    </svg>
+      <p class="muted" style="margin-top:8px">
+        Design process, evaluation, and experimental outcomes
+      </p>
+    </section>
 
-    <!-- fishy -->
-    <svg class="fish" width="130" height="70" viewBox="0 0 130 70">
-      <path d="M20 35 C38 15, 70 15, 88 35 C70 55, 38 55, 20 35 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <path d="M88 35 L110 20 L110 50 Z"
-            fill="#ffffff" stroke="#7aaed6" stroke-width="2"/>
-      <circle cx="40" cy="31" r="3" fill="#0b2a3d"/>
-    </svg>
+    <!-- User Interface -->
+    <section class="box span4">
+      <h2>User Interface</h2>
 
-  </div>
+      <button class="bigbtn" type="button"
+              onclick="window.location.href='ui.html'">
+        <span class="btn-left">
+          <span class="icon">🎮</span>
+          Open ROV Dashboard
+        </span>
+        <span class="chev">›</span>
+      </button>
 
-  <!-- CONTENT -->
-  <div class="content">
-    <div class="grid">
+      <div class="controller" aria-hidden="true" style="margin-top:10px;">
+        <div class="pad">
+          <div class="dpad"></div>
+          <div class="ab"></div>
+        </div>
+      </div>
 
-      <!-- Row 1 -->
-      <section class="box span4">
-        <h2>Camera Feed</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: paste your video embed code here')">
-          Underwater video (embed here)
-        </button>
-        <p class="muted" style="margin-top:8px">camera feed</p>
-      </section>
+      <p class="muted" style="margin-top:8px">
+        Control + telemetry page (local)
+      </p>
+    </section>
 
-      <section class="box span4">
-        <h2>Design Implementation</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: link your CAD + wiring + notes here')">
-          CAD / wiring / progress notes
-        </button>
-        <p class="muted" style="margin-top:8px">yas</p>
-      </section>
+    <!-- Row 2 (keep your existing sections if you want) -->
+    <section class="box span6" id="github">
+      <h2>GitHub</h2>
+      <button class="bigbtn" type="button"
+              onclick="alert('Later: link your repo here')">
+        <span class="btn-left"><span class="icon">🔗</span>Open Repository</span>
+        <span class="chev">›</span>
+      </button>
+      <p class="muted" style="margin-top:8px">Put your repo link here later.</p>
+    </section>
 
-      <section class="box span4">
-        <h2>User Interface</h2>
+    <section class="box span6" id="about">
+      <h2>About us</h2>
+      <button class="bigbtn" type="button"
+              onclick="alert('Later: team members + mission + specs')">
+        <span class="btn-left"><span class="icon">⭐</span>Team & Mission</span>
+        <span class="chev">›</span>
+      </button>
+      <p class="muted" style="margin-top:8px">Short description + team list.</p>
+    </section>
 
-
-        <button class="bigbtn" type="button"
-        onclick="window.location.href='ui.html'">
-
-          
-          <div class="controller" aria-hidden="true">
-            <svg viewBox="0 0 200 120">
-              <path d="M50 90 C30 90, 20 75, 25 55 C30 35, 55 30, 75 45
-                       L125 45 C145 30, 170 35, 175 55 C180 75, 170 90, 150 90
-                       C135 90, 125 80, 120 70 L80 70 C75 80, 65 90, 50 90 Z"
-                    fill="#e6f2ff" stroke="#174b86" stroke-width="4" />
-              <rect x="55" y="58" width="28" height="8" rx="3" fill="#174b86"/>
-              <rect x="65" y="48" width="8" height="28" rx="3" fill="#174b86"/>
-              <circle cx="145" cy="58" r="7" fill="#2f74c0"/>
-              <circle cx="160" cy="70" r="7" fill="#2f74c0"/>
-            </svg>
-          </div>
-        </button>
-        <p class="muted" style="margin-top:8px">ui</p>
-      </section>
-
-      <!-- Row 2 -->
-      <section class="box span6">
-        <h2>Results</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: show plots / tables here')">
-          DO readings, plots, success rate, tables
-        </button>
-        <p class="muted" style="margin-top:8px">hi</p>
-      </section>
-
-      <section class="box span6">
-        <h2>Results (What professionals said)</h2>
-        <button class="bigbtn" type="button" onclick="alert('Later: add quotes + who/when here')">
-          Quotes / feedback / review notes
-        </button>
-        <p class="muted" style="margin-top:8px">Short quotes + who/when.</p>
-      </section>
-
-    </div>
   </div>
 </main>
 
 </body>
 </html>
-
-
