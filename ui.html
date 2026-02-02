@@ -1,20 +1,21 @@
-<!doctype html> <!-- moderm html file -->
-<html lang="en"> <!-- english language -->
-<head> <!-- setup info -->
-  <meta charset="utf-8" /> <!-- this lets you use special characters & emojis -->
-  <meta name="viewport" content="width=device-width,initial-scale=1" /> <!-- this makes is scale properly based on what device you're using -->
-  <title>SeaStar ROV — Control Interface</title> <!-- this is the browser tab title. -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — Control Interface</title>
 
-  <style> /* begins css code */
-    :root{ /* makes global variables (so we can use anywhere) */
-      --bg0:#05070b; /* background color 1 (black) */
-      --bg1:#070b12; /* background color 2 (black) */
-      --panel:#0c111a; /* slightly lighter blueish but still kind of dark for the panel color. */
+  <style>
+    :root{
+      --bg0:#05070b;
+      --bg1:#070b12;
+      --panel:#0c111a;
       --stroke:rgba(255,255,255,.08);
       --stroke2:rgba(255,255,255,.12);
-      --text:#e8eef7; /* main text color */
-      --muted:rgba(232,238,247,.62); /* muted secondary text color */
-      --teal:#19d3e6; 
+      --text:#e8eef7;
+      --muted:rgba(232,238,247,.62);
+
+      --teal:#19d3e6;
       --green:#1ee38a;
       --blue:#2aa7ff;
       --amber:#ffcc39;
@@ -37,6 +38,78 @@
         linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
+    /* ---------- LOGIN SCREEN ---------- */
+    .login{
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      z-index:9999;
+      background:
+        radial-gradient(1000px 700px at 50% 20%, rgba(25,211,230,.10), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(42,167,255,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+    .login-card{
+      width:min(440px, 92vw);
+      padding:20px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+    .login-top{
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:10px;
+    }
+    .login-logo{
+      width:40px; height:40px;
+      border-radius:50%;
+      object-fit:cover;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
+    }
+    .login-card h2{margin:0; font-size:20px; font-weight:850;}
+    .login-card p{margin:6px 0 14px; color:var(--muted); font-size:13px; line-height:1.4;}
+    .login-card input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      outline:none;
+      margin-bottom:10px;
+    }
+    .login-card button{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(30,227,138,.25);
+      background: rgba(30,227,138,.10);
+      color: rgba(232,238,247,.92);
+      font-weight:800;
+      cursor:pointer;
+    }
+    .login-msg{
+      margin-top:10px;
+      font-size:13px;
+      min-height: 18px;
+      color: rgba(255,77,95,.92);
+    }
+    .tiny{
+      margin-top:10px;
+      font-size:12px;
+      color:rgba(232,238,247,.45);
+    }
+    .tiny code{
+      color:rgba(232,238,247,.70);
+      background:rgba(255,255,255,.06);
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    /* ---------- MAIN UI ---------- */
     .wrap{max-width:1320px; margin:0 auto; padding:18px 18px 28px;}
     .topbar{
       display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
@@ -44,10 +117,17 @@
       border-bottom:1px solid var(--stroke);
     }
     .brand{display:flex; align-items:flex-start; gap:12px;}
+
+    /* Replace wave SVG with your logo image */
     .logo{
-      width:28px; height:28px; margin-top:2px;
+      width:34px; height:34px; margin-top:2px;
+      border-radius:50%;
+      object-fit:cover;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
       filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
     }
+
     .titleblock h1{margin:0; font-size:22px; letter-spacing:.2px; font-weight:750;}
     .titleblock p{margin:4px 0 0; color:var(--muted); font-size:13px;}
 
@@ -62,10 +142,7 @@
       white-space:nowrap;
       cursor:default;
     }
-    .wifi{
-      width:18px; height:18px;
-      color:rgba(232,238,247,.65);
-    }
+    .wifi{width:18px; height:18px; color:rgba(232,238,247,.65);}
     .pill span{font-weight:650; color:rgba(232,238,247,.75)}
 
     .grid{
@@ -214,7 +291,6 @@
     .tealText{color:var(--teal)}
     .amberText{color:var(--amber)}
 
-    /* responsive */
     @media (max-width: 980px){
       .grid{grid-template-columns: 1fr; }
     }
@@ -222,18 +298,40 @@
 </head>
 
 <body>
-  <div class="wrap">
+
+  <!-- LOGIN OVERLAY -->
+  <div class="login" id="loginScreen">
+    <div class="login-card">
+      <div class="login-top">
+        <!-- Put your logo file next to this HTML as seastar-logo.png -->
+        <img class="login-logo" src="seastar-logo.png" alt="SeaStar logo">
+        <div>
+          <h2>SeaStar Login</h2>
+          <p>Enter the access code to open the ROV dashboard.</p>
+        </div>
+      </div>
+
+      <input id="loginCode" type="password" placeholder="Access code" autocomplete="off" />
+      <button id="loginBtn">Login</button>
+      <div class="login-msg" id="loginMsg"></div>
+
+      <div class="tiny">
+        Local-only: connects to <code>ws://localhost:9090</code> after login.
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP (hidden until login) -->
+  <div class="wrap" id="app" style="display:none;">
     <!-- TOP BAR -->
     <div class="topbar">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <path d="M6 34h10l6-18 10 34 10-28 6 12h10"
-                stroke="var(--teal)" stroke-width="5"
-                stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <!-- Your circle logo instead of the wave -->
+        <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
+
         <div class="titleblock">
           <h1>ROV Control Interface</h1>
-          <p>SeaSTAR (Submersible Technology for Aquatic Research) </p>
+          <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
         </div>
       </div>
 
@@ -244,7 +342,7 @@
           <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
           <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
         </svg>
-        <span id="connText">Connecting…</span>
+        <span id="connText">Disconnected</span>
       </div>
     </div>
 
@@ -350,18 +448,63 @@
     </section>
   </div>
 
-  <!-- ROS via Web Browser (rosbridge + roslibjs). Requires: ws://localhost:9090 -->
+  <!-- roslibjs (only used after login) -->
   <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
+
   <script>
-    // 1) Connect to rosbridge websocket
-    const ros = new ROSLIB.Ros({
-      url: "ws://localhost:9090"
+    // =======================
+    // LOGIN (local gating)
+    // =======================
+    const ACCESS_CODE = "seastar2026"; // <-- CHANGE THIS
+
+    const loginScreen = document.getElementById("loginScreen");
+    const app         = document.getElementById("app");
+    const loginCode   = document.getElementById("loginCode");
+    const loginBtn    = document.getElementById("loginBtn");
+    const loginMsg    = document.getElementById("loginMsg");
+
+    function unlockUI(){
+      loginScreen.style.display = "none";
+      app.style.display = "block";
+      startRos(); // only connect to ROS after login
+    }
+
+    function tryLogin(){
+      if (loginCode.value === ACCESS_CODE){
+        sessionStorage.setItem("seastar_authed", "1");
+        unlockUI();
+      } else {
+        loginMsg.textContent = "Wrong code. Try again.";
+      }
+    }
+
+    loginBtn.addEventListener("click", tryLogin);
+    loginCode.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") tryLogin();
     });
 
-    const connText = document.getElementById("connText");
-    const connPill = document.getElementById("connPill");
+    // Auto-login for this browser tab session (optional)
+    if (sessionStorage.getItem("seastar_authed") === "1"){
+      unlockUI();
+    } else {
+      // focus the input on load
+      setTimeout(() => loginCode.focus(), 50);
+    }
+
+    // =======================
+    // ROS UI logic
+    // =======================
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
 
     function setConnectedUI(ok){
+      const connText = document.getElementById("connText");
+      const connPill = document.getElementById("connPill");
+
+      if (!connText || !connPill) return;
+
       if (ok){
         connPill.style.borderColor = "rgba(30,227,138,.22)";
         connPill.style.background  = "rgba(30,227,138,.08)";
@@ -375,93 +518,77 @@
       }
     }
 
-    ros.on("connection", () => setConnectedUI(true));
-    ros.on("close", () => setConnectedUI(false));
-    ros.on("error", () => setConnectedUI(false));
+    function startRos(){
+      // 1) Connect to rosbridge websocket (local)
+      const ros = new ROSLIB.Ros({
+        url: "ws://localhost:9090"
+      });
 
-    // helper: safely update text
-    function setText(id, value){
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
+      ros.on("connection", () => setConnectedUI(true));
+      ros.on("close",      () => setConnectedUI(false));
+      ros.on("error",      () => setConnectedUI(false));
+
+      // 2) Subscriptions
+      const depthSub = new ROSLIB.Topic({
+        ros,
+        name: "/sensors/depth",
+        messageType: "std_msgs/Float32"
+      });
+      depthSub.subscribe(msg => {
+        const d = msg.data;
+        setText("depthBig", d.toFixed(1));
+        setText("depthSmall", d.toFixed(1));
+      });
+
+      const tempSub = new ROSLIB.Topic({
+        ros,
+        name: "/sensors/temp",
+        messageType: "std_msgs/Float32"
+      });
+      tempSub.subscribe(msg => {
+        const t = msg.data;
+        setText("tempBig", t.toFixed(1));
+        setText("tempSmall", t.toFixed(1));
+      });
+
+      const pressSub = new ROSLIB.Topic({
+        ros,
+        name: "/sensors/pressure",
+        messageType: "std_msgs/Float32"
+      });
+      pressSub.subscribe(msg => {
+        setText("pressBig", msg.data.toFixed(2));
+      });
+
+      const headSub = new ROSLIB.Topic({
+        ros,
+        name: "/nav/heading",
+        messageType: "std_msgs/Float32"
+      });
+      headSub.subscribe(msg => {
+        const h = msg.data;
+        setText("headingBig", Math.round(h).toString());
+        setText("headingSmall", Math.round(h).toString());
+      });
+
+      const voltSub = new ROSLIB.Topic({
+        ros,
+        name: "/power/voltage",
+        messageType: "std_msgs/Float32"
+      });
+      voltSub.subscribe(msg => {
+        setText("voltBig", msg.data.toFixed(1));
+      });
+
+      const currSub = new ROSLIB.Topic({
+        ros,
+        name: "/power/current",
+        messageType: "std_msgs/Float32"
+      });
+      currSub.subscribe(msg => {
+        setText("currBig", msg.data.toFixed(1));
+      });
     }
-
-    // 2) Subscribe to ROS topics (edit names/types to match your ROS nodes)
-    // Depth (meters)
-    const depthSub = new ROSLIB.Topic({
-      ros,
-      name: "/sensors/depth",
-      messageType: "std_msgs/Float32"
-    });
-    depthSub.subscribe(msg => {
-      const d = msg.data;
-      setText("depthBig", d.toFixed(1));
-      setText("depthSmall", d.toFixed(1));
-    });
-
-    // Temperature (°C)
-    const tempSub = new ROSLIB.Topic({
-      ros,
-      name: "/sensors/temp",
-      messageType: "std_msgs/Float32"
-    });
-    tempSub.subscribe(msg => {
-      const t = msg.data;
-      setText("tempBig", t.toFixed(1));
-      setText("tempSmall", t.toFixed(1));
-    });
-
-    // Pressure (bar)
-    const pressSub = new ROSLIB.Topic({
-      ros,
-      name: "/sensors/pressure",
-      messageType: "std_msgs/Float32"
-    });
-    pressSub.subscribe(msg => {
-      setText("pressBig", msg.data.toFixed(2));
-    });
-
-    // Heading (degrees)
-    const headSub = new ROSLIB.Topic({
-      ros,
-      name: "/nav/heading",
-      messageType: "std_msgs/Float32"
-    });
-    headSub.subscribe(msg => {
-      const h = msg.data;
-      setText("headingBig", Math.round(h).toString());
-      setText("headingSmall", Math.round(h).toString());
-    });
-
-    // Voltage (V)
-    const voltSub = new ROSLIB.Topic({
-      ros,
-      name: "/power/voltage",
-      messageType: "std_msgs/Float32"
-    });
-    voltSub.subscribe(msg => {
-      setText("voltBig", msg.data.toFixed(1));
-    });
-
-    // Current (A)
-    const currSub = new ROSLIB.Topic({
-      ros,
-      name: "/power/current",
-      messageType: "std_msgs/Float32"
-    });
-    currSub.subscribe(msg => {
-      setText("currBig", msg.data.toFixed(1));
-    });
-
-    // Optional: status text from your controller node
-    // (You can add a <div id="statusText"> somewhere in HTML if you want)
-    /*
-    const statusSub = new ROSLIB.Topic({
-      ros,
-      name: "/ui/status",
-      messageType: "std_msgs/String"
-    });
-    statusSub.subscribe(msg => setText("statusText", msg.data));
-    */
   </script>
 </body>
 </html>
