@@ -304,7 +304,6 @@
   <div class="login" id="loginScreen">
     <div class="login-card">
       <div class="login-top">
-        <!-- Put your logo file next to this HTML as seastar-logo.png -->
         <img class="login-logo" src="seastar-logo.png" alt="SeaStar logo">
         <div>
           <h2>SeaStar Login</h2>
@@ -327,7 +326,6 @@
     <!-- TOP BAR -->
     <div class="topbar">
       <div class="brand">
-        <!-- Your circle logo instead of the wave -->
         <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
 
         <div class="titleblock">
@@ -374,7 +372,6 @@
 
       <!-- RIGHT STATS -->
       <aside class="stack">
-      <!-- CONTROLLER EVENTS -->
         <div class="card">
           <div class="label">
             <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -384,7 +381,7 @@
             </svg>
             CONTROLLER EVENTS
           </div>
-        
+
           <pre id="controllerLog"
                style="
                  white-space: pre-wrap;
@@ -396,14 +393,9 @@
                  padding: 10px;
                  max-height: 140px;
                  overflow-y: auto;
-               ">
-        Waiting for controller input…
-          </pre>
+               ">Waiting for controller input…</pre>
         </div>
 
-
-
-        
         <div class="card">
           <div class="label">
             <svg class="ico blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -570,24 +562,18 @@
         setText("depthBig", d.toFixed(1));
         setText("depthSmall", d.toFixed(1));
       });
+
       const controllerLog = new ROSLIB.Topic({
-      ros,
-      name: "/ui/controller_events",
-     messageType: "std_msgs/String",
-     });
-
-     controllerLog.subscribe((msg) => {
-     const el = document.getElementById("controllerLog");
-     if (el) el.textContent = msg.data;
-     });
-
-    }
-           
-                        
-                        
-                       
-
-      
+        ros,
+        name: "/ui/controller_events",
+        messageType: "std_msgs/String"
+      });
+      controllerLog.subscribe((msg) => {
+        const el = document.getElementById("controllerLog");
+        if (!el) return;
+        el.textContent += "\n" + msg.data;
+        el.scrollTop = el.scrollHeight;
+      });
 
       const tempSub = new ROSLIB.Topic({
         ros,
@@ -641,3 +627,4 @@
   </script>
 </body>
 </html>
+
