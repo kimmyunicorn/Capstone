@@ -374,6 +374,36 @@
 
       <!-- RIGHT STATS -->
       <aside class="stack">
+      <!-- CONTROLLER EVENTS -->
+        <div class="card">
+          <div class="label">
+            <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9h12M6 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="8" cy="12" r="1.4" fill="currentColor"/>
+              <circle cx="16" cy="12" r="1.4" fill="currentColor"/>
+            </svg>
+            CONTROLLER EVENTS
+          </div>
+        
+          <pre id="controllerLog"
+               style="
+                 white-space: pre-wrap;
+                 font-size: 12px;
+                 color: rgba(232,238,247,.88);
+                 background: rgba(0,0,0,.25);
+                 border: 1px solid rgba(255,255,255,.08);
+                 border-radius: 12px;
+                 padding: 10px;
+                 max-height: 140px;
+                 overflow-y: auto;
+               ">
+        Waiting for controller input…
+          </pre>
+        </div>
+
+
+
+        
         <div class="card">
           <div class="label">
             <svg class="ico blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -540,6 +570,24 @@
         setText("depthBig", d.toFixed(1));
         setText("depthSmall", d.toFixed(1));
       });
+      const controllerLog = new ROSLIB.Topic({
+      ros,
+      name: "/ui/controller_events",
+     messageType: "std_msgs/String",
+     });
+
+     controllerLog.subscribe((msg) => {
+     const el = document.getElementById("controllerLog");
+     if (el) el.textContent = msg.data;
+     });
+
+    }
+           
+                        
+                        
+                       
+
+      
 
       const tempSub = new ROSLIB.Topic({
         ros,
