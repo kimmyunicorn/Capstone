@@ -41,7 +41,6 @@
       font-size: 16px;
     }
 
-    /* ---------- LOGIN SCREEN ---------- */
     .login{
       position:fixed; inset:0;
       display:flex; align-items:center; justify-content:center;
@@ -107,10 +106,7 @@
       border:1px solid rgba(255,255,255,.08);
     }
 
-    /* ---------- MAIN UI ---------- */
     .wrap{max-width:1400px; margin:0 auto; padding:18px 18px 28px;}
-
-    /* "border around blocks" = outline the whole app area */
     .app-shell{
       border:1px solid rgba(255,255,255,.10);
       border-radius: 22px;
@@ -151,20 +147,14 @@
     .wifi{width:18px; height:18px; color:rgba(232,238,247,.65);}
     .pill span{font-weight:750; color:rgba(232,238,247,.78)}
 
-    /* Layout change:
-       - Sensor "bubbles" LEFT
-       - Camera BIG on RIGHT
-       - Controller log + Power on LEFT under bubbles
-    */
     .grid{
       margin-top:16px;
       display:grid;
-      grid-template-columns: 420px 1fr; /* left | right */
+      grid-template-columns: 420px 1fr;
       gap:18px;
       align-items:start;
     }
 
-    /* Shared panel with a clearer border */
     .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid rgba(255,255,255,.12);
@@ -172,17 +162,13 @@
       box-shadow: var(--shadow);
     }
 
-    /* LEFT STACK */
     .left{
       display:flex;
       flex-direction:column;
       gap:14px;
     }
 
-    /* Sensor bubbles panel */
-    .bubbles{
-      padding:16px;
-    }
+    .bubbles{padding:16px;}
     .bubbles h2{
       margin:0 0 12px;
       font-size:14px;
@@ -191,14 +177,11 @@
       color:rgba(232,238,247,.55);
       font-weight:800;
     }
-
     .bubble-grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:12px;
     }
-
-    /* Bubble (oval/circle look) */
     .bubble{
       border-radius: 999px;
       border:1px solid rgba(255,255,255,.12);
@@ -248,9 +231,7 @@
     .c-amber{background: rgba(255,204,57,.90)}
     .c-purple{background: rgba(176,119,255,.90)}
     .c-green{background: rgba(30,227,138,.90)}
-    .c-teal{background: rgba(25,211,230,.90)}
 
-    /* Controller log block */
     .card{
       padding:16px;
       border-radius:20px;
@@ -268,9 +249,6 @@
       font-weight:850;
     }
     .ico{width:18px;height:18px; opacity:.92}
-    .blue{color:var(--blue)}
-    .amber{color:var(--amber)}
-    .purple{color:var(--purple)}
     .green{color:var(--green)}
 
     pre.log{
@@ -287,11 +265,7 @@
       line-height: 1.35;
     }
 
-    /* Power panel */
-    .bottom{
-      padding:16px;
-      border-radius:20px;
-    }
+    .bottom{padding:16px; border-radius:20px;}
     .bottom h2{
       margin:0 0 12px;
       font-size:14px;
@@ -307,7 +281,7 @@
     }
     .mini{
       padding:12px 14px;
-      border-radius:999px; /* make the power readouts oval too */
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.18);
       box-shadow: var(--ring);
@@ -340,11 +314,10 @@
     .tealText{color:var(--teal)}
     .amberText{color:var(--amber)}
 
-    /* RIGHT CAMERA BIG */
     .video{
       position:relative;
       overflow:hidden;
-      min-height: 720px; /* bigger camera panel */
+      min-height: 720px;
       border-radius:20px;
     }
     .video::before{
@@ -382,10 +355,9 @@
       color:rgba(232,238,247,.85);
       box-shadow: var(--ring);
     }
-
     .video-frame{
       margin-top:10px;
-      height: 600px; /* bigger frame */
+      height: 600px;
       border-radius:20px;
       border:1px solid rgba(255,255,255,.12);
       background:
@@ -402,7 +374,6 @@
       pointer-events:none;
     }
     .cam-icon{width:72px; height:72px; opacity:.25;}
-
     .telemetry-strip{
       position:absolute;
       left:0; right:0; bottom:0;
@@ -416,7 +387,6 @@
       background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
     }
 
-    /* Responsive */
     @media (max-width: 1080px){
       .grid{grid-template-columns: 1fr; }
       .video{min-height: 640px;}
@@ -430,8 +400,6 @@
 </head>
 
 <body>
-
-  <!-- LOGIN OVERLAY -->
   <div class="login" id="loginScreen">
     <div class="login-card">
       <div class="login-top">
@@ -452,14 +420,11 @@
     </div>
   </div>
 
-  <!-- MAIN APP (hidden until login) -->
   <div class="wrap" id="app" style="display:none;">
     <div class="app-shell">
-      <!-- TOP BAR -->
       <div class="topbar">
         <div class="brand">
           <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
-
           <div class="titleblock">
             <h1>ROV Control Interface</h1>
             <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
@@ -477,12 +442,8 @@
         </div>
       </div>
 
-      <!-- MAIN GRID -->
       <div class="grid">
-
-        <!-- LEFT: SENSOR BUBBLES + LOG + POWER -->
         <div class="left">
-
           <section class="panel bubbles">
             <h2>Sensor Readings</h2>
             <div class="bubble-grid">
@@ -525,6 +486,8 @@
                   <span class="num" id="headingBig">—</span><span class="unit">°</span>
                 </div>
               </div>
+            </div>
+          </section>
 
           <div class="card">
             <div class="label">
@@ -538,24 +501,21 @@
             <pre id="controllerLog" class="log">Waiting for controller input…</pre>
           </div>
 
-          <!-- Power Monitoring (kept but now matches oval style) -->
           <section class="panel bottom">
             <h2>Power Monitoring</h2>
             <div class="power-grid">
               <div class="mini">
                 <div class="k">Voltage</div>
-                <div><span class="v tealText" id="voltBigDup">—</span><span class="u">V</span></div>
+                <div><span class="v tealText" id="voltBig">—</span><span class="u">V</span></div>
               </div>
               <div class="mini">
                 <div class="k">Current</div>
-                <div><span class="v amberText" id="currBigDup">—</span><span class="u">A</span></div>
+                <div><span class="v amberText" id="currBig">—</span><span class="u">A</span></div>
               </div>
             </div>
           </section>
-
         </div>
 
-        <!-- RIGHT: BIG CAMERA -->
         <section class="panel video">
           <div class="video-inner">
             <div class="video-top">
@@ -582,14 +542,10 @@
     </div>
   </div>
 
-  <!-- roslibjs (only used after login) -->
   <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script>
 
   <script>
-    // =======================
-    // LOGIN (local gating)
-    // =======================
-    const ACCESS_CODE = "seastar2026"; // <-- CHANGE THIS
+    const ACCESS_CODE = "seastar2026";
 
     const loginScreen = document.getElementById("loginScreen");
     const app         = document.getElementById("app");
@@ -600,7 +556,7 @@
     function unlockUI(){
       loginScreen.style.display = "none";
       app.style.display = "block";
-      startRos(); // only connect to ROS after login
+      startRos();
     }
 
     function tryLogin(){
@@ -623,9 +579,6 @@
       setTimeout(() => loginCode.focus(), 50);
     }
 
-    // =======================
-    // ROS UI logic
-    // =======================
     function setText(id, value){
       const el = document.getElementById(id);
       if (el) el.textContent = value;
@@ -649,14 +602,6 @@
       }
     }
 
-    // Keep the power panel "dupes" in sync (optional)
-    function syncDupes(){
-      const v = document.getElementById("voltBig")?.textContent ?? "—";
-      const c = document.getElementById("currBig")?.textContent ?? "—";
-      setText("voltBigDup", v);
-      setText("currBigDup", c);
-    }
-
     function startRos(){
       const ros = new ROSLIB.Ros({ url: "ws://localhost:9090" });
 
@@ -671,16 +616,6 @@
         const d = msg.data;
         setText("depthBig", d.toFixed(1));
         setText("depthSmall", d.toFixed(1));
-      });
-
-      const controllerLog = new ROSLIB.Topic({
-        ros, name: "/ui/controller_events", messageType: "std_msgs/String"
-      });
-      controllerLog.subscribe((msg) => {
-        const el = document.getElementById("controllerLog");
-        if (!el) return;
-        el.textContent += "\n" + msg.data;
-        el.scrollTop = el.scrollHeight;
       });
 
       const tempSub = new ROSLIB.Topic({
@@ -704,8 +639,9 @@
       });
       headSub.subscribe(msg => {
         const h = msg.data;
-        setText("headingBig", Math.round(h).toString());
-        setText("headingSmall", Math.round(h).toString());
+        const hh = Math.round(h).toString();
+        setText("headingBig", hh);
+        setText("headingSmall", hh);
       });
 
       const voltSub = new ROSLIB.Topic({
@@ -713,7 +649,6 @@
       });
       voltSub.subscribe(msg => {
         setText("voltBig", msg.data.toFixed(1));
-        syncDupes();
       });
 
       const currSub = new ROSLIB.Topic({
@@ -721,7 +656,16 @@
       });
       currSub.subscribe(msg => {
         setText("currBig", msg.data.toFixed(1));
-        syncDupes();
+      });
+
+      const controllerLog = new ROSLIB.Topic({
+        ros, name: "/ui/controller_events", messageType: "std_msgs/String"
+      });
+      controllerLog.subscribe((msg) => {
+        const el = document.getElementById("controllerLog");
+        if (!el) return;
+        el.textContent += "\n" + msg.data;
+        el.scrollTop = el.scrollHeight;
       });
     }
   </script>
