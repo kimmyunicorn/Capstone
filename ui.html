@@ -10,8 +10,8 @@
       --bg0:#05070b;
       --bg1:#070b12;
       --panel:#0c111a;
-      --stroke:rgba(255,255,255,.08);
-      --stroke2:rgba(255,255,255,.12);
+      --stroke:rgba(255,255,255,.10);
+      --stroke2:rgba(255,255,255,.16);
       --text:#e8eef7;
       --muted:rgba(232,238,247,.62);
 
@@ -22,20 +22,23 @@
       --purple:#b077ff;
       --red:#ff4d5f;
 
-      --r:16px;
+      --r:18px;
       --shadow: 0 12px 40px rgba(0,0,0,.55);
+      --ring: 0 0 0 1px rgba(0,0,0,.30) inset;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      font-family: var(--font);
       color:var(--text);
       background:
         radial-gradient(1200px 700px at 20% 10%, rgba(25,211,230,.10), transparent 60%),
         radial-gradient(900px 600px at 85% 20%, rgba(42,167,255,.10), transparent 55%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
+      font-size: 16px;
     }
 
     /* ---------- LOGIN SCREEN ---------- */
@@ -49,36 +52,34 @@
         linear-gradient(180deg, var(--bg0), var(--bg1));
     }
     .login-card{
-      width:min(440px, 92vw);
-      padding:20px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      width:min(460px, 92vw);
+      padding:22px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
       box-shadow: var(--shadow);
     }
-    .login-top{
-      display:flex; align-items:center; gap:12px;
-      margin-bottom:10px;
-    }
+    .login-top{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
     .login-logo{
-      width:40px; height:40px;
+      width:44px; height:44px;
       border-radius:50%;
       object-fit:cover;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.18);
       filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
     }
-    .login-card h2{margin:0; font-size:20px; font-weight:850;}
-    .login-card p{margin:6px 0 14px; color:var(--muted); font-size:13px; line-height:1.4;}
+    .login-card h2{margin:0; font-size:22px; font-weight:850;}
+    .login-card p{margin:6px 0 14px; color:var(--muted); font-size:14px; line-height:1.45;}
     .login-card input{
       width:100%;
-      padding:12px 12px;
+      padding:13px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.16);
       background: rgba(0,0,0,.25);
       color: var(--text);
       outline:none;
       margin-bottom:10px;
+      font-size: 15px;
     }
     .login-card button{
       width:100%;
@@ -87,20 +88,17 @@
       border:1px solid rgba(30,227,138,.25);
       background: rgba(30,227,138,.10);
       color: rgba(232,238,247,.92);
-      font-weight:800;
+      font-weight:850;
       cursor:pointer;
+      font-size: 15px;
     }
     .login-msg{
       margin-top:10px;
-      font-size:13px;
+      font-size:14px;
       min-height: 18px;
       color: rgba(255,77,95,.92);
     }
-    .tiny{
-      margin-top:10px;
-      font-size:12px;
-      color:rgba(232,238,247,.45);
-    }
+    .tiny{margin-top:10px; font-size:12px; color:rgba(232,238,247,.45);}
     .tiny code{
       color:rgba(232,238,247,.70);
       background:rgba(255,255,255,.06);
@@ -110,26 +108,33 @@
     }
 
     /* ---------- MAIN UI ---------- */
-    .wrap{max-width:1320px; margin:0 auto; padding:18px 18px 28px;}
+    .wrap{max-width:1400px; margin:0 auto; padding:18px 18px 28px;}
+
+    /* "border around blocks" = outline the whole app area */
+    .app-shell{
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+
     .topbar{
       display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
-      padding:6px 2px 16px;
-      border-bottom:1px solid var(--stroke);
+      padding:6px 2px 14px;
+      border-bottom:1px solid rgba(255,255,255,.10);
     }
     .brand{display:flex; align-items:flex-start; gap:12px;}
-
-    /* Replace wave SVG with your logo image */
     .logo{
-      width:34px; height:34px; margin-top:2px;
+      width:38px; height:38px; margin-top:2px;
       border-radius:50%;
       object-fit:cover;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.18);
       filter: drop-shadow(0 0 18px rgba(25,211,230,.25));
     }
-
-    .titleblock h1{margin:0; font-size:22px; letter-spacing:.2px; font-weight:750;}
-    .titleblock p{margin:4px 0 0; color:var(--muted); font-size:13px;}
+    .titleblock h1{margin:0; font-size:24px; letter-spacing:.2px; font-weight:800;}
+    .titleblock p{margin:6px 0 0; color:var(--muted); font-size:14px;}
 
     .pill{
       display:inline-flex; align-items:center; gap:10px;
@@ -137,78 +142,254 @@
       border-radius:12px;
       border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.06);
-      box-shadow: 0 0 0 1px rgba(0,0,0,.22) inset;
+      box-shadow: var(--ring);
       user-select:none;
       white-space:nowrap;
       cursor:default;
+      font-size: 14px;
     }
     .wifi{width:18px; height:18px; color:rgba(232,238,247,.65);}
-    .pill span{font-weight:650; color:rgba(232,238,247,.75)}
+    .pill span{font-weight:750; color:rgba(232,238,247,.78)}
 
+    /* Layout change:
+       - Sensor "bubbles" LEFT
+       - Camera BIG on RIGHT
+       - Controller log + Power on LEFT under bubbles
+    */
     .grid{
       margin-top:16px;
       display:grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 420px 1fr; /* left | right */
       gap:18px;
       align-items:start;
     }
 
+    /* Shared panel with a clearer border */
     .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid var(--stroke);
-      border-radius: var(--r);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 20px;
       box-shadow: var(--shadow);
     }
 
-    /* VIDEO PANEL */
+    /* LEFT STACK */
+    .left{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    /* Sensor bubbles panel */
+    .bubbles{
+      padding:16px;
+    }
+    .bubbles h2{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(232,238,247,.55);
+      font-weight:800;
+    }
+
+    .bubble-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+
+    /* Bubble (oval/circle look) */
+    .bubble{
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      box-shadow: var(--ring);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      min-height: 64px;
+    }
+    .bubble .meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 0;
+    }
+    .bubble .tag{
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: rgba(232,238,247,.55);
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .bubble .num{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .bubble .unit{
+      font-size:13px;
+      color: rgba(232,238,247,.55);
+      font-weight:750;
+      margin-left:6px;
+      white-space:nowrap;
+    }
+    .dotIcon{
+      width:12px;height:12px;border-radius:50%;
+      box-shadow: 0 0 14px rgba(255,255,255,.10);
+      flex:0 0 auto;
+    }
+    .c-blue{background: rgba(42,167,255,.85)}
+    .c-amber{background: rgba(255,204,57,.90)}
+    .c-purple{background: rgba(176,119,255,.90)}
+    .c-green{background: rgba(30,227,138,.90)}
+    .c-teal{background: rgba(25,211,230,.90)}
+
+    /* Controller log block */
+    .card{
+      padding:16px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+    }
+    .label{
+      display:flex; align-items:center; gap:10px;
+      color:rgba(232,238,247,.55);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+      font-weight:850;
+    }
+    .ico{width:18px;height:18px; opacity:.92}
+    .blue{color:var(--blue)}
+    .amber{color:var(--amber)}
+    .purple{color:var(--purple)}
+    .green{color:var(--green)}
+
+    pre.log{
+      margin:0;
+      white-space: pre-wrap;
+      font-size: 13px;
+      color: rgba(232,238,247,.88);
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 12px;
+      max-height: 140px;
+      overflow-y: auto;
+      line-height: 1.35;
+    }
+
+    /* Power panel */
+    .bottom{
+      padding:16px;
+      border-radius:20px;
+    }
+    .bottom h2{
+      margin:0 0 12px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(232,238,247,.55);
+      font-weight:800;
+    }
+    .power-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .mini{
+      padding:12px 14px;
+      border-radius:999px; /* make the power readouts oval too */
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      box-shadow: var(--ring);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      min-height: 60px;
+    }
+    .mini .k{
+      color:rgba(232,238,247,.55);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:12px;
+      font-weight:850;
+      white-space:nowrap;
+    }
+    .mini .v{
+      font-size:22px;
+      font-weight:900;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .mini .u{
+      color:rgba(232,238,247,.55);
+      font-weight:750;
+      font-size:13px;
+      margin-left:6px;
+    }
+    .tealText{color:var(--teal)}
+    .amberText{color:var(--amber)}
+
+    /* RIGHT CAMERA BIG */
     .video{
       position:relative;
       overflow:hidden;
-      min-height:560px;
-      border-radius:18px;
+      min-height: 720px; /* bigger camera panel */
+      border-radius:20px;
     }
     .video::before{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(900px 500px at 20% 0%, rgba(42,167,255,.12), transparent 60%),
-        radial-gradient(800px 520px at 80% 0%, rgba(25,211,230,.10), transparent 55%),
+        radial-gradient(900px 520px at 20% 0%, rgba(42,167,255,.12), transparent 60%),
+        radial-gradient(900px 520px at 80% 0%, rgba(25,211,230,.10), transparent 55%),
         linear-gradient(180deg, rgba(8,12,20,.92), rgba(7,10,16,.96));
     }
     .video-inner{position:relative; padding:16px; height:100%;}
     .video-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
     .live{
       display:inline-flex; align-items:center; gap:10px;
-      padding:8px 12px;
-      border-radius:12px;
-      border:1px solid var(--stroke2);
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.25);
-      font-size:13px;
+      font-size:14px;
       color:rgba(232,238,247,.88);
+      box-shadow: var(--ring);
     }
     .dot{
-      width:8px;height:8px;border-radius:50%;
+      width:9px;height:9px;border-radius:50%;
       background:var(--red);
       box-shadow:0 0 14px rgba(255,77,95,.35);
     }
-    /*
     .cam-pill{
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid var(--stroke2);
-      background:rgba(0,0,0,.32);
-      font-weight:650;
-      font-size:12px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.30);
+      font-weight:800;
+      font-size:13px;
       color:rgba(232,238,247,.85);
+      box-shadow: var(--ring);
     }
-*/
+
     .video-frame{
       margin-top:10px;
-      height:440px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
+      height: 600px; /* bigger frame */
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.12);
       background:
-        radial-gradient(800px 520px at 40% 30%, rgba(255,255,255,.06), transparent 62%),
+        radial-gradient(900px 560px at 40% 30%, rgba(255,255,255,.06), transparent 62%),
         linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.30));
       display:flex; align-items:center; justify-content:center;
       position:relative;
@@ -217,10 +398,10 @@
     .video-frame::after{
       content:"";
       position:absolute; inset:0;
-      background: radial-gradient(700px 380px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
+      background: radial-gradient(800px 420px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
       pointer-events:none;
     }
-    .cam-icon{width:64px; height:64px; opacity:.25;}
+    .cam-icon{width:72px; height:72px; opacity:.25;}
 
     .telemetry-strip{
       position:absolute;
@@ -230,70 +411,20 @@
       justify-content:space-between;
       gap:12px;
       color:rgba(232,238,247,.70);
-      font-size:13px;
-      border-top:1px solid rgba(255,255,255,.08);
+      font-size:14px;
+      border-top:1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
     }
 
-    /* RIGHT STATS */
-    .stack{display:flex; flex-direction:column; gap:14px;}
-    .card{
-      padding:16px 16px 14px;
-      border-radius:18px;
-      border:1px solid var(--stroke);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-    }
-    .card .label{
-      display:flex; align-items:center; gap:10px;
-      color:rgba(232,238,247,.55);
-      font-size:12px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      margin-bottom:8px;
-    }
-    .metric{display:flex; align-items:baseline; gap:8px;}
-    .metric .value{font-size:40px; font-weight:800; letter-spacing:.2px; line-height:1;}
-    .metric .unit{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-bottom:6px;}
-
-    .ico{width:18px;height:18px; opacity:.9}
-    .blue{color:var(--blue)}
-    .amber{color:var(--amber)}
-    .purple{color:var(--purple)}
-    .green{color:var(--green)}
-
-    /* BOTTOM POWER */
-    .bottom{margin-top:18px; padding:18px; border-radius:18px;}
-    .bottom h2{
-      margin:0 0 14px;
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:rgba(232,238,247,.55);
-      font-weight:750;
-    }
-    .power-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px;}
-    .mini{
-      padding:14px 14px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.18);
-    }
-    .mini .k{
-      color:rgba(232,238,247,.55);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:12px;
-      margin-bottom:8px;
-    }
-    .mini .v{font-size:40px; font-weight:850; line-height:1;}
-    .mini .u{color:rgba(232,238,247,.55); font-weight:650; font-size:14px; margin-left:6px;}
-
-    .tealText{color:var(--teal)}
-    .amberText{color:var(--amber)}
-
-    @media (max-width: 980px){
+    /* Responsive */
+    @media (max-width: 1080px){
       .grid{grid-template-columns: 1fr; }
+      .video{min-height: 640px;}
+      .video-frame{height: 520px;}
+    }
+    @media (max-width: 520px){
+      .bubble-grid{grid-template-columns: 1fr;}
+      .power-grid{grid-template-columns: 1fr;}
     }
   </style>
 </head>
@@ -323,152 +454,154 @@
 
   <!-- MAIN APP (hidden until login) -->
   <div class="wrap" id="app" style="display:none;">
-    <!-- TOP BAR -->
-    <div class="topbar">
-      <div class="brand">
-        <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
+    <div class="app-shell">
+      <!-- TOP BAR -->
+      <div class="topbar">
+        <div class="brand">
+          <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
 
-        <div class="titleblock">
-          <h1>ROV Control Interface</h1>
-          <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
+          <div class="titleblock">
+            <h1>ROV Control Interface</h1>
+            <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
+          </div>
+        </div>
+
+        <div class="pill" id="connPill">
+          <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
+          </svg>
+          <span id="connText">Disconnected</span>
         </div>
       </div>
 
-      <div class="pill" id="connPill">
-        <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
-        </svg>
-        <span id="connText">Disconnected</span>
-      </div>
-    </div>
+      <!-- MAIN GRID -->
+      <div class="grid">
 
-    <!-- MAIN GRID -->
-    <div class="grid">
-      <!-- VIDEO -->
-      <section class="panel video">
-        <div class="video-inner">
-          <div class="video-top">
-            <div class="live"><span class="dot"></span>LIVE</div>
-            <div class="cam-pill">CAM–1</div>
+        <!-- LEFT: SENSOR BUBBLES + LOG + POWER -->
+        <div class="left">
+
+          <section class="panel bubbles">
+            <h2>Sensor Readings</h2>
+            <div class="bubble-grid">
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-blue"></span>
+                  <span class="tag">Depth</span>
+                </div>
+                <div>
+                  <span class="num" id="depthBig">—</span><span class="unit">m</span>
+                </div>
+              </div>
+
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-amber"></span>
+                  <span class="tag">Temp</span>
+                </div>
+                <div>
+                  <span class="num" id="tempBig">—</span><span class="unit">°C</span>
+                </div>
+              </div>
+
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-purple"></span>
+                  <span class="tag">Pressure</span>
+                </div>
+                <div>
+                  <span class="num" id="pressBig">—</span><span class="unit">bar</span>
+                </div>
+              </div>
+
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-green"></span>
+                  <span class="tag">Heading</span>
+                </div>
+                <div>
+                  <span class="num" id="headingBig">—</span><span class="unit">°</span>
+                </div>
+              </div>
+
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-teal"></span>
+                  <span class="tag">Voltage</span>
+                </div>
+                <div>
+                  <span class="num tealText" id="voltBig">—</span><span class="unit">V</span>
+                </div>
+              </div>
+
+              <div class="bubble">
+                <div class="meta">
+                  <span class="dotIcon c-amber"></span>
+                  <span class="tag">Current</span>
+                </div>
+                <div>
+                  <span class="num amberText" id="currBig">—</span><span class="unit">A</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="card">
+            <div class="label">
+              <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9h12M6 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="8" cy="12" r="1.4" fill="currentColor"/>
+                <circle cx="16" cy="12" r="1.4" fill="currentColor"/>
+              </svg>
+              CONTROLLER EVENTS
+            </div>
+            <pre id="controllerLog" class="log">Waiting for controller input…</pre>
           </div>
 
-          <div class="video-frame" id="videoFrame">
-            <svg class="cam-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h8A2.5 2.5 0 0 1 16 7.5v9A2.5 2.5 0 0 1 13.5 19h-8A2.5 2.5 0 0 1 3 16.5v-9Z" stroke="rgba(232,238,247,.55)" stroke-width="2"/>
-              <path d="M16 10l5-3v10l-5-3v-4Z" fill="rgba(232,238,247,.28)"/>
-            </svg>
+          <!-- Power Monitoring (kept but now matches oval style) -->
+          <section class="panel bottom">
+            <h2>Power Monitoring</h2>
+            <div class="power-grid">
+              <div class="mini">
+                <div class="k">Voltage</div>
+                <div><span class="v tealText" id="voltBigDup">—</span><span class="u">V</span></div>
+              </div>
+              <div class="mini">
+                <div class="k">Current</div>
+                <div><span class="v amberText" id="currBigDup">—</span><span class="u">A</span></div>
+              </div>
+            </div>
+          </section>
 
-            <div class="telemetry-strip">
-              <div>Depth: <span id="depthSmall">—</span>m</div>
-              <div>Heading: <span id="headingSmall">—</span>°</div>
-              <div>Temp: <span id="tempSmall">—</span>°C</div>
+        </div>
+
+        <!-- RIGHT: BIG CAMERA -->
+        <section class="panel video">
+          <div class="video-inner">
+            <div class="video-top">
+              <div class="live"><span class="dot"></span>LIVE</div>
+              <div class="cam-pill">CAM–1</div>
+            </div>
+
+            <div class="video-frame" id="videoFrame">
+              <svg class="cam-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h8A2.5 2.5 0 0 1 16 7.5v9A2.5 2.5 0 0 1 13.5 19h-8A2.5 2.5 0 0 1 3 16.5v-9Z" stroke="rgba(232,238,247,.55)" stroke-width="2"/>
+                <path d="M16 10l5-3v10l-5-3v-4Z" fill="rgba(232,238,247,.28)"/>
+              </svg>
+
+              <div class="telemetry-strip">
+                <div>Depth: <span id="depthSmall">—</span>m</div>
+                <div>Heading: <span id="headingSmall">—</span>°</div>
+                <div>Temp: <span id="tempSmall">—</span>°C</div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- RIGHT STATS -->
-      <aside class="stack">
-        <div class="card">
-          <div class="label">
-            <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9h12M6 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="8" cy="12" r="1.4" fill="currentColor"/>
-              <circle cx="16" cy="12" r="1.4" fill="currentColor"/>
-            </svg>
-            CONTROLLER EVENTS
-          </div>
-
-          <pre id="controllerLog"
-               style="
-                 white-space: pre-wrap;
-                 font-size: 12px;
-                 color: rgba(232,238,247,.88);
-                 background: rgba(0,0,0,.25);
-                 border: 1px solid rgba(255,255,255,.08);
-                 border-radius: 12px;
-                 padding: 10px;
-                 max-height: 140px;
-                 overflow-y: auto;
-               ">Waiting for controller input…</pre>
-        </div>
-
-        <div class="card">
-          <div class="label">
-            <svg class="ico blue" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2s7 8 7 13a7 7 0 0 1-14 0c0-5 7-13 7-13Z" stroke="currentColor" stroke-width="2" />
-            </svg>
-            DEPTH
-          </div>
-          <div class="metric">
-            <div class="value" id="depthBig">—</div>
-            <div class="unit">m</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="label">
-            <svg class="ico amber" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M10 14a4 4 0 1 0 8 0V6a2 2 0 1 0-4 0v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M14 14V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            TEMPERATURE
-          </div>
-          <div class="metric">
-            <div class="value" id="tempBig">—</div>
-            <div class="unit">°C</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="label">
-            <svg class="ico purple" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 14a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M12 14l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="14" r="1.2" fill="currentColor"/>
-            </svg>
-            PRESSURE
-          </div>
-          <div class="metric">
-            <div class="value" id="pressBig">—</div>
-            <div class="unit">bar</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="label">
-            <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 2a10 10 0 1 0 10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M12 12l5-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
-            </svg>
-            HEADING
-          </div>
-          <div class="metric">
-            <div class="value" id="headingBig">—</div>
-            <div class="unit">°</div>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- BOTTOM POWER -->
-    <section class="panel bottom">
-      <h2>Power Monitoring</h2>
-      <div class="power-grid">
-        <div class="mini">
-          <div class="k">Voltage</div>
-          <div><span class="v tealText" id="voltBig">—</span><span class="u">V</span></div>
-        </div>
-        <div class="mini">
-          <div class="k">Current</div>
-          <div><span class="v amberText" id="currBig">—</span><span class="u">A</span></div>
-        </div>
       </div>
-    </section>
+    </div>
   </div>
 
   <!-- roslibjs (only used after login) -->
@@ -506,11 +639,9 @@
       if (e.key === "Enter") tryLogin();
     });
 
-    // Auto-login for this browser tab session (optional)
     if (sessionStorage.getItem("seastar_authed") === "1"){
       unlockUI();
     } else {
-      // focus the input on load
       setTimeout(() => loginCode.focus(), 50);
     }
 
@@ -525,7 +656,6 @@
     function setConnectedUI(ok){
       const connText = document.getElementById("connText");
       const connPill = document.getElementById("connPill");
-
       if (!connText || !connPill) return;
 
       if (ok){
@@ -541,21 +671,23 @@
       }
     }
 
+    // Keep the power panel "dupes" in sync (optional)
+    function syncDupes(){
+      const v = document.getElementById("voltBig")?.textContent ?? "—";
+      const c = document.getElementById("currBig")?.textContent ?? "—";
+      setText("voltBigDup", v);
+      setText("currBigDup", c);
+    }
+
     function startRos(){
-      // 1) Connect to rosbridge websocket (local)
-      const ros = new ROSLIB.Ros({
-        url: "ws://localhost:9090"
-      });
+      const ros = new ROSLIB.Ros({ url: "ws://localhost:9090" });
 
       ros.on("connection", () => setConnectedUI(true));
       ros.on("close",      () => setConnectedUI(false));
       ros.on("error",      () => setConnectedUI(false));
 
-      // 2) Subscriptions
       const depthSub = new ROSLIB.Topic({
-        ros,
-        name: "/sensors/depth",
-        messageType: "std_msgs/Float32"
+        ros, name: "/sensors/depth", messageType: "std_msgs/Float32"
       });
       depthSub.subscribe(msg => {
         const d = msg.data;
@@ -564,9 +696,7 @@
       });
 
       const controllerLog = new ROSLIB.Topic({
-        ros,
-        name: "/ui/controller_events",
-        messageType: "std_msgs/String"
+        ros, name: "/ui/controller_events", messageType: "std_msgs/String"
       });
       controllerLog.subscribe((msg) => {
         const el = document.getElementById("controllerLog");
@@ -576,9 +706,7 @@
       });
 
       const tempSub = new ROSLIB.Topic({
-        ros,
-        name: "/sensors/temp",
-        messageType: "std_msgs/Float32"
+        ros, name: "/sensors/temp", messageType: "std_msgs/Float32"
       });
       tempSub.subscribe(msg => {
         const t = msg.data;
@@ -587,18 +715,14 @@
       });
 
       const pressSub = new ROSLIB.Topic({
-        ros,
-        name: "/sensors/pressure",
-        messageType: "std_msgs/Float32"
+        ros, name: "/sensors/pressure", messageType: "std_msgs/Float32"
       });
       pressSub.subscribe(msg => {
         setText("pressBig", msg.data.toFixed(2));
       });
 
       const headSub = new ROSLIB.Topic({
-        ros,
-        name: "/nav/heading",
-        messageType: "std_msgs/Float32"
+        ros, name: "/nav/heading", messageType: "std_msgs/Float32"
       });
       headSub.subscribe(msg => {
         const h = msg.data;
@@ -607,21 +731,19 @@
       });
 
       const voltSub = new ROSLIB.Topic({
-        ros,
-        name: "/power/voltage",
-        messageType: "std_msgs/Float32"
+        ros, name: "/power/voltage", messageType: "std_msgs/Float32"
       });
       voltSub.subscribe(msg => {
         setText("voltBig", msg.data.toFixed(1));
+        syncDupes();
       });
 
       const currSub = new ROSLIB.Topic({
-        ros,
-        name: "/power/current",
-        messageType: "std_msgs/Float32"
+        ros, name: "/power/current", messageType: "std_msgs/Float32"
       });
       currSub.subscribe(msg => {
         setText("currBig", msg.data.toFixed(1));
+        syncDupes();
       });
     }
   </script>
