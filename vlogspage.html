@@ -1,21 +1,147 @@
-<section id="vlogs" class="card" style="max-width:860px;margin:0 auto">
-  <h3>Vlogs</h3>
-  <div class="content" style="display:flex;flex-direction:column;gap:12px">
-    <div class="video" style="display:flex;gap:12px;align-items:center">
-      <img src="thumb.jpg" alt="Video thumbnail" style="width:160px;height:90px;object-fit:cover;border-radius:8px">
-      <div>
-        <strong>Episode 1: Welcome</strong>
-        <div style="color:#555;font-size:12px">Posted Jan 2026 • 12m</div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — Vlogs</title>
+
+  <style>
+    :root{
+      --bg0:#ffc5d3;
+      --bg1:#fff06292;
+      --panel:rgba(255,255,255,0.86);
+      --panel2:rgba(255,255,255,0.70);
+      --border:#7aaed6;
+      --text:#0b2a3d;
+      --muted:#3f6f93;
+      --top:#2f74c0;
+      --top2:#1f5fa8;
+      --shadow:0 10px 26px rgba(0,0,0,0.10);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:Tahoma,Verdana,Segoe UI,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 650px at 18% 12%, rgba(240,166,202,0.22), transparent 60%),
+        radial-gradient(1200px 650px at 85% 20%, rgba(156,137,184,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+    }
+
+    header{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(to bottom,var(--top),var(--top2));
+      border-bottom:2px solid #174b86;
+    }
+
+    .top{
+      max-width:1400px;
+      margin:auto;
+      padding:18px 20px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand{
+      color:#fff;
+      font-weight:900;
+      font-size:26px;
+      letter-spacing:0.5px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .star{
+      width:32px; height:32px; border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.15));
+      box-shadow:0 0 0 2px rgba(240,166,202,0.25);
+      border:1px solid rgba(255,255,255,0.6);
+    }
+
+    nav{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    nav a{
+      color:#fff;
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.15);
+      background:rgba(255,255,255,0.10);
+      font-size:13px;
+      text-decoration:none;
+    }
+
+    nav a:hover{
+      background:rgba(255,255,255,0.18);
+      border-color:rgba(255,255,255,0.35);
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:28px 12px 80px;
+    }
+
+    .box{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:2px solid var(--border);
+      border-radius:14px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size:28px;
+      color:#0b3e6b;
+    }
+
+    .coming{
+      margin:0;
+      font-size:22px;
+      font-weight:900;
+      color:#2f74c0; /* blue text */
+    }
+
+    .muted{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <span class="star" aria-hidden="true"></span>
+        SeaStar
       </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="https://github.com/SeaSTAR-C" target="_blank">GitHub</a>
+        <a href="vlogs.html">Vlogs</a>
+        <a href="about.html">About us</a>
+      </nav>
     </div>
-    <div class="video" style="display:flex;gap:12px;align-items:center">
-      <img src="thumb2.jpg" alt="Video thumbnail" style="width:160px;height:90px;object-fit:cover;border-radius:8px">
-      <div>
-        <strong>Episode 2: Behind the Scenes</strong>
-        <div style="color:#555;font-size:12px">Posted Feb 2026 • 9m</div>
-      </div>
-    </div>
-    <!-- more videos -->
-  </div>
-  <a href="#" class="cta" style="margin-top:8px" data-page="dashboard">Back to Dashboard</a>
-</section>
+  </header>
+
+  <main class="wrap">
+    <section class="box">
+      <h1>Vlogs</h1>
+      <p class="coming">Vlogs coming soon</p>
+      <p class="muted">We’ll post build updates, pool tests, and competition prep here.</p>
+    </section>
+  </main>
+</body>
+</html>
