@@ -1,1 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — About</title>
+
+  <style>
+    :root{
+      --bg0:#ffc5d3;
+      --bg1:#fff06292;
+      --panel:rgba(255,255,255,0.86);
+      --panel2:rgba(255,255,255,0.70);
+      --border:#7aaed6;
+      --text:#0b2a3d;
+      --muted:#3f6f93;
+      --top:#2f74c0;
+      --top2:#1f5fa8;
+      --shadow:0 10px 26px rgba(0,0,0,0.10);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family:Tahoma,Verdana,Segoe UI,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 650px at 18% 12%, rgba(240,166,202,0.22), transparent 60%),
+        radial-gradient(1200px 650px at 85% 20%, rgba(156,137,184,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+    }
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:linear-gradient(to bottom,var(--top),var(--top2));
+      border-bottom:2px solid #174b86;
+    }
+
+    .top{
+      max-width:1400px;
+      margin:auto;
+      padding:18px 20px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand{
+      color:#fff;
+      font-weight:900;
+      font-size:26px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .star{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.15));
+      box-shadow:0 0 0 2px rgba(240,166,202,0.25);
+      border:1px solid rgba(255,255,255,0.6);
+    }
+
+    nav{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+    }
+
+    nav a{
+      color:#fff;
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.15);
+      background:rgba(255,255,255,0.10);
+      font-size:13px;
+      text-decoration:none;
+    }
+
+    nav a:hover{
+      background:rgba(255,255,255,0.18);
+    }
+
+    /* Layout */
+    .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:30px 12px 80px;
+    }
+
+    .box{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:2px solid var(--border);
+      border-radius:14px;
+      padding:26px;
+      box-shadow:var(--shadow);
+    }
+
+    h1{
+      margin:0 0 14px;
+      font-size:28px;
+      color:#0b3e6b;
+    }
+
+    h2{
+      margin-top:26px;
+      margin-bottom:8px;
+      font-size:20px;
+      color:#2f74c0;
+    }
+
+    p{
+      margin:0 0 10px;
+      line-height:1.6;
+    }
+
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+      margin-top:10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <span class="star"></span>
+        SeaStar
+      </div>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="https://github.com/SeaSTAR-C" target="_blank">GitHub</a>
+        <a href="vlogs.html">Vlogs</a>
+        <a href="about.html">About us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="box">
+      <h1>About SeaStar</h1>
+
+      <p>
+        SeaStar is a student-designed Remotely Operated Vehicle (ROV) created as a senior capstone project. 
+        The system is built to explore underwater environments while collecting environmental data and biological samples.
+      </p>
+
+      <h2>Project Mission</h2>
+      <p>
+        The goal of SeaStar is to support environmental monitoring by collecting algae samples and measuring water conditions such as dissolved oxygen. 
+        This data helps researchers better understand aquatic ecosystem health and changes over time.
+      </p>
+
+      <h2>System Overview</h2>
+      <p>
+        The SeaStar system integrates mechanical design, embedded electronics, and software into a single platform. 
+        The ROV is controlled through a web-based operator interface and a handheld controller, while ROS 2 manages real-time communication between sensors, control nodes, and the user interface.
+      </p>
+
+      <h2>Technologies Used</h2>
+      <p>
+        • ROS 2 for system architecture and communication<br>
+        • Python for control and data logging<br>
+        • Web-based UI for operator control and telemetry<br>
+        • Custom mechanical design and underwater hardware
+      </p>
+
+      <p class="muted">
+        SeaStar is part of an interdisciplinary effort to combine robotics, software, and environmental engineering into a real-world system.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
 
