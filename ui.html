@@ -23,7 +23,15 @@
       --red:#ff4d5f;
 
       --r:18px;
-      --shadow: 0 12px 40px rgba(0,0,0,.55);
+
+      /* NEW: SeaStar blue glow shadow system */
+      --shadow-blue:
+        0 14px 45px rgba(42,167,255,.20),
+        0 0 40px rgba(42,167,255,.12);
+
+      --shadow-soft:
+        0 10px 30px rgba(0,0,0,.35);
+
       --ring: 0 0 0 1px rgba(0,0,0,.30) inset;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
     }
@@ -56,7 +64,7 @@
       border-radius:20px;
       border:1px solid rgba(255,255,255,.12);
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-blue);
     }
     .login-top{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
     .login-logo{
@@ -111,7 +119,7 @@
       border:1px solid rgba(255,255,255,.10);
       border-radius: 22px;
       background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-blue);
       padding: 14px;
     }
 
@@ -159,7 +167,7 @@
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid rgba(255,255,255,.12);
       border-radius: 20px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-blue);
     }
 
     .left{
@@ -237,7 +245,7 @@
       border-radius:20px;
       border:1px solid rgba(255,255,255,.12);
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-blue);
     }
     .label{
       display:flex; align-items:center; gap:10px;
@@ -395,6 +403,15 @@
     @media (max-width: 520px){
       .bubble-grid{grid-template-columns: 1fr;}
       .power-grid{grid-template-columns: 1fr;}
+    }
+
+    /* SeaStar panel glow interaction */
+    .panel:hover,
+    .card:hover{
+      box-shadow:
+        0 18px 60px rgba(42,167,255,.28),
+        0 0 55px rgba(42,167,255,.20);
+      transition: box-shadow .25s ease;
     }
   </style>
 </head>
