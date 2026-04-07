@@ -24,7 +24,6 @@
 
       --r:18px;
 
-      /* NEW: SeaStar blue glow shadow system */
       --shadow-blue:
         0 14px 45px rgba(42,167,255,.20),
         0 0 40px rgba(42,167,255,.12);
@@ -42,9 +41,7 @@
       margin:0;
       font-family: var(--font);
       color:var(--text);
-      background:
-
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
       font-size: 16px;
     }
 
@@ -139,6 +136,12 @@
     .titleblock h1{margin:0; font-size:24px; letter-spacing:.2px; font-weight:800;}
     .titleblock p{margin:6px 0 0; color:var(--muted); font-size:14px;}
 
+    .topbar-right{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .pill{
       display:inline-flex; align-items:center; gap:10px;
       padding:10px 14px;
@@ -153,6 +156,37 @@
     }
     .wifi{width:18px; height:18px; color:rgba(232,238,247,.65);}
     .pill span{font-weight:750; color:rgba(232,238,247,.78)}
+
+    .state-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      box-shadow: var(--ring);
+      color:rgba(232,238,247,.92);
+      font-size:14px;
+      font-weight:800;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .state-btn:hover{
+      background:rgba(255,255,255,.10);
+    }
+    .state-boot{
+      border-color: rgba(255,204,57,.28);
+      color: rgba(255,204,57,.95);
+    }
+    .state-idle{
+      border-color: rgba(176,119,255,.28);
+      color: rgba(210,185,255,.96);
+    }
+    .state-mission{
+      border-color: rgba(30,227,138,.28);
+      color: rgba(30,227,138,.96);
+    }
 
     .grid{
       margin-top:16px;
@@ -402,9 +436,9 @@
     @media (max-width: 520px){
       .bubble-grid{grid-template-columns: 1fr;}
       .power-grid{grid-template-columns: 1fr;}
+      .topbar-right{flex-wrap:wrap;}
     }
 
-    /* SeaStar panel glow interaction */
     .panel:hover,
     .card:hover{
       box-shadow:
@@ -447,22 +481,20 @@
           </div>
         </div>
 
-                <div class="topbar-right">
-                  <button class="state-btn state-boot" id="stateBtn">BOOT</button>
-        
-                  <div class="pill" id="connPill">
-                    <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                      <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                      <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                      <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
-                    </svg>
-                    <span id="connText">Disconnected</span>
-                  </div>
-              </div>
+        <div class="topbar-right">
+          <button class="state-btn state-boot" id="stateBtn">Current State: BOOT</button>
 
-      <div class="grid">
-
+          <div class="pill" id="connPill">
+            <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
+            </svg>
+            <span id="connText">Disconnected</span>
+          </div>
+        </div>
+      </div>
 
       <div class="grid">
         <div class="left">
@@ -545,23 +577,22 @@
               <div class="cam-pill">CAM–1</div>
             </div>
 
-
             <div class="video-frame" id="videoFrame">
               <iframe
-                  id="camFrame"
-                  src="http://192.168.2.2:8889/NavigationCam/"
-                  title="Camera feed"
-                  style="width:100%;height:100%;border:0;border-radius:18px;background:transparent;"
-                  allow="autoplay; fullscreen"
+                id="camFrame"
+                src="http://192.168.2.2:8889/NavigationCam/"
+                title="Camera feed"
+                style="width:100%;height:100%;border:0;border-radius:18px;background:transparent;"
+                allow="autoplay; fullscreen"
               ></iframe>
 
-            
               <div class="telemetry-strip">
                 <div>Depth: <span id="depthSmall">—</span>m</div>
                 <div>Heading: <span id="headingSmall">—</span>°</div>
                 <div>Temp: <span id="tempSmall">—</span>°C</div>
               </div>
             </div>
+          </div>
         </section>
 
       </div>
@@ -573,15 +604,49 @@
   <script>
     const ACCESS_CODE = "seastar2026";
 
+    const states = ["BOOT", "IDLE", "MISSION MODE"];
+    let currentStateIndex = 0;
+
     const loginScreen = document.getElementById("loginScreen");
     const app = document.getElementById("app");
     const loginCode = document.getElementById("loginCode");
     const loginBtn = document.getElementById("loginBtn");
     const loginMsg = document.getElementById("loginMsg");
 
+    function updateStateButton(){
+      const stateBtn = document.getElementById("stateBtn");
+      if (!stateBtn) return;
+
+      const currentState = states[currentStateIndex];
+      stateBtn.textContent = "Current State: " + currentState;
+
+      stateBtn.classList.remove("state-boot", "state-idle", "state-mission");
+
+      if (currentState === "BOOT"){
+        stateBtn.classList.add("state-boot");
+      } else if (currentState === "IDLE"){
+        stateBtn.classList.add("state-idle");
+      } else {
+        stateBtn.classList.add("state-mission");
+      }
+    }
+
+    function cycleState(){
+      currentStateIndex = (currentStateIndex + 1) % states.length;
+      updateStateButton();
+    }
+
     function unlockUI(){
       loginScreen.style.display = "none";
       app.style.display = "block";
+      updateStateButton();
+
+      const stateBtn = document.getElementById("stateBtn");
+      if (stateBtn && !stateBtn.dataset.bound){
+        stateBtn.addEventListener("click", cycleState);
+        stateBtn.dataset.bound = "1";
+      }
+
       startRos();
     }
 
@@ -629,12 +694,11 @@
     }
 
     function startRos(){
-      const PI_IP = "192.168.2.2";
       const ros = new ROSLIB.Ros({ url: "ws://192.168.2.2:9090" });
 
       ros.on("connection", () => setConnectedUI(true));
       ros.on("close", () => setConnectedUI(false));
-      ros.on("error",() => setConnectedUI(false));
+      ros.on("error", () => setConnectedUI(false));
 
       const depthSub = new ROSLIB.Topic({
         ros, name: "/sensors/depth", messageType: "std_msgs/Float32"
@@ -698,4 +762,3 @@
   </script>
 </body>
 </html>
-
