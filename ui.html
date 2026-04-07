@@ -18,7 +18,7 @@
       --teal:#19d3e6;
       --green:#1ee38a;
       --blue:#2aa7ff;
-      --amber:#ffcc39;
+      --amber:#ff9f1c;
       --purple:#b077ff;
       --red:#ff4d5f;
 
@@ -42,7 +42,7 @@
       font-family: var(--font);
       color:var(--text);
       background: linear-gradient(180deg, var(--bg0), var(--bg1));
-      font-size: 16px;
+      font-size:16px;
     }
 
     .login{
@@ -98,7 +98,7 @@
     .login-msg{
       margin-top:10px;
       font-size:14px;
-      min-height: 18px;
+      min-height:18px;
       color: rgba(255,77,95,.92);
     }
     .tiny{margin-top:10px; font-size:12px; color:rgba(232,238,247,.45);}
@@ -113,10 +113,10 @@
     .wrap{max-width:1400px; margin:0 auto; padding:18px 18px 28px;}
     .app-shell{
       border:1px solid rgba(255,255,255,.10);
-      border-radius: 22px;
+      border-radius:22px;
       background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
       box-shadow: var(--shadow-blue);
-      padding: 14px;
+      padding:14px;
     }
 
     .topbar{
@@ -140,6 +140,8 @@
       display:flex;
       align-items:center;
       gap:12px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
     .pill{
@@ -152,12 +154,12 @@
       user-select:none;
       white-space:nowrap;
       cursor:default;
-      font-size: 14px;
+      font-size:14px;
     }
     .wifi{width:18px; height:18px; color:rgba(232,238,247,.65);}
     .pill span{font-weight:750; color:rgba(232,238,247,.78)}
 
-    .state-btn{
+    .state-display{
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -166,26 +168,54 @@
       border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.06);
       box-shadow: var(--ring);
-      color:rgba(232,238,247,.92);
       font-size:14px;
-      font-weight:800;
+      font-weight:850;
       white-space:nowrap;
-      cursor:pointer;
-    }
-    .state-btn:hover{
-      background:rgba(255,255,255,.10);
+      user-select:none;
+      cursor:default;
     }
     .state-boot{
-      border-color: rgba(255,204,57,.28);
-      color: rgba(255,204,57,.95);
+      border-color: rgba(255,77,95,.30);
+      background: rgba(255,77,95,.10);
+      color: rgba(255,77,95,.95);
     }
     .state-idle{
-      border-color: rgba(176,119,255,.28);
-      color: rgba(210,185,255,.96);
+      border-color: rgba(255,159,28,.30);
+      background: rgba(255,159,28,.10);
+      color: rgba(255,190,92,.96);
     }
     .state-mission{
-      border-color: rgba(30,227,138,.28);
+      border-color: rgba(30,227,138,.30);
+      background: rgba(30,227,138,.10);
       color: rgba(30,227,138,.96);
+    }
+
+    .mission-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: var(--ring);
+      font-size:14px;
+      font-weight:850;
+      white-space:nowrap;
+      cursor:pointer;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+    .mission-btn:hover{
+      transform: translateY(-1px);
+    }
+    .mission-start{
+      border-color: rgba(30,227,138,.30);
+      background: rgba(30,227,138,.10);
+      color: rgba(30,227,138,.96);
+    }
+    .mission-end{
+      border-color: rgba(255,77,95,.30);
+      background: rgba(255,77,95,.10);
+      color: rgba(255,77,95,.96);
     }
 
     .grid{
@@ -199,7 +229,7 @@
     .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid rgba(255,255,255,.12);
-      border-radius: 20px;
+      border-radius:20px;
       box-shadow: var(--shadow-blue);
     }
 
@@ -224,22 +254,22 @@
       gap:12px;
     }
     .bubble{
-      border-radius: 999px;
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.22);
       box-shadow: var(--ring);
-      padding: 12px 14px;
+      padding:12px 14px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      min-height: 64px;
+      min-height:64px;
     }
     .bubble .meta{
       display:flex;
       align-items:center;
       gap:10px;
-      min-width: 0;
+      min-width:0;
     }
     .bubble .tag{
       font-size:12px;
@@ -295,15 +325,15 @@
     pre.log{
       margin:0;
       white-space: pre-wrap;
-      font-size: 13px;
+      font-size:13px;
       color: rgba(232,238,247,.88);
       background: rgba(0,0,0,.25);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 14px;
-      padding: 12px;
-      max-height: 140px;
-      overflow-y: auto;
-      line-height: 1.35;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:12px;
+      max-height:140px;
+      overflow-y:auto;
+      line-height:1.35;
     }
 
     .bottom{padding:16px; border-radius:20px;}
@@ -330,7 +360,7 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      min-height: 60px;
+      min-height:60px;
     }
     .mini .k{
       color:rgba(232,238,247,.55);
@@ -358,7 +388,7 @@
     .video{
       position:relative;
       overflow:hidden;
-      min-height: 720px;
+      min-height:720px;
       border-radius:20px;
     }
     .video::before{
@@ -398,7 +428,7 @@
     }
     .video-frame{
       margin-top:10px;
-      height: 600px;
+      height:600px;
       border-radius:20px;
       border:1px solid rgba(255,255,255,.12);
       background:
@@ -414,7 +444,6 @@
       background: radial-gradient(800px 420px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
       pointer-events:none;
     }
-    .cam-icon{width:72px; height:72px; opacity:.25;}
     .telemetry-strip{
       position:absolute;
       left:0; right:0; bottom:0;
@@ -428,15 +457,14 @@
       background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
     }
 
-    @media (max-width: 1080px){
-      .grid{grid-template-columns: 1fr; }
-      .video{min-height: 640px;}
-      .video-frame{height: 520px;}
+    @media (max-width:1080px){
+      .grid{grid-template-columns:1fr;}
+      .video{min-height:640px;}
+      .video-frame{height:520px;}
     }
-    @media (max-width: 520px){
-      .bubble-grid{grid-template-columns: 1fr;}
-      .power-grid{grid-template-columns: 1fr;}
-      .topbar-right{flex-wrap:wrap;}
+    @media (max-width:520px){
+      .bubble-grid{grid-template-columns:1fr;}
+      .power-grid{grid-template-columns:1fr;}
     }
 
     .panel:hover,
@@ -482,7 +510,9 @@
         </div>
 
         <div class="topbar-right">
-          <button class="state-btn state-boot" id="stateBtn">Current State: BOOT</button>
+          <div class="state-display state-boot" id="stateDisplay">Current State: BOOT</div>
+
+          <button class="mission-btn mission-start" id="missionBtn">Start Mission</button>
 
           <div class="pill" id="connPill">
             <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -594,7 +624,6 @@
             </div>
           </div>
         </section>
-
       </div>
     </div>
   </div>
@@ -604,8 +633,7 @@
   <script>
     const ACCESS_CODE = "seastar2026";
 
-    const states = ["BOOT", "IDLE", "MISSION MODE"];
-    let currentStateIndex = 0;
+    let currentState = "BOOT";
 
     const loginScreen = document.getElementById("loginScreen");
     const app = document.getElementById("app");
@@ -613,40 +641,127 @@
     const loginBtn = document.getElementById("loginBtn");
     const loginMsg = document.getElementById("loginMsg");
 
-    function updateStateButton(){
-      const stateBtn = document.getElementById("stateBtn");
-      if (!stateBtn) return;
+    function setText(id, value){
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
 
-      const currentState = states[currentStateIndex];
-      stateBtn.textContent = "Current State: " + currentState;
+    function updateStateDisplay(){
+      const stateDisplay = document.getElementById("stateDisplay");
+      if (!stateDisplay) return;
 
-      stateBtn.classList.remove("state-boot", "state-idle", "state-mission");
+      stateDisplay.textContent = "Current State: " + currentState;
+      stateDisplay.classList.remove("state-boot", "state-idle", "state-mission");
 
       if (currentState === "BOOT"){
-        stateBtn.classList.add("state-boot");
+        stateDisplay.classList.add("state-boot");
       } else if (currentState === "IDLE"){
-        stateBtn.classList.add("state-idle");
-      } else {
-        stateBtn.classList.add("state-mission");
+        stateDisplay.classList.add("state-idle");
+      } else if (currentState === "MISSION MODE"){
+        stateDisplay.classList.add("state-mission");
       }
     }
 
-    function cycleState(){
-      currentStateIndex = (currentStateIndex + 1) % states.length;
-      updateStateButton();
+    function updateMissionButton(){
+      const missionBtn = document.getElementById("missionBtn");
+      if (!missionBtn) return;
+
+      missionBtn.classList.remove("mission-start", "mission-end");
+
+      if (currentState === "MISSION MODE"){
+        missionBtn.textContent = "End Mission";
+        missionBtn.classList.add("mission-end");
+      } else {
+        missionBtn.textContent = "Start Mission";
+        missionBtn.classList.add("mission-start");
+      }
+    }
+
+    function startMission(){
+      currentState = "MISSION MODE";
+      updateStateDisplay();
+      updateMissionButton();
+
+      const el = document.getElementById("controllerLog");
+      if (el){
+        el.textContent += "\nMission started.";
+        el.scrollTop = el.scrollHeight;
+      }
+    }
+
+    function endMission(){
+      currentState = "IDLE";
+      updateStateDisplay();
+      updateMissionButton();
+
+      const el = document.getElementById("controllerLog");
+      if (el){
+        el.textContent += "\nMission ended. Returned to idle.";
+        el.scrollTop = el.scrollHeight;
+      }
+    }
+
+    function handleMissionButton(){
+      if (currentState === "MISSION MODE"){
+        endMission();
+      } else if (currentState === "BOOT" || currentState === "IDLE"){
+        startMission();
+      }
+    }
+
+    function finishBoot(){
+      if (currentState === "BOOT"){
+        currentState = "IDLE";
+        updateStateDisplay();
+        updateMissionButton();
+
+        const el = document.getElementById("controllerLog");
+        if (el){
+          el.textContent += "\nSystem boot complete. State changed to IDLE.";
+          el.scrollTop = el.scrollHeight;
+        }
+      }
+    }
+
+    function setConnectedUI(ok){
+      const connText = document.getElementById("connText");
+      const connPill = document.getElementById("connPill");
+      if (!connText || !connPill) return;
+
+      if (ok){
+        connPill.style.borderColor = "rgba(30,227,138,.22)";
+        connPill.style.background  = "rgba(30,227,138,.08)";
+        connText.textContent = "Connected";
+        connText.style.color = "rgba(30,227,138,.92)";
+      } else {
+        connPill.style.borderColor = "rgba(255,77,95,.22)";
+        connPill.style.background = "rgba(255,77,95,.08)";
+        connText.textContent = "Disconnected";
+        connText.style.color = "rgba(255,77,95,.92)";
+      }
+    }
+
+    function bindUI(){
+      updateStateDisplay();
+      updateMissionButton();
+
+      const missionBtn = document.getElementById("missionBtn");
+      if (missionBtn && !missionBtn.dataset.bound){
+        missionBtn.addEventListener("click", handleMissionButton);
+        missionBtn.dataset.bound = "1";
+      }
+
+      /* temporary demo:
+         after login, boot finishes automatically after 2 seconds.
+         you can remove this later if boot should change from ROS/controller logic.
+      */
+      setTimeout(finishBoot, 2000);
     }
 
     function unlockUI(){
       loginScreen.style.display = "none";
       app.style.display = "block";
-      updateStateButton();
-
-      const stateBtn = document.getElementById("stateBtn");
-      if (stateBtn && !stateBtn.dataset.bound){
-        stateBtn.addEventListener("click", cycleState);
-        stateBtn.dataset.bound = "1";
-      }
-
+      bindUI();
       startRos();
     }
 
@@ -668,29 +783,6 @@
       unlockUI();
     } else {
       setTimeout(() => loginCode.focus(), 50);
-    }
-
-    function setText(id, value){
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
-    }
-
-    function setConnectedUI(ok){
-      const connText = document.getElementById("connText");
-      const connPill = document.getElementById("connPill");
-      if (!connText || !connPill) return;
-
-      if (ok){
-        connPill.style.borderColor = "rgba(30,227,138,.22)";
-        connPill.style.background  = "rgba(30,227,138,.08)";
-        connText.textContent = "Connected";
-        connText.style.color = "rgba(30,227,138,.92)";
-      } else {
-        connPill.style.borderColor = "rgba(255,77,95,.22)";
-        connPill.style.background = "rgba(255,77,95,.08)";
-        connText.textContent = "Disconnected";
-        connText.style.color = "rgba(255,77,95,.92)";
-      }
     }
 
     function startRos(){
@@ -757,6 +849,13 @@
         if (!el) return;
         el.textContent += "\n" + msg.data;
         el.scrollTop = el.scrollHeight;
+
+        /* later, when your controller node sends a specific event,
+           you can trigger mission transitions here.
+           example:
+           if (msg.data === "START_MISSION") startMission();
+           if (msg.data === "END_MISSION") endMission();
+        */
       });
     }
   </script>
