@@ -202,10 +202,15 @@
       font-weight:850;
       white-space:nowrap;
       cursor:pointer;
-      transition: background .2s ease, border-color .2s ease, transform .2s ease;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease, opacity .2s ease;
     }
     .mission-btn:hover{
       transform: translateY(-1px);
+    }
+    .mission-btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
     }
     .mission-start{
       border-color: rgba(30,227,138,.30);
@@ -634,6 +639,9 @@
     const ACCESS_CODE = "seastar2026";
 
     let currentState = "BOOT";
+    let ros = null;
+    let missionControlTopic = null;
+    let missionStateSub = null;
 
     const loginScreen = document.getElementById("loginScreen");
     const app = document.getElementById("app");
@@ -644,6 +652,13 @@
     function setText(id, value){
       const el = document.getElementById(id);
       if (el) el.textContent = value;
+    }
+
+    function appendLog(text){
+      const el = document.getElementById("controllerLog");
+      if (!el) return;
+      el.textContent += "\n" + text;
+      el.scrollTop = el.scrollHeight;
     }
 
     function updateStateDisplay(){
@@ -677,67 +692,47 @@
       }
     }
 
-    function startMission(){
-      currentState = "MISSION MODE";
-      updateStateDisplay();
-      updateMissionButton();
-
-      const el = document.getElementById("controllerLog");
-      if (el){
-        el.textContent += "\nMission started.";
-        el.scrollTop = el.scrollHeight;
-      }
-    }
-
-    function endMission(){
-      currentState = "IDLE";
-      updateStateDisplay();
-      updateMissionButton();
-
-      const el = document.getElementById("controllerLog");
-      if (el){
-        el.textContent += "\nMission ended. Returned to idle.";
-        el.scrollTop = el.scrollHeight;
-      }
-    }
-
-    function handleMissionButton(){
-      if (currentState === "MISSION MODE"){
-        endMission();
-      } else if (currentState === "BOOT" || currentState === "IDLE"){
-        startMission();
-      }
-    }
-
-    function finishBoot(){
-      if (currentState === "BOOT"){
-        currentState = "IDLE";
-        updateStateDisplay();
-        updateMissionButton();
-
-        const el = document.getElementById("controllerLog");
-        if (el){
-          el.textContent += "\nSystem boot complete. State changed to IDLE.";
-          el.scrollTop = el.scrollHeight;
-        }
-      }
-    }
-
     function setConnectedUI(ok){
       const connText = document.getElementById("connText");
       const connPill = document.getElementById("connPill");
+      const missionBtn = document.getElementById("missionBtn");
+
       if (!connText || !connPill) return;
 
       if (ok){
         connPill.style.borderColor = "rgba(30,227,138,.22)";
-        connPill.style.background  = "rgba(30,227,138,.08)";
+        connPill.style.background = "rgba(30,227,138,.08)";
         connText.textContent = "Connected";
         connText.style.color = "rgba(30,227,138,.92)";
+        if (missionBtn) missionBtn.disabled = false;
       } else {
         connPill.style.borderColor = "rgba(255,77,95,.22)";
         connPill.style.background = "rgba(255,77,95,.08)";
         connText.textContent = "Disconnected";
         connText.style.color = "rgba(255,77,95,.92)";
+        if (missionBtn) missionBtn.disabled = true;
+      }
+    }
+
+    function sendMissionCommand(command){
+      if (!missionControlTopic){
+        appendLog("Mission command not sent: ROS publisher not ready.");
+        return;
+      }
+
+      const msg = new ROSLIB.Message({
+        data: command
+      });
+
+      missionControlTopic.publish(msg);
+      appendLog("Sent mission command: " + command);
+    }
+
+    function handleMissionButton(){
+      if (currentState === "MISSION MODE"){
+        sendMissionCommand("END_MISSION");
+      } else if (currentState === "BOOT" || currentState === "IDLE"){
+        sendMissionCommand("START_MISSION");
       }
     }
 
@@ -749,13 +744,8 @@
       if (missionBtn && !missionBtn.dataset.bound){
         missionBtn.addEventListener("click", handleMissionButton);
         missionBtn.dataset.bound = "1";
+        missionBtn.disabled = true;
       }
-
-      /* temporary demo:
-         after login, boot finishes automatically after 2 seconds.
-         you can remove this later if boot should change from ROS/controller logic.
-      */
-      setTimeout(finishBoot, 2000);
     }
 
     function unlockUI(){
@@ -786,11 +776,41 @@
     }
 
     function startRos(){
-      const ros = new ROSLIB.Ros({ url: "ws://192.168.2.2:9090" });
+      ros = new ROSLIB.Ros({ url: "ws://192.168.2.2:9090" });
 
-      ros.on("connection", () => setConnectedUI(true));
-      ros.on("close", () => setConnectedUI(false));
-      ros.on("error", () => setConnectedUI(false));
+      ros.on("connection", () => {
+        setConnectedUI(true);
+        appendLog("Connected to ROS bridge.");
+      });
+
+      ros.on("close", () => {
+        setConnectedUI(false);
+        appendLog("ROS bridge connection closed.");
+      });
+
+      ros.on("error", () => {
+        setConnectedUI(false);
+        appendLog("Error connecting to ROS bridge.");
+      });
+
+      missionControlTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: "/mission/control",
+        messageType: "std_msgs/String"
+      });
+
+      missionStateSub = new ROSLIB.Topic({
+        ros: ros,
+        name: "/mission/state",
+        messageType: "std_msgs/String"
+      });
+
+      missionStateSub.subscribe((msg) => {
+        currentState = msg.data.trim();
+        updateStateDisplay();
+        updateMissionButton();
+        appendLog("Mission state updated: " + currentState);
+      });
 
       const depthSub = new ROSLIB.Topic({
         ros, name: "/sensors/depth", messageType: "std_msgs/Float32"
@@ -841,21 +861,11 @@
         setText("currBig", msg.data.toFixed(1));
       });
 
-      const controllerLog = new ROSLIB.Topic({
+      const controllerLogTopic = new ROSLIB.Topic({
         ros, name: "/ui/controller_events", messageType: "std_msgs/String"
       });
-      controllerLog.subscribe((msg) => {
-        const el = document.getElementById("controllerLog");
-        if (!el) return;
-        el.textContent += "\n" + msg.data;
-        el.scrollTop = el.scrollHeight;
-
-        /* later, when your controller node sends a specific event,
-           you can trigger mission transitions here.
-           example:
-           if (msg.data === "START_MISSION") startMission();
-           if (msg.data === "END_MISSION") endMission();
-        */
+      controllerLogTopic.subscribe((msg) => {
+        appendLog(msg.data);
       });
     }
   </script>
