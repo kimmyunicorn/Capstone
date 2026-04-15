@@ -21,6 +21,7 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       font-family:Tahoma,Verdana,Segoe UI,sans-serif;
@@ -32,7 +33,9 @@
     }
 
     header{
-      position:sticky; top:0; z-index:50;
+      position:sticky;
+      top:0;
+      z-index:50;
       background:linear-gradient(to bottom,var(--top),var(--top2));
       border-bottom:2px solid #174b86;
     }
@@ -57,7 +60,9 @@
     }
 
     .star{
-      width:32px; height:32px; border-radius:50%;
+      width:32px;
+      height:32px;
+      border-radius:50%;
       background:radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.15));
       box-shadow:0 0 0 2px rgba(240,166,202,0.25);
       border:1px solid rgba(255,255,255,0.6);
@@ -106,16 +111,33 @@
     }
 
     .coming{
-      margin:0;
+      margin:0 0 16px;
       font-size:22px;
       font-weight:900;
-      color:#2f74c0; /* blue text */
+      color:#2f74c0;
     }
 
     .muted{
-      margin-top:10px;
+      margin-top:14px;
       color:var(--muted);
       font-size:14px;
+      line-height:1.6;
+    }
+
+    .video{
+      margin-top:18px;
+      width:100%;
+      max-width:850px;
+      aspect-ratio:16 / 9;
+    }
+
+    .video iframe{
+      width:100%;
+      height:100%;
+      border-radius:12px;
+      border:2px solid var(--border);
+      box-shadow:var(--shadow);
+      display:block;
     }
   </style>
 </head>
@@ -127,6 +149,7 @@
         <span class="star" aria-hidden="true"></span>
         SeaStar
       </div>
+
       <nav>
         <a href="index.html">Home</a>
         <a href="https://github.com/SeaSTAR-C" target="_blank">GitHub</a>
@@ -139,8 +162,21 @@
   <main class="wrap">
     <section class="box">
       <h1>Vlogs</h1>
-      <p class="coming">Vlogs coming soon</p>
-      <p class="muted">We’ll post build updates, pool tests, and competition prep here.</p>
+      <p class="coming">First Ever Table Top Test</p>
+
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/21W9H3AY85g"
+          title="SeaStar ROV First Ever Table Top Test"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <p class="muted">
+        This video shows SeaStar’s first ever table top test. It captures one of our early milestones as we began testing the system and checking how different parts of the ROV were coming together.
+      </p>
     </section>
   </main>
 </body>
