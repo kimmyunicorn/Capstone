@@ -1,218 +1,217 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SeaStar ROV — Vlogs</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SeaStar ROV — Vlogs</title>
 
-<style>
-:root{
-  --bg0:#ffc5d3;
-  --bg1:#fff06292;
-  --panel:rgba(255,255,255,0.86);
-  --panel2:rgba(255,255,255,0.70);
-  --border:#7aaed6;
-  --text:#0b2a3d;
-  --muted:#3f6f93;
-  --top:#2f74c0;
-  --top2:#1f5fa8;
-  --shadow:0 10px 26px rgba(0,0,0,0.10);
-}
+  <style>
+    :root{
+      --bg0:#ffc5d3;
+      --bg1:#fff06292;
+      --panel:rgba(255,255,255,0.86);
+      --panel2:rgba(255,255,255,0.70);
+      --border:#7aaed6;
+      --text:#0b2a3d;
+      --muted:#3f6f93;
+      --top:#2f74c0;
+      --top2:#1f5fa8;
+      --shadow:0 10px 26px rgba(0,0,0,0.10);
+    }
 
-*{box-sizing:border-box;}
-html,body{height:100%;}
+    *{ box-sizing:border-box; }
+    html,body{ min-height:100%; }
 
-body{
-margin:0;
-font-family:Tahoma,Verdana,Segoe UI,sans-serif;
-color:var(--text);
-background:
-radial-gradient(1200px 650px at 18% 12%, rgba(240,166,202,0.22), transparent 60%),
-radial-gradient(1200px 650px at 85% 20%, rgba(156,137,184,0.18), transparent 60%),
-linear-gradient(180deg,var(--bg1),var(--bg0));
-}
+    body{
+      margin:0;
+      font-family:Tahoma,Verdana,Segoe UI,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 650px at 18% 12%, rgba(240,166,202,0.22), transparent 60%),
+        radial-gradient(1200px 650px at 85% 20%, rgba(156,137,184,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+      background-attachment: fixed;
+    }
 
-header{
-position:sticky;
-top:0;
-z-index:50;
-background:linear-gradient(to bottom,var(--top),var(--top2));
-border-bottom:2px solid #174b86;
-}
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:linear-gradient(to bottom,var(--top),var(--top2));
+      border-bottom:2px solid #174b86;
+    }
 
-.top{
-max-width:1400px;
-margin:auto;
-padding:18px 20px;
-display:flex;
-align-items:center;
-gap:12px;
-}
+    .top{
+      max-width:1400px;
+      margin:auto;
+      padding:18px 20px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
 
-.brand{
-color:#fff;
-font-weight:900;
-font-size:26px;
-letter-spacing:0.5px;
-display:flex;
-align-items:center;
-gap:12px;
-}
+    .brand{
+      color:#fff;
+      font-weight:900;
+      font-size:26px;
+      letter-spacing:0.5px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
 
-.star{
-width:32px;
-height:32px;
-border-radius:50%;
-background:radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.15));
-box-shadow:0 0 0 2px rgba(240,166,202,0.25);
-border:1px solid rgba(255,255,255,0.6);
-}
+    .star{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.15));
+      box-shadow:0 0 0 2px rgba(240,166,202,0.25);
+      border:1px solid rgba(255,255,255,0.6);
+    }
 
-nav{
-margin-left:auto;
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
+    nav{
+      margin-left:auto;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
 
-nav a{
-color:#fff;
-padding:6px 10px;
-border-radius:8px;
-border:1px solid rgba(255,255,255,0.15);
-background:rgba(255,255,255,0.10);
-font-size:13px;
-text-decoration:none;
-}
+    nav a{
+      color:#fff;
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.15);
+      background:rgba(255,255,255,0.10);
+      font-size:13px;
+      text-decoration:none;
+    }
 
-nav a:hover{
-background:rgba(255,255,255,0.18);
-border-color:rgba(255,255,255,0.35);
-}
+    nav a:hover{
+      background:rgba(255,255,255,0.18);
+      border-color:rgba(255,255,255,0.35);
+    }
 
-.wrap{
-max-width:1100px;
-margin:auto;
-padding:28px 12px 80px;
-}
+    .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:28px 12px 80px;
+    }
 
-.box{
-background:linear-gradient(180deg,var(--panel),var(--panel2));
-border:2px solid var(--border);
-border-radius:14px;
-padding:24px;
-box-shadow:var(--shadow);
-margin-bottom:30px;
-}
+    .main-box{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:2px solid var(--border);
+      border-radius:18px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
 
-h1{
-margin:0 0 20px;
-font-size:28px;
-color:#0b3e6b;
-}
+    h1{
+      margin:0 0 24px;
+      font-size:30px;
+      color:#0b3e6b;
+    }
 
-.vlog-title{
-margin:0 0 12px;
-font-size:22px;
-font-weight:900;
-color:#2f74c0;
-}
+    .vlog{
+      padding-bottom:34px;
+      margin-bottom:34px;
+      border-bottom:2px solid rgba(122,174,214,0.35);
+    }
 
-.muted{
-margin-top:14px;
-color:var(--muted);
-font-size:14px;
-line-height:1.6;
-}
+    .vlog:last-child{
+      margin-bottom:0;
+      padding-bottom:0;
+      border-bottom:none;
+    }
 
-.video{
-margin-top:18px;
-width:100%;
-max-width:850px;
-aspect-ratio:16/9;
-}
+    .vlog-title{
+      margin:0 0 14px;
+      font-size:22px;
+      font-weight:900;
+      color:#2f74c0;
+    }
 
-.video iframe{
-width:100%;
-height:100%;
-border-radius:12px;
-border:2px solid var(--border);
-box-shadow:var(--shadow);
-display:block;
-}
-</style>
+    .video{
+      width:100%;
+      max-width:850px;
+      aspect-ratio:16 / 9;
+    }
+
+    .video iframe{
+      width:100%;
+      height:100%;
+      border-radius:12px;
+      border:2px solid var(--border);
+      box-shadow:var(--shadow);
+      display:block;
+    }
+
+    .muted{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <span class="star" aria-hidden="true"></span>
+        SeaStar
+      </div>
 
-<header>
-<div class="top">
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="https://github.com/SeaSTAR-C" target="_blank">GitHub</a>
+        <a href="vlogs.html">Vlogs</a>
+        <a href="about.html">About us</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="brand">
-<span class="star"></span>
-SeaStar
-</div>
+  <main class="wrap">
+    <section class="main-box">
+      <h1>Vlogs</h1>
 
-<nav>
-<a href="index.html">Home</a>
-<a href="https://github.com/SeaSTAR-C" target="_blank">GitHub</a>
-<a href="vlogs.html">Vlogs</a>
-<a href="about.html">About us</a>
-</nav>
+      <div class="vlog">
+        <p class="vlog-title">First Ever Table Top Test</p>
 
-</div>
-</header>
+        <div class="video">
+          <iframe
+            src="https://www.youtube.com/embed/21W9H3AY85g"
+            title="SeaStar ROV First Ever Table Top Test"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
 
-<main class="wrap">
+        <p class="muted">
+          This video shows SeaStar’s first ever table top test. It captures one of our early milestones as we began testing the system and verifying that the initial hardware and software components were working together correctly.
+        </p>
+      </div>
 
-<h1>SeaStar Vlogs</h1>
+      <div class="vlog">
+        <p class="vlog-title">First Power Supply Test</p>
 
-<!-- FIRST VLOG -->
+        <div class="video">
+          <iframe
+            src="https://www.youtube.com/embed/9qhCNC9e63w"
+            title="SeaStar ROV Power Supply Test"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
 
-<section class="box">
+        <p class="muted">
+          This vlog shows our first power supply test for the SeaStar ROV system. During this stage we checked that the electrical setup could safely provide power to the system before adding more subsystems.
+        </p>
+      </div>
 
-<p class="vlog-title">First Ever Table Top Test</p>
-
-<div class="video">
-<iframe
-src="https://www.youtube.com/embed/21W9H3AY85g"
-title="SeaStar ROV First Ever Table Top Test"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen>
-</iframe>
-</div>
-
-<p class="muted">
-This video shows SeaStar’s first ever table top test. It captures one of our early milestones as we began testing the system and verifying that the initial hardware and software components were working together correctly.
-</p>
-
-</section>
-
-
-<!-- SECOND VLOG -->
-
-<section class="box">
-
-<p class="vlog-title">First Power Supply Test</p>
-
-<div class="video">
-<iframe
-src="https://www.youtube.com/embed/9qhCNC9e63w"
-title="SeaStar ROV Power Supply Test"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen>
-</iframe>
-</div>
-
-<p class="muted">
-This vlog shows our first power supply test for the SeaStar ROV system. During this stage we verified that the electrical system could safely distribute power to the different components of the ROV.
-</p>
-
-</section>
-
-</main>
-
+    </section>
+  </main>
 </body>
 </html>
