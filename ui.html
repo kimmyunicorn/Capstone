@@ -260,6 +260,36 @@
  align-items:start;
  }
 
+ .controls-panel{
+ padding:16px;
+ }
+
+ .controls-panel h2{
+ margin:0 0 12px;
+ font-size:14px;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+ color:rgba(232,238,247,.55);
+ font-weight:800;
+ }
+
+ .controls-grid{
+ display:grid;
+ grid-template-columns: 1fr 1fr;
+ gap:12px;
+ }
+
+ .controls-grid .mission-btn,
+ .controls-grid .water-btn{
+ width:100%;
+ min-height:56px;
+ }
+
+ @media (max-width:520px){
+ .controls-grid{
+  grid-template-columns:1fr;
+ }
+ }
  .panel{
  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
  border:1px solid rgba(255,255,255,.12);
@@ -547,10 +577,8 @@
  <div class="topbar-right">
  <div class="state-display state-boot" id="stateDisplay">Current State: BOOT</div>
 
- <button class="mission-btn mission-start" id="missionBtn">Start Mission</button>
- <button class="water-btn" id="waterSampleBtn">Collect Water Sample</button>
-
  <div class="pill" id="connPill">
+
  <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
  <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
  <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
@@ -562,6 +590,17 @@
  </div>
  </div>
 
+ <div class="left">
+
+ <section class="panel controls-panel">
+  <h2>Mission Controls</h2>
+  <div class="controls-grid">
+   <button class="mission-btn mission-start" id="missionBtn">Start Mission</button>
+   <button class="water-btn" id="waterSampleBtn">Collect Water Sample</button>
+  </div>
+ </section>
+
+ <section class="panel bubbles">
  <div class="grid">
  <div class="left">
  <section class="panel bubbles">
@@ -636,6 +675,7 @@
  </section>
  </div>
 
+ 
  <section class="panel video">
  <div class="video-inner">
  <div class="video-top">
@@ -1157,4 +1197,3 @@ function handleGamepadInput(gp){
  </script>
 </body>
 </html>
-
