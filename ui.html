@@ -119,11 +119,6 @@
  padding:14px;
  }
 
- .topbar{
- display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
- padding:6px 2px 14px;
- border-bottom:1px solid rgba(255,255,255,.10);
- }
  .brand{
  display:flex;
  align-items:center;
@@ -172,6 +167,31 @@
  padding:10px 2px 14px;
  border-bottom:1px solid rgba(255,255,255,.10);
  }
+
+ .topbar-right{
+ display:flex;
+ align-items:center;
+ justify-content:flex-end;
+ gap:10px;
+ flex-wrap:wrap;
+}
+
+.state-display,
+.pill{
+ min-height:48px;
+ height:48px;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.pill{
+ min-width:170px;
+}
+
+.state-display{
+ min-width:210px;
+}
 
  .pill{
  display:inline-flex; align-items:center; gap:10px;
@@ -270,6 +290,19 @@
  cursor:not-allowed;
  transform:none;
  }
+
+ .light-on{
+ border-color: rgba(255,204,57,.35);
+ background: rgba(255,204,57,.12);
+ color: rgba(255,220,100,.98);
+}
+
+.light-off{
+ border-color: rgba(42,167,255,.30);
+ background: rgba(42,167,255,.10);
+ color: rgba(42,167,255,.96);
+}
+
  .mission-start{
  border-color: rgba(30,227,138,.30);
  background: rgba(30,227,138,.10);
@@ -306,7 +339,29 @@
  display:grid;
  grid-template-columns: 1fr 1fr;
  gap:12px;
+}
+
+#missionBtn{
+ grid-column:1 / -1;
+ min-height:64px;
+ font-size:15px;
+}
+
+#waterSampleBtn,
+#downloadCsvBtn{
+ min-height:56px;
+ font-size:14px;
+}
+
+@media (max-width:520px){
+ .controls-grid{
+  grid-template-columns:1fr;
  }
+
+ #missionBtn{
+  grid-column:auto;
+ }
+}
 
  .controls-grid .mission-btn,
  .controls-grid .water-btn{
@@ -478,24 +533,157 @@
  .lightblueText{color:var(--lightblue)}
  .orangeText{color:var(--orange)}
 
- .video{
+ .monitor-tabs{
+ display:flex;
+ gap:0;
+ padding:6px;
+ border-radius:20px;
+ border:1px solid rgba(255,255,255,.12);
+ background: rgba(0,0,0,.42);
+ box-shadow: var(--ring);
+ overflow:hidden;
+}
+
+.tab-btn{
+ flex:1;
+ min-height:58px;
+ border:0;
+ border-radius:14px;
+ background: transparent;
+ color: rgba(232,238,247,.55);
+ font-size:13px;
+ font-weight:900;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+ cursor:pointer;
+ transition: background .2s ease, color .2s ease;
+}
+
+.tab-btn:hover{
+ background: rgba(255,255,255,.04);
+ color: rgba(232,238,247,.82);
+}
+
+.tab-btn.active{
+ background: rgba(0,0,0,.55);
+ color: rgba(42,167,255,.98);
+ box-shadow: none;
+}
+
+.tab-btn + .tab-btn{
+ border-left:1px solid rgba(255,255,255,.08);
+}
+
+.tab-content{
+ display:none;
+ flex-direction:column;
+ gap:14px;
+}
+
+.tab-content.active{
+ display:flex;
+}
+
+.sensor-power-one-box{
+ display:flex;
+ flex-direction:column;
+ gap:18px;
+}
+
+.sub-panel-title{
+ margin:0 0 12px;
+ font-size:13px;
+ letter-spacing:.12em;
+ text-transform:uppercase;
+ color:rgba(232,238,247,.55);
+ font-weight:850;
+}
+
+.position-dashboard{
+ display:flex;
+ flex-direction:column;
+ gap:14px;
+}
+
+.viewer-card,
+.graph-card{
+ border-radius:18px;
+ border:1px solid rgba(255,255,255,.12);
+ background: rgba(0,0,0,.22);
+ box-shadow: var(--ring);
+ padding:12px;
+}
+
+.graph-title{
+ color:rgba(232,238,247,.58);
+ letter-spacing:.12em;
+ text-transform:uppercase;
+ font-size:12px;
+ font-weight:850;
+ margin-bottom:10px;
+}
+
+.small-viewer{
+ max-height:260px;
+}
+
+#rov3dViewer{
+ width:100%;
+ height:200px;
+ border-radius:14px;
+ border:1px solid rgba(255,255,255,.10);
+ background: rgba(0,0,0,.28);
+ overflow:hidden;
+}
+
+.graph-row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:14px;
+}
+
+#depthGraph,
+#tempGraph{
+ width:100%;
+ height:210px;
+ border-radius:14px;
+ background: rgba(0,0,0,.18);
+ display:block;
+}
+
+.video{
  position:relative;
  overflow:hidden;
  min-height:720px;
  border-radius:20px;
- }
- .video::before{
+}
+
+.video::before{
  content:"";
  position:absolute; inset:0;
  background:
  radial-gradient(900px 520px at 20% 0%, rgba(42,167,255,.12), transparent 60%),
  radial-gradient(900px 520px at 80% 0%, rgba(25,211,230,.10), transparent 55%),
  linear-gradient(180deg, rgba(8,12,20,.92), rgba(7,10,16,.96));
- }
- .video-inner{position:relative; padding:16px; height:100%;}
- .video-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
- .live{
- display:inline-flex; align-items:center; gap:10px;
+}
+
+.video-inner{
+ position:relative;
+ padding:16px;
+ height:100%;
+}
+
+.video-top{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin-bottom:10px;
+}
+
+.live{
+ display:inline-flex;
+ align-items:center;
+ gap:10px;
  padding:9px 12px;
  border-radius:999px;
  border:1px solid rgba(255,255,255,.14);
@@ -503,13 +691,17 @@
  font-size:14px;
  color:rgba(232,238,247,.88);
  box-shadow: var(--ring);
- }
- .dot{
- width:9px;height:9px;border-radius:50%;
+}
+
+.dot{
+ width:9px;
+ height:9px;
+ border-radius:50%;
  background:var(--red);
  box-shadow:0 0 14px rgba(255,77,95,.35);
- }
- .cam-pill{
+}
+
+.cam-pill{
  padding:9px 12px;
  border-radius:999px;
  border:1px solid rgba(255,255,255,.14);
@@ -518,8 +710,9 @@
  font-size:13px;
  color:rgba(232,238,247,.85);
  box-shadow: var(--ring);
- }
- .video-frame{
+}
+
+.video-frame{
  margin-top:10px;
  height:600px;
  border-radius:20px;
@@ -527,19 +720,26 @@
  background:
  radial-gradient(900px 560px at 40% 30%, rgba(255,255,255,.06), transparent 62%),
  linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.30));
- display:flex; align-items:center; justify-content:center;
+ display:flex;
+ align-items:center;
+ justify-content:center;
  position:relative;
  overflow:hidden;
- }
- .video-frame::after{
+}
+
+.video-frame::after{
  content:"";
- position:absolute; inset:0;
+ position:absolute;
+ inset:0;
  background: radial-gradient(800px 420px at 50% 10%, rgba(42,167,255,.08), transparent 70%);
  pointer-events:none;
- }
- .telemetry-strip{
+}
+
+.telemetry-strip{
  position:absolute;
- left:0; right:0; bottom:0;
+ left:0;
+ right:0;
+ bottom:0;
  padding:10px 14px;
  display:flex;
  justify-content:space-between;
@@ -548,189 +748,317 @@
  font-size:14px;
  border-top:1px solid rgba(255,255,255,.10);
  background: linear-gradient(180deg, transparent, rgba(0,0,0,.28));
+}
+
+@media (max-width:1080px){
+ .grid{
+  grid-template-columns:1fr;
  }
 
- @media (max-width:1080px){
- .grid{grid-template-columns:1fr;}
- .video{min-height:640px;}
- .video-frame{height:520px;}
- }
- @media (max-width:520px){
- .bubble-grid{grid-template-columns:1fr;}
- .power-grid{grid-template-columns:1fr;}
+ .video{
+  min-height:640px;
  }
 
- .panel:hover,
- .card:hover{
+ .video-frame{
+  height:520px;
+ }
+}
+
+@media (max-width:520px){
+ .bubble-grid{
+  grid-template-columns:1fr;
+ }
+
+ .power-grid{
+  grid-template-columns:1fr;
+ }
+
+ .graph-row{
+  grid-template-columns:1fr;
+ }
+}
+
+.video-frame.recording{
+ border:2px solid rgba(255,77,95,.95);
+ box-shadow:
+ 0 0 0 1px rgba(255,77,95,.30) inset,
+ 0 0 18px rgba(255,77,95,.30),
+ 0 0 40px rgba(255,77,95,.18);
+}
+
+.rec-badge{
+ display:inline-flex;
+ align-items:center;
+ gap:8px;
+ padding:8px 12px;
+ border-radius:999px;
+ border:1px solid rgba(255,77,95,.35);
+ background: rgba(255,77,95,.12);
+ color: rgba(255,77,95,.96);
+ font-size:13px;
+ font-weight:850;
+ letter-spacing:.04em;
+ box-shadow: var(--ring);
+}
+
+.rec-dot{
+ width:9px;
+ height:9px;
+ border-radius:50%;
+ background: var(--red);
+ box-shadow: 0 0 12px rgba(255,77,95,.45);
+ display:inline-block;
+}
+
+#recTimer{
+ color: rgba(232,238,247,.90);
+ font-weight:800;
+ margin-left:2px;
+ min-width:44px;
+ text-align:left;
+}
+
+.panel:hover,
+.card:hover{
  box-shadow:
  0 18px 60px rgba(42,167,255,.28),
  0 0 55px rgba(42,167,255,.20);
  transition: box-shadow .25s ease;
- }
+}
+
+.app-shell.danger-halo,
+.panel.danger-halo,
+.card.danger-halo{
+ box-shadow:
+ 0 18px 60px rgba(255,77,95,.35),
+ 0 0 60px rgba(255,77,95,.28);
+ border-color: rgba(255,77,95,.35);
+}
  
- </style>
+</style>
 </head>
 
 <body> 
  <div class="login" id="loginScreen">
- <div class="login-card">
- <div class="login-top">
- <img class="login-logo" src="seastar-logo.png" alt="SeaStar logo">
- <div>
- <h2>SeaStar Login</h2>
- <p>Enter the access code to open the ROV dashboard.</p>
- </div>
- </div>
+  <div class="login-card">
+   <div class="login-top">
+    <img class="login-logo" src="seastar-logo.png" alt="SeaStar logo">
+    <div>
+     <h2>SeaStar Login</h2>
+     <p>Enter the access code to open the ROV dashboard.</p>
+    </div>
+   </div>
 
- <input id="loginCode" type="password" placeholder="Access code" autocomplete="off" />
- <button id="loginBtn">Login</button>
- <div class="login-msg" id="loginMsg"></div>
+   <input id="loginCode" type="password" placeholder="Access code" autocomplete="off" />
+   <button id="loginBtn">Login</button>
+   <div class="login-msg" id="loginMsg"></div>
 
- <div class="tiny">
- Local-only: connects to <code>ws://localhost:9090</code> after login.
- </div>
- </div>
+   <div class="tiny">
+    Local-only: connects to <code>ws://localhost:9090</code> after login.
+   </div>
+  </div>
  </div>
 
  <div class="wrap" id="app" style="display:none;">
- <div class="app-shell">
- <div class="topbar">
- <div class="brand">
- <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
- <div class="titleblock">
- <h1>ROV Control Interface</h1>
- <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
- </div>
- </div>
+  <div class="app-shell">
 
- <div class="topbar-right">
- <div class="state-display state-boot" id="stateDisplay">Current State: BOOT</div>
+   <div class="topbar">
+    <div class="brand">
+     <img class="logo" src="seastar-logo.png" alt="SeaStar logo">
+     <div class="titleblock">
+      <h1>ROV Control Interface</h1>
+      <p>SeaSTAR (Submersible Technology for Aquatic Research)</p>
+     </div>
+    </div>
 
- <div class="pill" id="connPill">
+    <div class="topbar-right">
+     <div class="state-display state-boot" id="stateDisplay">Current State: BOOT</div>
 
- <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
- <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
- <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
- <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
- <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
- </svg>
- <span id="connText">Disconnected</span>
- </div>
- </div>
- </div>
+     <div class="pill" id="connPill">
+      <svg class="wifi" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+       <path d="M2 8.5C7.5 3.6 16.5 3.6 22 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+       <path d="M5 12c4-3.4 10-3.4 14 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+       <path d="M8.5 15.5c2.2-1.8 4.8-1.8 7 0" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+       <circle cx="12" cy="19" r="1.7" fill="currentColor"/>
+      </svg>
+      <span id="connText">Disconnected</span>
+     </div>
+    </div>
+   </div>
 
- <div class="left">
+   <div class="grid">
 
- <section class="panel controls-panel">
-  <h2>Mission Controls</h2>
-  <div class="controls-grid">
-   <button class="mission-btn mission-start" id="missionBtn">Start Mission</button>
-   <button class="water-btn" id="waterSampleBtn">Collect Water Sample</button>
+    <div class="left">
+
+     <section class="panel controls-panel">
+      <h2>Mission Controls</h2>
+      <div class="controls-grid">
+       <button class="mission-btn mission-start" id="missionBtn">Start Mission</button>
+       <button class="water-btn" id="waterSampleBtn">Collect Water Sample</button>
+       <button class="water-btn" id="lightBtn">Turn Light ON</button>
+       <button class="water-btn" id="downloadCsvBtn">Download Telemetry CSV</button>
+      </div>
+
+     </section>
+
+     <div class="monitor-tabs">
+      <button class="tab-btn active" id="sensorPowerTab">Sensor + Power</button>
+      <button class="tab-btn" id="positionTab">Position + Graphs</button>
+     </div>
+
+     <div class="tab-content active" id="sensorPowerContent">
+
+      <section class="panel bottom">
+       <h2>Sensor + Power Monitoring</h2>
+
+       <div class="sensor-power-one-box">
+
+        <div>
+         <h3 class="sub-panel-title">Sensor Readings</h3>
+
+         <div class="bubble-grid">
+
+          <div class="bubble">
+           <div class="meta">
+            <span class="dotIcon c-blue"></span>
+            <span class="tag">Depth</span>
+           </div>
+           <div>
+            <span class="num" id="depthBig">—</span><span class="unit">m</span>
+           </div>
+          </div>
+
+          <div class="bubble">
+           <div class="meta">
+            <span class="dotIcon c-orange"></span>
+            <span class="tag">Temp</span>
+           </div>
+           <div>
+            <span class="num" id="tempBig">—</span><span class="unit">°C</span>
+           </div>
+          </div>
+          
+          <div class="bubble">
+           <div class="meta">
+            <span class="dotIcon c-purple"></span>
+            <span class="tag">Pressure</span>
+           </div>
+           <div>
+            <span class="num" id="pressBig">—</span><span class="unit">atm</span>
+           </div>
+          </div>
+
+         </div>
+        </div>
+
+        <div>
+         <h3 class="sub-panel-title">Power Monitoring</h3>
+
+         <div class="power-grid">
+
+          <div class="mini">
+           <div class="k">Voltage</div>
+           <div><span class="v lightblueText" id="voltBig">—</span><span class="u">V</span></div>
+          </div>
+
+          <div class="mini">
+           <div class="k">Current</div>
+           <div><span class="v orangeText" id="currBig">—</span><span class="u">A</span></div>
+          </div>
+
+          <div class="mini">
+           <div class="k">Power</div>
+           <div><span class="v lightblueText" id="powerBig">—</span><span class="u">W</span></div>
+          </div>
+
+         </div>
+        </div>
+
+       </div>
+      </section>
+
+     </div>
+
+     <div class="tab-content" id="positionContent">
+
+      <section class="panel bottom">
+       <h2>Position + Live Graphs</h2>
+
+       <div class="position-dashboard">
+
+        <div class="viewer-card small-viewer">
+         <div class="graph-title">ROV CAD Position</div>
+         <div id="rov3dViewer"></div>
+        </div>
+
+        <div class="graph-row">
+
+         <div class="graph-card">
+          <div class="graph-title">Depth Over Time</div>
+          <canvas id="depthGraph"></canvas>
+         </div>
+
+         <div class="graph-card">
+          <div class="graph-title">Temperature Over Time</div>
+          <canvas id="tempGraph"></canvas>
+         </div>
+
+        </div>
+
+       </div>
+      </section>
+
+     </div>
+
+     <div class="card">
+      <div class="label">
+       <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 9h12M6 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="8" cy="12" r="1.4" fill="currentColor"/>
+        <circle cx="16" cy="12" r="1.4" fill="currentColor"/>
+       </svg>
+       CONTROLLER EVENTS
+      </div>
+      <pre id="controllerLog" class="log">Waiting for controller input…</pre>
+     </div>
+
+    </div>
+
+    <section class="panel video">
+     <div class="video-inner">
+      <div class="video-top">
+       <div style="display:flex; align-items:center; gap:10px;">
+        <div class="live"><span class="dot"></span>LIVE</div>
+        <div class="rec-badge" id="recBadge" style="display:none;">
+         <span class="rec-dot"></span>
+         REC
+         <span id="recTimer">00:00</span>
+        </div>
+       </div>
+
+       <div class="cam-pill">CAM–1</div>
+      </div>
+
+      <div class="video-frame" id="videoFrame">
+       <iframe
+        id="camFrame"
+        src="http://192.168.2.2:8090/NavigationCamera"
+        title="Camera feed"
+        style="width:100%;height:100%;border:0;border-radius:18px;background:transparent;"
+        allow="autoplay; fullscreen"
+       ></iframe>
+
+       <div class="telemetry-strip">
+        <div>Depth: <span id="depthSmall">—</span>m</div>
+        <div>Temp: <span id="tempSmall">—</span>°C</div>
+        <div>Video: <span id="videoStatus">Idle</span></div>
+       </div>
+      </div> 
+     </div>
+    </section>
+
+   </div>
   </div>
- </section>
-
- <section class="panel bubbles">
- <div class="grid">
- <div class="left">
- <section class="panel bubbles">
- <h2>Sensor Readings</h2>
- <div class="bubble-grid">
- <div class="bubble">
- <div class="meta">
- <span class="dotIcon c-blue"></span>
- <span class="tag">Depth</span>
- </div>
- <div>
- <span class="num" id="depthBig">—</span><span class="unit">m</span>
- </div>
- </div>
-
- <div class="bubble">
- <div class="meta">
- <span class="dotIcon c-orange"></span>
- <span class="tag">Temp</span>
- </div>
- <div>
- <span class="num" id="tempBig">—</span><span class="unit">°C</span>
- </div>
- </div>
-
- <div class="bubble">
- <div class="meta">
- <span class="dotIcon c-purple"></span>
- <span class="tag">Pressure</span>
- </div>
- <div>
- <span class="num" id="pressBig">—</span><span class="unit">bar</span>
- </div>
- </div>
-
- <div class="bubble">
- <div class="meta">
- <span class="dotIcon c-green"></span>
- <span class="tag">Heading</span>
- </div>
- <div>
- <span class="num" id="headingBig">—</span><span class="unit">°</span>
- </div>
- </div>
- </div>
- </section>
-
- <div class="card">
- <div class="label">
- <svg class="ico green" viewBox="0 0 24 24" fill="none" aria-hidden="true">
- <path d="M6 9h12M6 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
- <circle cx="8" cy="12" r="1.4" fill="currentColor"/>
- <circle cx="16" cy="12" r="1.4" fill="currentColor"/>
- </svg>
- CONTROLLER EVENTS
- </div>
- <pre id="controllerLog" class="log">Waiting for controller input…</pre>
- </div>
-
- <section class="panel bottom">
- <h2>Power Monitoring</h2>
- <div class="power-grid">
- <div class="mini">
- <div class="k">Voltage</div>
- <div><span class="v lightbluetext" id="voltBig">—</span><span class="u">V</span></div>
- </div>
- <div class="mini">
- <div class="k">Current</div>
- <div><span class="v orangeText" id="currBig">—</span><span class="u">A</span></div>
- </div>
- </div>
- </section>
- </div>
-
- 
- <section class="panel video">
- <div class="video-inner">
- <div class="video-top">
- <div class="live"><span class="dot"></span>LIVE</div>
- <div class="cam-pill">CAM–1</div>
- </div>
-
- <div class="video-frame" id="videoFrame">
- <iframe
- id="camFrame"
- src="http://192.168.2.2:8090/NavigationCamera"
- title="Camera feed"
- style="width:100%;height:100%;border:0;border-radius:18px;background:transparent;"
- allow="autoplay; fullscreen"
- ></iframe>
-
- <div class="telemetry-strip">
- <div>Depth: <span id="depthSmall">—</span>m</div>
- <div>Heading: <span id="headingSmall">—</span>°</div>
- <div>Temp: <span id="tempSmall">—</span>°C</div>
- </div>
- </div> 
- </div>
- </section>
- </div>
- </div>
  </div>
 
  <script src="https://cdn.jsdelivr.net/npm/roslib/build/roslib.min.js"></script> 
@@ -764,6 +1092,10 @@
  let cmdVelTopic = null; //publishes movement commands from browser controller input. (dont know if i need this ask alex)
  let uiControllerTopic = null; //publishes controller event logs from browser.
  let gamepadLoopStarted = false; //makes sure we only start the controller polling loop once.
+ 
+ const CONTROLLER_SEND_HZ = 60; //60 hz.
+ const CONTROLLER_SEND_INTERVAL_MS = 1000 / CONTROLLER_SEND_HZ; //60 hz is abt 16.67 ms.
+ let lastControllerSendTime = 0; //stores last time we sent controller data.
 
  let missionActive = false; //mission active starts at false (state of "mission active")
  let telemetryActive = false; //telemetry is not active.
@@ -773,6 +1105,17 @@
  let prevButtons = []; //stores previous gamepad button states for edge detection.
  let prevMissionCombo = false; //stores previous state of joystick combo, so did the user already press it or no.
  let prevTelemetryCombo = false; //stores previous state of bumper combo, so did the user already press this as well or no.
+
+ let recordingStartTime = null;
+ let recordingTimerInterval = null;
+
+ let thrusterCommandTopic = null;
+ let lightActive = false; //the light starts off.
+
+
+ let leakAlarm = new Audio("mixkit-classic-alarm-995.wav");
+ leakAlarm.loop = true;
+ leakAlarm.volume = 0.9;
 
  const loginScreen = document.getElementById("loginScreen"); 
  const app = document.getElementById("app");
@@ -826,22 +1169,76 @@
  }
  }
 
+ function formatRecordingTime(totalSeconds){
+ const mins = Math.floor(totalSeconds / 60);
+ const secs = totalSeconds % 60;
+ return String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+ }
+
+ function startRecordingUI(){
+ const videoFrame = document.getElementById("videoFrame");
+ const recBadge = document.getElementById("recBadge");
+ const recTimer = document.getElementById("recTimer");
+ videoActive = true;
+ setText("videoStatus", "Recording");
+
+ if (videoFrame) videoFrame.classList.add("recording");
+ if (recBadge) recBadge.style.display = "inline-flex";
+
+ recordingStartTime = Date.now();
+
+ if (recTimer) recTimer.textContent = "00:00";
+
+ if (recordingTimerInterval){
+  clearInterval(recordingTimerInterval);
+ }
+
+ recordingTimerInterval = setInterval(() => {
+  if (!recordingStartTime || !recTimer) return;
+
+  const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
+  recTimer.textContent = formatRecordingTime(elapsedSeconds);
+ }, 1000);
+ }
+
+ function stopRecordingUI(){
+ const videoFrame = document.getElementById("videoFrame");
+ const recBadge = document.getElementById("recBadge");
+ const recTimer = document.getElementById("recTimer");
+
+ videoActive = false;
+ setText("videoStatus", "Not Recording");
+ if (videoFrame) videoFrame.classList.remove("recording");
+ if (recBadge) recBadge.style.display = "none";
+ if (recTimer) recTimer.textContent = "00:00";
+
+ if (recordingTimerInterval){
+  clearInterval(recordingTimerInterval);
+  recordingTimerInterval = null;
+ }
+
+ recordingStartTime = null;
+ }
+
  function setConnectedUI(ok){
  const connText = document.getElementById("connText");
  const connPill = document.getElementById("connPill");
  const missionBtn = document.getElementById("missionBtn");
  const waterSampleBtn = document.getElementById("waterSampleBtn");
+ const lightBtn = document.getElementById("lightBtn");
 
  if (!connText || !connPill) return;
 
- if (ok){
+ if (ok){ 
   connPill.style.borderColor = "rgba(30,227,138,.22)";
   connPill.style.background = "rgba(30,227,138,.08)";
   connText.textContent = "Connected";
   connText.style.color = "rgba(30,227,138,.92)";
   if (missionBtn) missionBtn.disabled = false;
   if (waterSampleBtn) waterSampleBtn.disabled = false;
+  if (lightBtn) lightBtn.disabled = false;
  } 
+
  else {
   connPill.style.borderColor = "rgba(255,77,95,.22)";
   connPill.style.background = "rgba(255,77,95,.08)";
@@ -849,26 +1246,69 @@
   connText.style.color = "rgba(255,77,95,.92)";
   if (missionBtn) missionBtn.disabled = true;
   if (waterSampleBtn) waterSampleBtn.disabled = true;
+  if (lightBtn) lightBtn.disabled = true;
  }
  }
 
- function sendMissionCommand(command){
- if (!missionControlTopic){
- appendLog("Mission command not sent: ROS publisher not ready.");
- return;
+ //translating joses python controller logic to js.
+ function getTriggerThrust(gp){ //game pad has all the controller values.
+ const ZL_AXIS = 4; //array value he had.
+ const ZR_AXIS = 5; //same here.
+ const zlRaw = gp.axes[ZL_AXIS] ?? -1; //??-1 if the value is missing just pretend it is -1.
+ const zrRaw = gp.axes[ZR_AXIS] ?? -1; //same as above.
+ const zl = (zlRaw + 1) / 2; //his logic.
+ const zr = (zrRaw + 1) / 2; //his logic.
+ const combined = zr - zl; //ascend - descend
+ if (Math.abs(combined) < 0.05){ //if combined is less than 0.05 just return 0.
+  return 0;
  }
+ return Math.round(combined * 1000); //his logic. (but multiply by 1000, to not have floats.)
+}
+//------------------------------------------------------------------
+function startGamepadLoop(){
+  if (gamepadLoopStarted) return;
+  gamepadLoopStarted = true;
+  //appendLog("Browser controller input enabled.");
+  requestAnimationFrame(gamepadLoop);
+}
 
- const msg = new ROSLIB.Message({
- data: command
- });
+function gamepadLoop(timestamp){
+  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+  const gp = gamepads[0];
 
- missionControlTopic.publish(msg);
- appendLog("Sent mission command: " + command);
- }
+  if (gp){
+    const timeSinceLastSend = timestamp - lastControllerSendTime;
+
+    if (timeSinceLastSend >= CONTROLLER_SEND_INTERVAL_MS){
+      handleGamepadInput(gp);
+      lastControllerSendTime = timestamp;
+    }
+  }
+
+  requestAnimationFrame(gamepadLoop);
+}
+//------------------------------------------------------------------
+function sendMissionCommand(command){
+  if (!missionControlTopic){
+    //appendLog("Mission command not sent: ROS publisher not ready.");
+    return;
+  }
+  const timestamp = Date.now();
+
+  const msg = new ROSLIB.Message({ 
+    data: command 
+  });
+
+  missionControlTopic.publish(msg);
+
+  appendLog("Sent mission command: " + msg.data);
+
+  console.log("Sent:", msg.data);
+}
 
  function publishControllerEvent(text){
  if (!uiControllerTopic){
-  appendLog("Controller event not sent: UI controller publisher not ready.");
+  //appendLog("Controller event not sent: UI controller publisher not ready.");
   return;
  }
  const msg = new ROSLIB.Message({
@@ -878,8 +1318,12 @@
  uiControllerTopic.publish(msg);
  }
 
-
  function handleMissionButton(){
+ if (!missionControlTopic){
+  //appendLog("Mission publisher still not ready.");
+  return;
+ }
+
  if (missionActive){
   console.log("Mission Ended");
   appendLog("Mission Ended");
@@ -906,10 +1350,79 @@
  sendMissionCommand("COLLECT_WATER_SAMPLE");
  publishControllerEvent("UI: COLLECT_WATER_SAMPLE pressed");
 }
+  function handleDownloadCsvButton(){
+ appendLog("Downloading telemetry CSV...");
+ window.open("http://192.168.2.2:8000/telemetry_latest.csv", "_blank");
+ 
+}
+
+function updateLightButton(){
+ const lightBtn = document.getElementById("lightBtn");
+ if (!lightBtn) return;
+
+ lightBtn.classList.remove("light-on", "light-off");
+
+ if (lightActive){
+  lightBtn.textContent = "Turn Light OFF";
+  lightBtn.classList.add("light-on");
+ }
+ else {
+  lightBtn.textContent = "Turn Light ON";
+  lightBtn.classList.add("light-off");
+ }
+}
+
+function handleLightButton(){
+ if (!missionControlTopic){
+  return;
+ }
+
+ if (!lightActive){
+  sendMissionCommand("LIGHT_ON"); 
+  publishControllerEvent("UI: LIGHT_ON pressed");
+  appendLog("Light turned ON");
+  lightActive = true;
+ }
+ else {
+  sendMissionCommand("LIGHT_OFF");
+  publishControllerEvent("UI: LIGHT_OFF pressed");
+  appendLog("Light turned OFF");
+  lightActive = false;
+ }
+
+ updateLightButton();
+}
+
+
+function setupMonitorTabs(){
+ const sensorPowerTab = document.getElementById("sensorPowerTab");
+ const positionTab = document.getElementById("positionTab");
+ const sensorPowerContent = document.getElementById("sensorPowerContent");
+ const positionContent = document.getElementById("positionContent");
+
+ if (!sensorPowerTab || !positionTab || !sensorPowerContent || !positionContent) return;
+
+ sensorPowerTab.addEventListener("click", () => {
+  sensorPowerTab.classList.add("active");
+  positionTab.classList.remove("active");
+
+  sensorPowerContent.classList.add("active");
+  positionContent.classList.remove("active");
+ });
+
+ positionTab.addEventListener("click", () => {
+  positionTab.classList.add("active");
+  sensorPowerTab.classList.remove("active");
+
+  positionContent.classList.add("active");
+  sensorPowerContent.classList.remove("active");
+ });
+}
 
  function bindUI(){
  updateStateDisplay();
  updateMissionButton();
+ setupMonitorTabs();
 
  const missionBtn = document.getElementById("missionBtn");
  if (missionBtn && !missionBtn.dataset.bound){
@@ -924,48 +1437,72 @@
   waterSampleBtn.dataset.bound = "1";
   waterSampleBtn.disabled = true;
  }
- }
- 
- function startGamepadLoop(){
- if (gamepadLoopStarted) return;
- gamepadLoopStarted = true;
- appendLog("Browser controller input enabled.");
- requestAnimationFrame(gamepadLoop);
+
+ const lightBtn = document.getElementById("lightBtn");
+ if (lightBtn && !lightBtn.dataset.bound){
+  lightBtn.addEventListener("click", handleLightButton);
+  lightBtn.dataset.bound = "1";
+  lightBtn.disabled = true;
+  updateLightButton();
 }
 
-
-function gamepadLoop(){
- const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
- const gp = gamepads[0]; //use first connected controller.
-
- if (gp){
-  handleGamepadInput(gp);
+ const downloadCsvBtn = document.getElementById("downloadCsvBtn");
+ if (downloadCsvBtn && !downloadCsvBtn.dataset.bound){
+ downloadCsvBtn.addEventListener("click", handleDownloadCsvButton);
+ downloadCsvBtn.dataset.bound = "1";
+}
  }
 
- requestAnimationFrame(gamepadLoop);
-}
 //--------------------------------------------------------------------------------
 //this is what was suppose to be my controllerapi.py :(
 function handleGamepadInput(gp){
- const Y_BUTTON = 4; //button mapping (only the buttons we are using).
- const LB_BUTTON = 6; //left bumper.
- const RB_BUTTON = 7; //right bumper.
- const L_JOYSTICK = 13; //left joystick.
- const R_JOYSTICK = 14; //right joystick.
+ const A_BUTTON = 0;
+ const B_BUTTON = 1;
+ const X_BUTTON = 3;
+ const Y_BUTTON = 4;
+ const LB_BUTTON = 6;
+ const RB_BUTTON = 7;
+ const LT_BUTTON = 8;
+ const RT_BUTTON = 9;
+ const SM_L_CIRCLE_BUTTON = 10;
+ const SM_R_CIRCLE_BUTTON = 11;
+ const XBOX_BUTTON = 12;
+ const L_JOYSTICK = 13;
+ const R_JOYSTICK = 14;
 
- const LEFT_STICK_X = 0; //axis mapping.
+ const LEFT_STICK_X = 0;
  const LEFT_STICK_Y = 1;
- const LT_AXIS = 4; //position of the array. (when pressed: 0,0,0,0,1,0,0,0,0).
- const RT_AXIS = 5; //position of the array. (when pressed: 0,0,0,0,0,1,0,0,0).
+ const RIGHT_STICK_X = 2;
+ const RIGHT_STICK_Y = 3;
 
- if (!prevButtons.length){ //initialize previous button list once.
+ const lx = Math.round((gp.axes[LEFT_STICK_X] ?? 0) * 100);
+ const ly = Math.round((gp.axes[LEFT_STICK_Y] ?? 0) * 100);
+ const rx = Math.round((gp.axes[RIGHT_STICK_X] ?? 0) * 100);
+ const ry = Math.round((gp.axes[RIGHT_STICK_Y] ?? 0) * 100);
+ const z = getTriggerThrust(gp);
+
+ console.log("LX:", lx, "LY:", ly, "RX:", rx, "RY:", ry, "Z:", z);
+ //appendLog("ARRAY: [" + lx + ", " + ly + ", " + rx + ", " + ry + ", " + z + "]");
+
+ if (thrusterCommandTopic){
+  const thrusterMsg = new ROSLIB.Message({
+    layout: {
+      dim: [],
+      data_offset: 0
+    },
+    data: [lx, ly, rx, ry, z]
+  });
+
+  thrusterCommandTopic.publish(thrusterMsg);
+}
+
+ if (!prevButtons.length){
   prevButtons = gp.buttons.map(() => 0);
  }
 
- const buttons = gp.buttons.map(b => b.pressed ? 1 : 0); //read current button pressed states as 0 or 1.
+ const buttons = gp.buttons.map(b => b.pressed ? 1 : 0);
 
-
- if (cmdVelTopic){ //this is for movement but idk ask alex.
+ if (cmdVelTopic){
   const twistMsg = new ROSLIB.Message({
    linear: {
     x: gp.axes[LEFT_STICK_Y] || 0,
@@ -982,78 +1519,94 @@ function handleGamepadInput(gp){
   cmdVelTopic.publish(twistMsg);
  }
 
- const missionComboNow = //start and end mission. (press both joysticks down [13][14]).
+ const missionComboNow =
   buttons[L_JOYSTICK] === 1 &&
   buttons[R_JOYSTICK] === 1;
 
- if (missionComboNow && !prevMissionCombo){ //if it is currently being pressed, and it wasn't previously pressed then start mission!!!
-  if (!missionActive){ //and if mission isn't active....
-   sendMissionCommand("START_MISSION"); //then send start mission.
-   publishControllerEvent("Controller: START_MISSION pressed"); //this will publish as an event.
-   missionActive = true; //we now change the state of mission active to true.
-  } 
-  else { //else then the mission is active, and we send an end mission command.
-   sendMissionCommand("END_MISSION"); //sends command.
-   publishControllerEvent("Controller: END_MISSION pressed"); //publishes event.
-   missionActive = false; //now because we ended the mission we change the mission active to false.
+ if (missionComboNow && !prevMissionCombo){
+  if (!missionActive){
+   sendMissionCommand("START_MISSION");
+   publishControllerEvent("Controller: START_MISSION pressed");
+   missionActive = true;
+  }
+  else {
+   sendMissionCommand("END_MISSION");
+   publishControllerEvent("Controller: END_MISSION pressed");
+   missionActive = false;
   }
  }
- prevMissionCombo = missionComboNow; 
+ prevMissionCombo = missionComboNow;
 
- const telemetryComboNow = //telemetry recording (left bumper + right bumper).
-  buttons[LB_BUTTON] === 1 && 
-  buttons[RB_BUTTON] === 1; //so if they're both pressed that equals telemetryComboNow.
+ const telemetryComboNow =
+  buttons[LB_BUTTON] === 1 &&
+  buttons[RB_BUTTON] === 1;
 
- if (telemetryComboNow && !prevTelemetryCombo){ //if it is currently being pressed, and before it was false AND...
-  if (!telemetryActive){ //telemtry isn't active, then....
-   sendMissionCommand("START_TELEMETRY"); //send command yay!!
-   publishControllerEvent("Controller: START_TELEMETRY pressed"); 
-   telemetryActive = true; //now we switch the state of telemetry active to true.
-  } 
-  else { //else else else...
-   sendMissionCommand("STOP_TELEMETRY"); //STOP TELEMTRY RECORDING!!
+ if (telemetryComboNow && !prevTelemetryCombo){
+  if (!telemetryActive){
+   sendMissionCommand("START_TELEMETRY");
+   publishControllerEvent("Controller: START_TELEMETRY pressed");
+   telemetryActive = true;
+  }
+  else {
+   sendMissionCommand("STOP_TELEMETRY");
    publishControllerEvent("Controller: STOP_TELEMETRY pressed");
-   telemetryActive = false; //and we switch the state to false.
+   telemetryActive = false;
   }
  }
- prevTelemetryCombo = telemetryComboNow; //we update.
+ prevTelemetryCombo = telemetryComboNow;
 
- if (buttons[Y_BUTTON] === 1 && prevButtons[Y_BUTTON] === 0){ //the start recording video button. (button y[4]).
-  if (!videoActive){ //if video isn't active....
-   sendMissionCommand("START_RECORDING_VIDEO"); //then we send a command to start recording video.
-   publishControllerEvent("Controller: START_RECORDING_VIDEO pressed"); 
-   videoActive = true; //state of video active is now true. 
-  } 
-  else { 
-   sendMissionCommand("STOP_RECORDING_VIDEO"); //send stop recording video command.
-   publishControllerEvent("Controller: STOP_RECORDING_VIDEO pressed"); //publish event.
-   videoActive = false; //we update video active to false. 
-  }
- }
- //collect water sample. 
- const lt = gp.axes[LT_AXIS] ?? -1;
- const rt = gp.axes[RT_AXIS] ?? -1;
- const triggerSum = lt + rt;
-
- if (triggerSum > 1.8 && !waterSampleSent){ //it's 2 but lets do 1.8 to be safe.
+ if (buttons[X_BUTTON] === 1 && prevButtons[X_BUTTON] === 0){
+  //appendLog("Controller: COLLECT_WATER_SAMPLE pressed");
   sendMissionCommand("COLLECT_WATER_SAMPLE");
   publishControllerEvent("Controller: COLLECT_WATER_SAMPLE pressed");
-  waterSampleSent = true; //state = true.
- } else if (triggerSum <= 1.8){ 
-  waterSampleSent = false; 
  }
 
- prevButtons = buttons; //update
+ if (buttons[Y_BUTTON] === 1 && prevButtons[Y_BUTTON] === 0){
+  if (!videoActive){
+   sendMissionCommand("START_RECORDING_VIDEO");
+   publishControllerEvent("Controller: START_RECORDING_VIDEO pressed");
+   startRecordingUI();
+  }
+
+  else {
+   sendMissionCommand("STOP_RECORDING_VIDEO");
+   publishControllerEvent("Controller: STOP_RECORDING_VIDEO pressed");
+   stopRecordingUI();
+  }
  }
 
- window.addEventListener("gamepadconnected", (e) => {
- appendLog("Controller connected: " + e.gamepad.id);
+if (buttons[B_BUTTON] === 1 && !prevButtons[B_BUTTON]) {
+  sendMissionCommand("LEAK_DETECTED");
+  publishControllerEvent("Leak was pressed");
+  currentState = "Failure";
+  missionActive = false;
+  updateStateDisplay();
+  updateMissionButton();
+  document.querySelector(".app-shell").classList.add("danger-halo");
+  document.querySelectorAll(".panel, .card").forEach(el => {
+    el.classList.add("danger-halo");
+  });
+  leakAlarm.currentTime = 0;
+  leakAlarm.play().catch(() => {
+    //appendLog("Audio blocked until user interacts");
+  });
+
+  //appendLog("Controller button B simulated leak: UI switched to FAILURE state.");
+}
+
+ prevButtons = buttons;
+}
+
+ window.addEventListener("gamepadconnected", (e) => { //if controller is connected then it lets us know.
+ appendLog("Controller connected: ");
  startGamepadLoop();
  });
 
  window.addEventListener("gamepaddisconnected", (e) => {
-  appendLog("Controller disconnected: " + e.gamepad.id);
+  appendLog("Controller disconnected: ");
  });
+
+
 //--------------------------------------------------------------------------------
  function unlockUI(){ //hides the login screen.
  loginScreen.style.display = "none";
@@ -1081,148 +1634,303 @@ function handleGamepadInput(gp){
  } else {
  setTimeout(() => loginCode.focus(), 50);
  }
+function startRos(){
+ //ros = new ROSLIB.Ros({ url: "ws://localhost:9090" }); //kimmy wimmys beautiful microsoft surface studio pro.
+ ros = new ROSLIB.Ros({ url: "ws://192.168.2.2:9090" }); //raspberry pi.
 
- function startRos(){
-  ros = new ROSLIB.Ros({ url: "ws://192.168.2.2:9090" });
-  ros.on("connection", () => {
-   setConnectedUI(true);
-   appendLog("Connected to ROS bridge.");
+ // create topics FIRST
 
-   startGamepadLoop();
+  thrusterCommandTopic = new ROSLIB.Topic({
+    ros: ros,
+    name: "/thruster/commands",
+    messageType: "std_msgs/Int16MultiArray"
+  });
+  const powerSub = new ROSLIB.Topic({
+    ros: ros,
+    name: "/power/power",
+    messageType: "std_msgs/Float32"
   });
 
-  ros.on("close", () => {
-   setConnectedUI(false);
-   appendLog("ROS bridge connection closed.");
+  const rollSub = new ROSLIB.Topic({
+    ros: ros,
+    name: "/position/roll",
+    messageType: "std_msgs/Float32"
   });
 
-  ros.on("error", () => {
-   setConnectedUI(false);
-   appendLog("Error connecting to ROS bridge.");
+  const pitchSub = new ROSLIB.Topic({
+    ros: ros,
+    name: "/position/pitch",
+    messageType: "std_msgs/Float32"
   });
 
- cmdVelTopic = new ROSLIB.Topic({ //create ROS publisher
- ros: ros,
- name: "/rov/cmd_vel", //still unsure if we need............ughhhh.
- messageType: "geometry_msgs/Twist"
+  const yawSub = new ROSLIB.Topic({
+    ros: ros,
+    name: "/position/yaw",
+    messageType: "std_msgs/Float32"
+  });
+
+ const leakSub = new ROSLIB.Topic({
+  ros: ros,
+  name: "/sensors/leak",
+  messageType: "std_msgs/Bool"
+});
+
+ thrusterCommandTopic.advertise();
+ //appendLog("Advertised /thruster/commands");
+ console.log("Advertised /thruster/commands");
+
+ cmdVelTopic = new ROSLIB.Topic({ //get rid of this me thinks.
+  ros: ros,
+  name: "/rov/cmd_vel",
+  messageType: "geometry_msgs/Twist"
  });
 
- uiControllerTopic = new ROSLIB.Topic({ //create ROS publisher.
- ros: ros,
- name: "/ui/controller_events", 
- messageType: "std_msgs/String"
- });
-
- const missionCommandSub = new ROSLIB.Topic({ //create ROS publisher.
- ros: ros,
- name: "/mission/control",
- messageType: "std_msgs/String"
- });
-
- missionCommandSub.subscribe((msg) => {
- appendLog("Mission command received: " + msg.data);
+ uiControllerTopic = new ROSLIB.Topic({
+  ros: ros,
+  name: "/ui/controller_events",
+  messageType: "std_msgs/String"
  });
 
  missionControlTopic = new ROSLIB.Topic({ //creates ROS publisher.
- ros: ros,
- name: "/mission/control", 
- messageType: "std_msgs/String"
+  ros: ros,
+  name: "/mission/control", 
+  messageType: "std_msgs/String"
  });
 
  missionStateSub = new ROSLIB.Topic({ //creates ROS publisher.
- ros: ros,
- name: "/Event/command",
- messageType: "std_msgs/String"
+  ros: ros,
+  name: "/Event/command",
+  messageType: "std_msgs/String"
  });
 
- missionStateSub.subscribe((msg) => {
- const incomingState = msg.data.trim().toUpperCase();
-
- if (
-  incomingState === "MISSION MODE" ||
-  incomingState === "MISSION" ||
-  incomingState === "START_MISSION"
- ){
-  currentState = "MISSION MODE";
-  missionActive = true;
- }
- else if (
-  incomingState === "IDLE" ||
-  incomingState === "BOOT" ||
-  incomingState === "END_MISSION"
- ){
-  currentState = incomingState === "BOOT" ? "BOOT" : "IDLE";
-  missionActive = false;
- }
- else if (incomingState === "FAILURE"){
-  currentState = "Failure";
-  missionActive = false;
- }
- else {
-  currentState = msg.data.trim();
- }
-
- updateStateDisplay();
- updateMissionButton();
- appendLog("Mission state updated: " + currentState);
-});
+ const missionCommandSub = new ROSLIB.Topic({
+  ros: ros,
+  name: "/mission/control",
+  messageType: "std_msgs/String"
+ });
 
  const depthSub = new ROSLIB.Topic({ 
- ros, name: "/sensors/depth", messageType: "std_msgs/Float32"
- });
- depthSub.subscribe(msg => {
- const d = msg.data;
- setText("depthBig", d.toFixed(1));
- setText("depthSmall", d.toFixed(1));
+  ros: ros,
+  name: "/sensors/depth",
+  messageType: "std_msgs/Float32"
  });
 
  const tempSub = new ROSLIB.Topic({
- ros, name: "/sensors/temp", messageType: "std_msgs/Float32"
- });
- tempSub.subscribe(msg => {
- const t = msg.data;
- setText("tempBig", t.toFixed(1));
- setText("tempSmall", t.toFixed(1));
+  ros: ros,
+  name: "/sensors/temp",
+  messageType: "std_msgs/Float32"
  });
 
  const pressSub = new ROSLIB.Topic({
- ros, name: "/sensors/pressure", messageType: "std_msgs/Float32"
- });
- pressSub.subscribe(msg => {
- setText("pressBig", msg.data.toFixed(2));
- });
-
- const headSub = new ROSLIB.Topic({
- ros, name: "/nav/heading", messageType: "std_msgs/Float32"
- });
- headSub.subscribe(msg => {
- const h = msg.data;
- const hh = Math.round(h).toString();
- setText("headingBig", hh);
- setText("headingSmall", hh);
+  ros: ros,
+  name: "/sensors/pressure",
+  messageType: "std_msgs/Float32"
  });
 
  const voltSub = new ROSLIB.Topic({
- ros, name: "/power/voltage", messageType: "std_msgs/Float32"
- });
- voltSub.subscribe(msg => {
- setText("voltBig", msg.data.toFixed(1));
+  ros: ros,
+  name: "/power/voltage",
+  messageType: "std_msgs/Float32"
  });
 
  const currSub = new ROSLIB.Topic({
- ros, name: "/power/current", messageType: "std_msgs/Float32"
- });
- currSub.subscribe(msg => {
- setText("currBig", msg.data.toFixed(1));
+  ros: ros,
+  name: "/power/current",
+  messageType: "std_msgs/Float32"
  });
 
  const controllerLogTopic = new ROSLIB.Topic({
- ros, name: "/ui/controller_events", messageType: "std_msgs/String"
+  ros: ros,
+  name: "/ui/controller_events",
+  messageType: "std_msgs/String"
  });
- controllerLogTopic.subscribe((msg) => {
- appendLog(msg.data);
+
+
+ //subscribe to mission/control so the UI can react to commands too.
+missionCommandSub.subscribe((msg) => {
+//This is for testing latency UI -> ROS -> UI.
+ const receiveTime = Date.now(); //time in milliseconds, gets current time when UI receives message.
+ const parts = msg.data.split(","); //split incoming message into 2 parts.
+ const command = parts[0].trim().toUpperCase(); //extract mission command.
+ const sendTime = parts.length > 1 ? Number(parts[1]) : null; //extract time stamp.
+ //appendLog("Mission command received: " + command); //logs that command was received.
+ if (sendTime){ //if timestamp exists, calculate latency.
+  const latency = receiveTime - sendTime; //latency = time received - time sent.
+  //appendLog("Latency for " + command + ": " + latency + " ms"); //logs latency to UI log panel.
+
+
+  // also print to browser console
+  console.log("Latency for", command, latency, "ms");
+ }
+
+ if (command === "START_RECORDING_VIDEO"){
+  startRecordingUI(); 
+ }
+ else if (command === "STOP_RECORDING_VIDEO"){
+  stopRecordingUI(); 
+ }
+
+});
+
+ missionStateSub.subscribe((msg) => {
+  const incomingState = msg.data.trim().toUpperCase();
+
+  if (
+   incomingState === "MISSION MODE" || 
+   incomingState === "MISSION" ||
+   incomingState === "START_MISSION"
+  ){
+   currentState = "MISSION MODE";
+   missionActive = true;
+  }
+  else if (
+   incomingState === "IDLE" ||
+   incomingState === "BOOT" ||
+   incomingState === "END_MISSION"
+   
+  ){
+   currentState = incomingState === "BOOT" ? "BOOT" : "IDLE";
+   missionActive = false;
+  leakAlarm.pause();
+  leakAlarm.currentTime = 0;
+
+  document.querySelector(".app-shell").classList.remove("danger-halo");
+  document.querySelectorAll(".panel, .card").forEach(el => {
+  el.classList.remove("danger-halo");
+});
+  }
+  else if (incomingState === "FAILURE"){
+  currentState = "Failure";
+  missionActive = false;
+
+  appendLog("LEAK DETECTED - EMERGENCY STOP");
+
+  document.querySelector(".app-shell").classList.add("danger-halo");
+  document.querySelectorAll(".panel, .card").forEach(el => {
+  el.classList.add("danger-halo");
+ });
+
+ leakAlarm.play().catch(() => {
+  //appendLog("Audio blocked until user interacts");
  });
  }
+  else {
+   currentState = msg.data.trim();
+  }
+
+  updateStateDisplay();
+  updateMissionButton();
+  appendLog("Mission state updated: " + currentState);
+ });
+
+ depthSub.subscribe((msg) => {
+  const d = msg.data;
+  setText("depthBig", d.toFixed(1));
+  setText("depthSmall", d.toFixed(1));
+ });
+
+ tempSub.subscribe((msg) => {
+  const t = msg.data;
+  setText("tempBig", t.toFixed(1));
+  setText("tempSmall", t.toFixed(1));
+ });
+
+ pressSub.subscribe((msg) => {
+  setText("pressBig", msg.data.toFixed(2));
+ });
+
+ leakSub.subscribe((msg) => {
+  const leakDetected = msg.data;
+
+  if (leakDetected){
+    appendLog("LEAK DETECTED");
+
+    currentState = "Failure";
+    missionActive = false;
+
+    updateStateDisplay();
+    updateMissionButton();
+
+
+    document.querySelector(".app-shell").classList.add("danger-halo");
+    document.querySelectorAll(".panel, .card").forEach(el => {
+      el.classList.add("danger-halo");
+    });
+    leakAlarm.play().catch(() => {
+      //appendLog("Audio blocked until user interacts");
+    });
+  }
+  else {
+    appendLog("Leak cleared");
+
+    document.querySelector(".app-shell").classList.remove("danger-halo");
+    document.querySelectorAll(".panel, .card").forEach(el => {
+      el.classList.remove("danger-halo");
+    });
+    leakAlarm.pause();
+    leakAlarm.currentTime = 0;
+  }
+});
+
+ voltSub.subscribe((msg) => {
+  setText("voltBig", msg.data.toFixed(1));
+ });
+
+ currSub.subscribe((msg) => {
+  setText("currBig", msg.data.toFixed(1));
+ });
+
+ powerSub.subscribe((msg) => {
+  setText("powerBig", msg.data.toFixed(1));
+});
+
+rollSub.subscribe((msg) => {
+  setText("rollBig", msg.data.toFixed(1));
+});
+
+pitchSub.subscribe((msg) => {
+  setText("pitchBig", msg.data.toFixed(1));
+});
+
+yawSub.subscribe((msg) => {
+  setText("yawBig", msg.data.toFixed(1));
+});
+
+ controllerLogTopic.subscribe((msg) => {
+  //appendLog(msg.data);
+ });
+
+ ros.on("connection", () => {
+  setConnectedUI(true);
+  //appendLog("Connected to ROS bridge.");
+  console.log("Connected to ROS bridge.");
+
+ try {
+  const testMsg = new ROSLIB.Message({
+    layout: {
+      dim: [],
+      data_offset: 0
+    },
+    data: [1, 2, 3, 4, 5]
+  });
+
+  thrusterCommandTopic.publish(testMsg);
+  //appendLog("Published test to /thruster/commands");
+  console.log("Published test to /thruster/commands");
+} catch (err) {
+  console.error("Thruster publish failed:", err);
+  //appendLog("Thruster publish failed: " + err);
+}
+
+  startGamepadLoop();
+});
+
+ros.on("close", () => {
+  setConnectedUI(false);
+  appendLog("ROS bridge connection closed.");
+});
+}
+
  </script>
-</body>
+ </body>
 </html>
