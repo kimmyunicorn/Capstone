@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SeaSTAR Results</title>
+
+<style>
+
+:root{
+    --bg0:#ffc5d3;
+    --bg1:#fff8dc;
+    --panel:rgba(255,255,255,.88);
+    --panel2:rgba(255,255,255,.72);
+    --border:#7aaed6;
+    --top:#2f74c0;
+    --top2:#1f5fa8;
+    --shadow:0 12px 28px rgba(0,0,0,.12);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Tahoma,Verdana,sans-serif;
+
+    background:
+    radial-gradient(circle at top left,#ffd9e5,transparent 45%),
+    radial-gradient(circle at top right,#d7f0ff,transparent 45%),
+    linear-gradient(180deg,var(--bg1),var(--bg0));
+}
+
+header{
+    background:linear-gradient(var(--top),var(--top2));
+    padding:18px;
+    color:white;
+    font-size:30px;
+    font-weight:bold;
+    box-shadow:0 3px 12px rgba(0,0,0,.2);
+}
+
+.container{
+    width:1100px;
+    max-width:95%;
+    margin:auto;
+    padding:30px 0;
+}
+
+.card{
+    background:linear-gradient(var(--panel),var(--panel2));
+    border:2px solid var(--border);
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:var(--shadow);
+}
+
+h1{
+    color:#0b3e6b;
+    margin-top:0;
+}
+
+h2{
+    color:#0b3e6b;
+}
+
+p{
+    line-height:1.7;
+    color:#355b78;
+}
+
+iframe{
+    width:100%;
+    height:620px;
+    border:none;
+    border-radius:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.result{
+    background:white;
+    border-radius:15px;
+    border:2px solid #cbe4f7;
+    padding:20px;
+    text-align:center;
+}
+
+.result h3{
+    margin-top:0;
+    color:#2f74c0;
+}
+
+.result p{
+    font-size:15px;
+}
+
+.back{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    border-radius:12px;
+    background:#2f74c0;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.back:hover{
+    background:#1f5fa8;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+SeaSTAR Results
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Final Demonstration</h1>
+
+<p>
+The SeaSTAR ROV successfully completed its final system demonstration.
+Throughout development, the team integrated the mechanical, electrical,
+embedded, and software subsystems into a single underwater robotic platform
+capable of remote operation and environmental data collection.
+</p>
+
+<iframe
+src="https://www.youtube.com/embed/Hvo67w7X3es"
+allowfullscreen>
+</iframe>
+
+</div>
+
+<div class="card">
+
+<h2>Project Outcomes</h2>
+
+<div class="grid">
+
+<div class="result">
+<h3>Mission Control</h3>
+
+<p>
+Successfully controlled the ROV using the custom-built web interface and
+Xbox controller through ROS2 communication.
+</p>
+
+</div>
+
+<div class="result">
+
+<h3>Live Telemetry</h3>
+
+<p>
+Displayed depth, pressure, temperature, voltage,
+current, leak detection, and system state in real time.
+</p>
+
+</div>
+
+<div class="result">
+
+<h3>Camera Streaming</h3>
+
+<p>
+Integrated live underwater video streaming directly into the operator
+dashboard for navigation.
+</p>
+
+</div>
+
+<div class="result">
+
+<h3>Mission Recording</h3>
+
+<p>
+Automatically generated downloadable CSV telemetry logs for every mission
+containing environmental and positional data.
+</p>
+
+</div>
+
+<div class="result">
+
+<h3>ROS2 Integration</h3>
+
+<p>
+Connected the browser interface with ROS2 through rosbridge, allowing
+real-time communication between the operator and onboard Raspberry Pi.
+</p>
+
+</div>
+
+<div class="result">
+
+<h3>System Validation</h3>
+
+<p>
+Validated the complete system during pool and harbor testing, demonstrating
+reliable subsystem integration and mission execution.
+</p>
+
+</div>
+
+</div>
+
+<a class="back" href="index.html">
+← Return to Home
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
+
+<div class="card">
+
+<h2>System Performance</h2>
+
+<div class="metrics">
+
+<div class="metric">
+
+<h3>Mission Control</h3>
+
+<p>
+
+Successfully controlled the ROV using the custom-built web interface and Xbox controller through ROS2 communication.
+
+</p>
+
+</div>
+
+<div class="metric">
+
+<h3>Live Telemetry</h3>
+
+<p>
+
+Displayed depth, pressure, temperature, voltage, current, leak detection, and mission state in real time.
+
+</p>
+
+</div>
+
+<div class="metric">
+
+<h3>Camera Feed</h3>
+
+<p>
+
+Integrated live underwater video streaming into the operator dashboard to provide situational awareness during navigation.
+
+</p>
+
+</div>
+
+<div class="metric">
+
+<h3>Mission Recording</h3>
+
+<p>
+
+Automatically generated downloadable CSV mission logs containing environmental, positional, and power telemetry throughout every deployment.
+
+</p>
+
+</div>
+
+<div class="metric">
+
+<h3>ROS2 Communication</h3>
+
+<p>
+
+Established reliable communication between the Raspberry Pi onboard the ROV and the browser-based dashboard through rosbridge and WebSockets.
+
+</p>
+
+</div>
+
+<div class="metric">
+
+<h3>System Integration</h3>
+
+<p>
+
+Successfully integrated the mechanical, electrical, embedded, and software subsystems into one fully functional underwater robotic platform.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Success Criteria</h2>
+
+<p>
+
+The following project objectives were established during the design phase and successfully demonstrated during pool and harbor testing.
+
+</p>
+
+<div class="success">
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Reliable Mission Commands</h3>
+
+<p>
+
+Mission commands were transmitted reliably between the operator interface and the ROV throughout testing.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Real-Time Sensor Monitoring</h3>
+
+<p>
+
+Environmental and power telemetry were continuously displayed on the dashboard with live updates.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Controller Integration</h3>
+
+<p>
+
+The Xbox controller provided intuitive navigation and variable-speed control using analog triggers and joysticks.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Telemetry Logging</h3>
+
+<p>
+
+Mission data were automatically recorded and exported into CSV files for post-mission analysis.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Live Video</h3>
+
+<p>
+
+Operators maintained visual awareness using the onboard underwater camera integrated into the dashboard.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="successBox">
+
+<div class="check">✔</div>
+
+<div>
+
+<h3>Complete System Demonstration</h3>
+
+<p>
+
+The complete SeaSTAR platform successfully demonstrated subsystem integration during final testing.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Harbor & Pool Testing</h2>
+
+<p>
+
+The SeaSTAR ROV underwent multiple stages of validation before the final demonstration. Initial testing was performed in a controlled pool environment to verify propulsion, controller communication, telemetry transmission, and subsystem integration. Final validation was then conducted in a real harbor environment, where the ROV operated under realistic underwater conditions.
+
+</p>
+
+<div class="gallery">
+
+<img src="harbor1.jpg" alt="Harbor Test">
+
+<img src="harbor2.jpg" alt="Pool Test">
+
+<img src="harbor3.jpg" alt="ROV Deployment">
+
+</div>
+
+<p style="margin-top:20px;">
+
+<i>Replace the placeholder images above with photos from your pool testing, harbor deployment, or final demonstration.</i>
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Lessons Learned</h2>
+
+<p>
+
+Developing SeaSTAR required close collaboration between the mechanical, electrical, embedded, and software teams. Throughout the project, numerous engineering challenges were encountered, including waterproofing electronics, integrating multiple ROS2 nodes, improving communication reliability, and designing an intuitive operator interface.
+
+</p>
+
+<p>
+
+Iterative testing proved essential throughout development. Each pool test identified new improvements that ultimately increased the reliability and usability of the final system. These iterations strengthened subsystem integration while reinforcing the importance of modular software design and systematic engineering validation.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Future Improvements</h2>
+
+<div class="future">
+
+<div>
+
+<h3>Computer Vision</h3>
+
+<p>
+
+Implement autonomous algae detection using machine learning and OpenCV to reduce operator workload during missions.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>Autonomous Navigation</h3>
+
+<p>
+
+Develop waypoint-based navigation and autonomous mission execution using onboard localization and sensor fusion.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>Manipulator Improvements</h3>
+
+<p>
+
+Increase precision and reliability of the sampling mechanism through improved end-effector design and closed-loop control.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>Improved Telemetry</h3>
+
+<p>
+
+Expand the dashboard with historical data visualization, mission replay functionality, and additional environmental sensors.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>3D Visualization</h3>
+
+<p>
+
+Integrate a real-time 3D orientation model to provide operators with enhanced situational awareness during underwater navigation.
+
+</p>
+
+</div>
+
+<div>
+
+<h3>Field Deployment</h3>
+
+<p>
+
+Conduct longer-duration missions in more challenging marine environments while expanding the platform for future environmental research applications.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Project Summary</h2>
+
+<p>
+
+SeaSTAR demonstrates the successful development of a complete underwater robotic system capable of remote operation, environmental monitoring, and real-time operator interaction. By combining mechanical design, electrical hardware, embedded systems, and software engineering, the team created an integrated platform capable of collecting environmental data while providing a reliable and intuitive user experience.
+
+</p>
+
+<p>
+
+The project represents the culmination of our senior capstone experience and showcases the importance of interdisciplinary engineering, iterative testing, and system integration. Through multiple design iterations, pool testing, and harbor deployment, SeaSTAR evolved into a fully operational remotely operated vehicle capable of supporting future environmental monitoring and marine robotics research.
+
+</p>
+
+</div>
+
+<div class="card" style="text-align:center;">
+
+<h2>Thank You</h2>
+
+<p>
+
+Thank you for taking the time to explore the SeaSTAR project.
+
+We hope this website provides insight into the engineering process, design decisions, testing, and final results behind our underwater robotic platform.
+
+</p>
+
+<p style="font-size:17px; font-weight:bold; color:#2f74c0; margin-top:25px;">
+
+🌊 SeaSTAR — Senior Capstone Project<br>
+
+University of California, Santa Cruz
+
+</p>
+
+<a class="back" href="index.html">
+
+← Return to Home
+
+</a>
+
+</div>
+
+</div>
+
+<footer style="margin-top:60px; padding:30px; text-align:center; color:#5c7791; font-size:14px;">
+
+<hr style="margin-bottom:20px; border:none; border-top:1px solid #cbdceb;">
+
+© 2026 SeaSTAR Team • Robotics Engineering Senior Capstone
+
+</footer>
+
+</body>
+</html>
